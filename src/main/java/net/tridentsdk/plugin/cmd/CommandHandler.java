@@ -110,41 +110,42 @@ public class CommandHandler {
     public int addCommand(TridentPlugin plugin, @Nonnull TaskExecutor executor, Command command) throws
             PluginLoadException {
         CommandDescription description = command.getClass().getAnnotation(CommandDescription.class);
+        int retournais = 0; // TODO: return something meaningful
+
 
         if (description == null) {
             TridentLogger.error(new PluginLoadException(
                     "Error in registering commands: Class does not have annotation " + "\"CommandDescription\"!"));
-            return 0;
-        }
-
-        String name = description.name();
-        int priority = description.priority();
-        String[] aliases = description.aliases();
-        String permission = description.permission();
-
-        if (name == null || "".equals(name)) {
-            TridentLogger.error(new PluginLoadException("cmd does not declare a valid name!"));
-            return 0;
-        }
-
-        String lowerCase = name.toLowerCase();
-        CommandData data = COMMANDS.get(lowerCase);
-        CommandData newData = new CommandData(name, priority, aliases, permission, command, plugin, executor);
-
-        if (data != null) {
-            if (COMMANDS.get(lowerCase).priority() > priority) {
-                // put the new, more important cmd in place and notify the old cmd that it has been overridden
-                COMMANDS.put(lowerCase, newData).command().notifyOverriden();
-            } else {
-                // don't register this cmd and notify it has been overridden
-                command.notifyOverriden();
-            }
+            retournais = 0;
         } else {
-            COMMANDS.put(name, newData);
+            String name = description.name();
+            int priority = description.priority();
+            String[] aliases = description.aliases();
+            String permission = description.permission();
+
+            if ((name == null) || "".equals(name)) {
+                TridentLogger.error(new PluginLoadException("cmd does not declare a valid name!"));
+                retournais = 0;
+            } else {
+                String lowerCase = name.toLowerCase();
+                CommandData data = COMMANDS.get(lowerCase);
+                CommandData newData = new CommandData(name, priority, aliases, permission, command, plugin, executor);
+
+                if (data != null) {
+                    if (COMMANDS.get(lowerCase).priority() > priority) {
+                        // put the new, more important cmd in place and notify the old cmd that it has been overridden
+                        COMMANDS.put(lowerCase, newData).command().notifyOverriden();
+                    } else {
+                        // don't register this cmd and notify it has been overridden
+                        command.notifyOverriden();
+                    }
+                } else {
+                    COMMANDS.put(name, newData);
+                }
+            }
         }
 
-        // TODO: return something meaningful
-        return 0;
+        return retournais;
     }
 
     public void removeCommand(Class<? extends Command> cls) {
