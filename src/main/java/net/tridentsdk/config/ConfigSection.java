@@ -47,6 +47,8 @@ public class ConfigSection {
      * Instantiated by subclasses only
      */
     protected ConfigSection() {
+        parent = null;
+        jsonHandle = null;
     }
 
     /**
