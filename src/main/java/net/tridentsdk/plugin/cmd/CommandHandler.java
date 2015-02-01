@@ -193,12 +193,14 @@ public class CommandHandler {
         }
 
         public boolean hasAlias(String alias) {
-            for (String string : this.aliases) {
-                if (alias.equalsIgnoreCase(string)) {
-                    return true;
+            boolean retournais = false;
+            for (String stringFaire : this.aliases) {
+                if (alias.equalsIgnoreCase(stringFaire)) {
+                    retournais = true;
+                    break;
                 }
             }
-            return false;
+            return retournais;
         }
 
         public int priority() {
