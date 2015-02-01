@@ -24,24 +24,24 @@ package net.tridentsdk.entity;
  * @author The TridentSDK Team
  */
 public class ParameterValue<T> {
-    private final Class<T> c;
+    private final Class<T> clazz;
     private final T value;
 
-    private ParameterValue(Class<T> c, T value) {
-        this.c = c;
+    private ParameterValue(Class<T> clazz, T value) {
+        this.clazz = clazz;
         this.value = value;
     }
 
     /**
      * Creates a new parameter value
      *
-     * @param c     the class type
+     * @param clazz the class type
      * @param value the value of the parameter
      * @param <T>   the type
      * @return the new parameter value
      */
-    public static <T> ParameterValue from(Class<T> c, T value) {
-        return new ParameterValue<>(c, value);
+    public static <T> ParameterValue from(Class<T> clazz, T value) {
+        return new ParameterValue<>(clazz, value);
     }
 
     /**
@@ -50,7 +50,7 @@ public class ParameterValue<T> {
      * @return the parameter class type
      */
     public Class<T> clazz() {
-        return this.c;
+        return this.clazz;
     }
 
     /**
@@ -65,7 +65,7 @@ public class ParameterValue<T> {
     @Override
     public String toString() {
         return "ParameterValue{" +
-                "c=" + c +
+                "class=" + clazz +
                 ", value=" + value +
                 '}';
     }
