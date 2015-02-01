@@ -40,6 +40,7 @@ import java.util.UUID;
  * @author The TridentSDK Team
  */
 public interface Server {
+
     /**
      * Gets the port the server currently runs on
      *
@@ -68,10 +69,11 @@ public interface Server {
 
     /**
      * Creates a new world loader, which can use its own generator
-     *
+     * <p/>
      * <p>The provided class must have a no-arg constructor.</p>
      *
      * @param generator the generator to use, a class to defensively protect the signature
+     *
      * @return the new world loader
      */
     WorldLoader newWorldLoader(Class<? extends AbstractGenerator> generator);
@@ -94,6 +96,7 @@ public interface Server {
      * Gets an inventory window
      *
      * @param id the ID of the window to be searche
+     *
      * @return the window with the ID
      */
     Window windowBy(int id);
@@ -152,6 +155,7 @@ public interface Server {
      * Get the player by UUID
      *
      * @param id the UUID to find the player with
+     *
      * @return the player who has the specified UUID
      */
     Player playerBy(UUID id);

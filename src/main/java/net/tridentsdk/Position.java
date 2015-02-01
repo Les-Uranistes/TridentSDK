@@ -31,6 +31,7 @@ import net.tridentsdk.world.World;
  */
 @PossiblyThreadSafe
 public class Position implements Cloneable {
+
     private volatile double x;
     private volatile double y;
     private volatile double z;
@@ -39,6 +40,10 @@ public class Position implements Cloneable {
 
     private volatile float yaw;
     private volatile float pitch;
+
+    private Position(World world, double x, double y, double z) {
+        this(world, x, y, z, 0.0F, 0.0F);
+    }
 
     private Position(World world, double x, double y, double z, float yaw, float pitch) {
         this.world = world;
@@ -49,14 +54,6 @@ public class Position implements Cloneable {
 
         this.yaw = yaw;
         this.pitch = pitch;
-    }
-
-    private Position(World world, double x, double y, double z) {
-        this(world, x, y, z, 0.0F, 0.0F);
-    }
-
-    private static double square(double d) {
-        return d * d;
     }
 
     /**
@@ -86,69 +83,6 @@ public class Position implements Cloneable {
     }
 
     /**
-     * The x position of the location
-     *
-     * @return the x value of this location
-     */
-    public double x() {
-        return this.x;
-    }
-
-    /**
-     * Sets the x value of the location
-     *
-     * @param x the x coordinate to set
-     */
-    public void setX(double x) {
-        this.x = x;
-    }
-
-    /**
-     * The y position of the location
-     *
-     * @return the y value of this location
-     */
-    public double y() {
-        return this.y;
-    }
-
-    /**
-     * Sets the y value of the location
-     *
-     * @param y the y coordinate to set
-     */
-    public void setY(double y) {
-        this.y = y;
-    }
-
-    /**
-     * The z position of the location
-     *
-     * @return the z value of this location
-     */
-    public double z() {
-        return this.z;
-    }
-
-    /**
-     * Sets the z value of the location
-     *
-     * @param z the z coordinate to set
-     */
-    public void setZ(double z) {
-        this.z = z;
-    }
-
-    /**
-     * The world the location is in
-     *
-     * @return the world where the location is
-     */
-    public World world() {
-        return this.world;
-    }
-
-    /**
      * Sets the location's world
      *
      * @param world the world to set the location to
@@ -158,30 +92,12 @@ public class Position implements Cloneable {
     }
 
     /**
-     * The yaw of the location
-     *
-     * @return the yaw of this location
-     */
-    public float yaw() {
-        return this.yaw;
-    }
-
-    /**
      * Sets the yaw of the location
      *
      * @param yaw the yaw of the location to set
      */
     public void setYaw(float yaw) {
         this.yaw = yaw;
-    }
-
-    /**
-     * The pitch of the location
-     *
-     * @return the pitch value of this location
-     */
-    public float pitch() {
-        return this.pitch;
     }
 
     /**
@@ -197,6 +113,7 @@ public class Position implements Cloneable {
      * Adds the x, y, and z from the vector to the coordinates of this location
      *
      * @param vector the vector containing the relative data
+     *
      * @return the relative location
      */
     public Position add(Vector vector) {
@@ -208,14 +125,95 @@ public class Position implements Cloneable {
     }
 
     /**
+     * Sets the x value of the location
+     *
+     * @param x the x coordinate to set
+     */
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    /**
+     * Sets the y value of the location
+     *
+     * @param y the y coordinate to set
+     */
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    /**
+     * Sets the z value of the location
+     *
+     * @param z the z coordinate to set
+     */
+    public void setZ(double z) {
+        this.z = z;
+    }
+
+    /**
      * Acquires the relative location to this set of coordinates
      *
      * @param vector the vector that has the x, y, and z of the location relative to this
+     *
      * @return the relative location
      */
     public Position relative(Vector vector) {
-        return new Position(this.world(), vector.x() + this.x(), vector.y() + this.y(),
-                vector.z() + this.z(), this.yaw(), this.pitch());
+        return new Position(this.world(), vector.x() + this.x(), vector.y() + this.y(), vector.z() + this.z(), this.yaw(), this.pitch());
+    }
+
+    /**
+     * The world the location is in
+     *
+     * @return the world where the location is
+     */
+    public World world() {
+        return this.world;
+    }
+
+    /**
+     * The x position of the location
+     *
+     * @return the x value of this location
+     */
+    public double x() {
+        return this.x;
+    }
+
+    /**
+     * The y position of the location
+     *
+     * @return the y value of this location
+     */
+    public double y() {
+        return this.y;
+    }
+
+    /**
+     * The z position of the location
+     *
+     * @return the z value of this location
+     */
+    public double z() {
+        return this.z;
+    }
+
+    /**
+     * The yaw of the location
+     *
+     * @return the yaw of this location
+     */
+    public float yaw() {
+        return this.yaw;
+    }
+
+    /**
+     * The pitch of the location
+     *
+     * @return the pitch value of this location
+     */
+    public float pitch() {
+        return this.pitch;
     }
 
     /**
@@ -240,6 +238,7 @@ public class Position implements Cloneable {
      * The distance this from location to another. Math.sqrt is costly, ergo calling this method a lot is not advised.
      *
      * @param location the location to measure distance with
+     *
      * @return distance from this location to another
      */
     public double distance(Position location) {
@@ -250,14 +249,18 @@ public class Position implements Cloneable {
      * The distance squared from this location to another
      *
      * @param location the location to measure distance with
+     *
      * @return distance squared from this location to another
      */
     public double distanceSquared(Position location) {
         Preconditions.checkNotNull(location, "Location cannot be null.");
-        if (!this.world().equals(location.world()))
-            return 0.0;
+        if (!this.world().equals(location.world())) return 0.0;
         return square(this.x() - location.x()) + square(this.y() - location.y()) +
                 square(this.z() - location.z());
+    }
+
+    private static double square(double d) {
+        return d * d;
     }
 
     @Override
@@ -271,10 +274,8 @@ public class Position implements Cloneable {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof Position))
-            return false;
-        if (obj.hashCode() != this.hashCode())
-            return false;
+        if (!(obj instanceof Position)) return false;
+        if (obj.hashCode() != this.hashCode()) return false;
         if (x != ((Position) obj).x) {
             return false;
         } else if (y != ((Position) obj).y) {
