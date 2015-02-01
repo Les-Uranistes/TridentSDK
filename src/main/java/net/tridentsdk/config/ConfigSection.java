@@ -589,4 +589,14 @@ public class ConfigSection {
             this.parent.save();
         }
     }
+
+    @Override
+    public String toString() {
+        return "ConfigSection{" +
+                "handleLock=" + handleLock +
+                ", parentLock=" + parentLock +
+                ", parent=" + parent +
+                ", jsonHandle=" + jsonHandle +
+                '}';
+    }
 }
