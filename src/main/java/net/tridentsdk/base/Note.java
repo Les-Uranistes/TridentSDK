@@ -30,6 +30,7 @@ import javax.annotation.concurrent.Immutable;
 public class Note {
     private final short id;
 
+    // TODO convertit depuis 'int' a 'short' en initialiser publique est tres mal.
     public Note(int id) {
         if (id > 24) {
             TridentLogger.error(new IllegalArgumentException("Note is too high!"));
@@ -44,7 +45,7 @@ public class Note {
      * Returns a note one step sharper than this
      */
     public Note sharpen() {
-        if ((int) this.id + 1 > 24) {
+        if (this.id + 1 > 24) {
             TridentLogger.error(new IllegalArgumentException("Cannot sharpen this note, it is already the max"));
         }
         return new Note((int) this.id + 1);
@@ -54,10 +55,10 @@ public class Note {
      * Returns a note flatter than this
      */
     public Note flatten() {
-        if ((int) this.id - 1 < 0) {
+        if (this.id - 1 < 0) {
             TridentLogger.error(new IllegalArgumentException("Cannot flatten this note, it is already the min"));
         }
-        return new Note((int) this.id - 1);
+        return new Note(this.id - 1);
     }
 
     public short id() {
