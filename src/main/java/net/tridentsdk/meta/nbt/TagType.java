@@ -73,4 +73,12 @@ public enum TagType {
     public int id() {
         return this.id;
     }
+
+    @Override
+    public String toString() {
+        return "TagType{" +
+                "id=" + id +
+                ", implClass=" + implClass +
+                '}';
+    }
 }
