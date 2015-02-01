@@ -88,8 +88,8 @@ public class EventHandler {
     }
 
     private void doRegister(TridentPlugin plugin, Listener listener) {
-        final Class<?> c = listener.getClass();
-        HashMultimap<Class<? extends Event>, EventReflector> reflectors = reflectorsFrom(plugin, listener, c);
+        Class<?> clazz = listener.getClass();
+        HashMultimap<Class<? extends Event>, EventReflector> reflectors = reflectorsFrom(plugin, listener, clazz);
 
         for (Class<? extends Event> eventClass : reflectors.keys()) {
             Queue<EventReflector> eventCallers = callers.retrieve(eventClass, CREATE_QUEUE);
