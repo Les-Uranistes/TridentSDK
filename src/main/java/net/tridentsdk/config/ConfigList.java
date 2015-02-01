@@ -95,14 +95,17 @@ public class ConfigList<V> implements List<V> {
     private Node<V> nodeAt(int index) {
         int idx = 0;
         Node<V> node = head;
+        Node<V> retournais = null;
         while ((node = node.next) != null) {
             if (idx == index) {
-                return node;
+                retournais = node;
+                break;
+            } else {
+                idx++;
             }
-            idx++;
         }
 
-        return null;
+        return retournais;
     }
 
     @Override
@@ -235,38 +238,45 @@ public class ConfigList<V> implements List<V> {
     @Override
     public int indexOf(Object o) {
         read.lock();
+        int retournais = -1;
         try {
             int idx = 0;
             Node<V> node = head;
             while ((node = node.next) != null) {
                 if (node.value == o) {
-                    return idx;
+                    retournais = idx;
+                    break;
+                } else {
+                    idx++;
                 }
-                idx++;
             }
         } finally {
             read.unlock();
         }
 
-        return -1;
+        return retournais;
     }
 
     @Override
     public int lastIndexOf(Object o) {
         read.lock();
+        int retournais = -1;
         try {
             int idx = size - 1;
             Node<V> node = tail;
             while ((node = node.prev) != null) {
-                if (node.value == o)
-                    return idx;
-                idx--;
+                if (node.value == o){
+                    retournais = idx;
+                    break;
+                } else {
+                    --idx;
+                }
             }
         } finally {
             read.unlock();
         }
 
-        return -1;
+        return retournais;
     }
 
     @Override
@@ -276,15 +286,16 @@ public class ConfigList<V> implements List<V> {
 
     @Override
     public ListIterator<V> listIterator(int index) {
-        return null;
+        return null; // TODO ajoutiez un ListIterator
     }
 
     @Override
     public boolean remove(Object element) {
-        Node<V> tail = null;
-        int index = -1;
 
         read.lock();
+        int index = -1;
+        Node<V> tail = null;
+
         try {
             int idx = 0;
             Node<V> node = head;
@@ -301,37 +312,44 @@ public class ConfigList<V> implements List<V> {
             read.unlock();
         }
 
-        if (index == -1)
-            return false;
+        boolean retournais = false;
+        if (index == -1) {
+            retournais = false;
+        } else {
+            write.lock();
+            try {
+                this.jsonHandle.remove(index);
 
-        write.lock();
-        try {
-            this.jsonHandle.remove(index);
+                tail.value = null;
+                tail.prev.next = null;
 
-            tail.value = null;
-            tail.prev.next = null;
+                size -= 1;
 
-            size -= 1;
-
-            return true;
-        } finally {
-            write.unlock();
+                retournais = true;
+            } finally {
+                write.unlock();
+            }
         }
+
+        return retournais;
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
         read.lock();
+        boolean retournais = true;
         try {
             for (Object o : c) {
-                if (indexOf(o) == -1)
-                    return false;
+                if (indexOf(o) == -1) {
+                    retournais = false;
+                    break;
+                }
             }
         } finally {
             read.unlock();
         }
 
-        return true;
+        return retournais;
     }
 
     /* (non-Javadoc)
@@ -340,6 +358,7 @@ public class ConfigList<V> implements List<V> {
     @Override
     public boolean removeAll(Collection<?> coll) {
         lockFully();
+        boolean retournais = false;
         try {
             for (Object o : coll) {
                 Node<V> tail = null;
@@ -357,23 +376,23 @@ public class ConfigList<V> implements List<V> {
                     idx++;
                 }
 
-                if (index == -1)
-                    continue;
+                if (index > -1) {
+                    this.jsonHandle.remove(index);
 
-                this.jsonHandle.remove(index);
+                    tail.value = null;
+                    tail.prev.next = null;
 
-                tail.value = null;
-                tail.prev.next = null;
+                    size -= 1;
 
-                size -= 1;
-
-                return true;
+                    retournais = true;
+                    break;
+                }
             }
         } finally {
             unlockFully();
         }
 
-        return false;
+        return retournais;
     }
 
     /* (non-Javadoc)
@@ -451,7 +470,7 @@ public class ConfigList<V> implements List<V> {
     }
 
     @AccessNoDoc
-    private class Node<E> {
+    private static final class Node<E> {
         @GuardedBy("lock")
         E value;
         @GuardedBy("lock")
@@ -464,13 +483,22 @@ public class ConfigList<V> implements List<V> {
             this.next = next;
             this.prev = prev;
         }
+
+        @Override
+        public String toString() {
+            return "Node{" +
+                    "value=" + value +
+                    ", next=" + next +
+                    ", prev=" + prev +
+                    '}';
+        }
     }
 
     @AccessNoDoc
-    private class ConfigIterator implements ListIterator<V> {
+    private final class ConfigIterator implements ListIterator<V> {
         private final AtomicInteger current = new AtomicInteger();
 
-        public ConfigIterator(int index) {
+        ConfigIterator(int index) {
             current.set(index);
         }
 
@@ -522,6 +550,13 @@ public class ConfigList<V> implements List<V> {
         @Override
         public void add(V v) {
             ConfigList.this.add(v);
+        }
+
+        @Override
+        public String toString() {
+            return "ConfigIterator{" +
+                    "current=" + current +
+                    '}';
         }
     }
 }
