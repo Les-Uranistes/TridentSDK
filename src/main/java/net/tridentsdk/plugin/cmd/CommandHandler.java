@@ -37,8 +37,9 @@ public class CommandHandler {
     private static final Map<String, CommandData> COMMANDS = Factories.collect().createMap();
 
     public CommandHandler() {
-        if (!Trident.isTrident())
+        if (!Trident.isTrident()) {
             TridentLogger.error(new IllegalAccessException("Only TridentSDK is allowed to make a new command handler"));
+        }
     }
 
     /**
