@@ -47,15 +47,15 @@ public class CommandHandler {
      *
      * @param message the command executed
      */
-    public void handleCommand(final String message, final CommandIssuer issuer) {
+    public void handleCommand(String message, final CommandIssuer issuer) {
         if (message.isEmpty()) {
             return;
         }
 
         final String[] contents = message.split(" ");
-        final String label = contents[0].toLowerCase();
+        String label = contents[0].toLowerCase();
         final String args = message.substring(label.length());
-        final Map<TaskExecutor, Set<CommandData>> cmdData = findCommand(label);
+        Map<TaskExecutor, Set<CommandData>> cmdData = findCommand(label);
 
         if (!cmdData.isEmpty()) {
             for (final Map.Entry<TaskExecutor, Set<CommandData>> entry : cmdData.entrySet()) {
