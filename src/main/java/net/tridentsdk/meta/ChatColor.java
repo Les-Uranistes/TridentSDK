@@ -24,7 +24,7 @@ import javax.annotation.Nullable;
 
 /**
  * A color able to be used in the chat text
- *
+ * <p/>
  * <p>These should be self-explanatory, if you need more help, take a look at
  * <a href="http://minecraft.gamepedia.com/Formatting_codes">Minecraft Wiki</a>.</p>
  *
@@ -169,6 +169,7 @@ public enum ChatColor {
      * Finds the color based on the character after a the section symbol (§)
      *
      * @param color the character after the section
+     *
      * @return the chat color with that character
      */
     @Nullable
@@ -187,7 +188,7 @@ public enum ChatColor {
 
     /**
      * Returns the console color representation of the chat color
-     *
+     * <p/>
      * <p>Supported colors:
      * <ul>
      * <li>{@link net.tridentsdk.meta.ChatColor#BLACK}</li>
@@ -203,6 +204,7 @@ public enum ChatColor {
      * </ul></p>
      *
      * @param color the color to parse
+     *
      * @return the server console color code for that chatcolor
      */
     public static String consoleFormat(ChatColor color) {

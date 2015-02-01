@@ -23,22 +23,24 @@ package net.tridentsdk.meta;
  * @author The TridentSDK Team
  */
 public class ClickEvent {
+
     private ClickAction action;
     private String value;
+
+    public ClickEvent() {
+        this(null, null);
+    }
 
     public ClickEvent(ClickAction acteClique, String valu) {
         this.action = acteClique;
         this.value = valu;
     }
 
-    public ClickEvent() {
-        this(null, null);
-    }
-
     /**
      * Sets the action that occurs when the player clicks the chat message
      *
      * @param action the action that occurs when the player clicks the chat
+     *
      * @return the instance of the event
      */
     public ClickEvent action(ClickAction action) {
@@ -51,6 +53,7 @@ public class ClickEvent {
      * Sets the value of the action when the player clicks the chat message
      *
      * @param value the value of the action that occurs when the player clicks the chat
+     *
      * @return the instance of the event
      */
     public ClickEvent value(String value) {
@@ -77,6 +80,14 @@ public class ClickEvent {
         return value;
     }
 
+    @Override
+    public String toString() {
+        return "ClickEvent{" +
+                "action=" + action +
+                ", value='" + value + '\'' +
+                '}';
+    }
+
     /**
      * An action that occurs when the player clicks on the chat message
      *
@@ -92,13 +103,5 @@ public class ClickEvent {
         public String toString() {
             return super.toString().toLowerCase();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "ClickEvent{" +
-                "action=" + action +
-                ", value='" + value + '\'' +
-                '}';
     }
 }
