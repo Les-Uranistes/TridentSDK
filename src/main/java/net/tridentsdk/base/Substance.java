@@ -568,7 +568,7 @@ public enum Substance {
      * @return True if the item is a disc (record)
      */
     public boolean isDisc() {
-        return !this.isBlock() && this.idInt >= 2256;
+        return !this.isBlock() && (this.idInt >= 2256);
     }
 
     /**
@@ -577,7 +577,7 @@ public enum Substance {
      * @return True if the item is wearable (armor)
      */
     public boolean isWearable() {
-        if (this.isBlock() && this != PUMPKIN) {
+        if (this.isBlock() && (this != PUMPKIN)) {
             return false;
         }
 

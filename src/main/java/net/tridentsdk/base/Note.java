@@ -46,7 +46,7 @@ public class Note {
      * Returns a note one step sharper than this
      */
     public final Note sharpen() {
-        if (this.id + 1 > 24) {
+        if ((this.id + 1) > 24) {
             TridentLogger.error(new IllegalArgumentException("Cannot sharpen this note, it is already the max"));
         }
         return new Note((int) this.id + 1);
