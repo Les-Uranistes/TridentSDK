@@ -106,24 +106,21 @@ public final class EventHandler {
         HashMultimap<Class<? extends Event>, EventReflector> map = HashMultimap.create(11, 11);
         for (int i = 0, n = methods.length; i < n; i++) {
             Method method = methods[i];
-            if (method.isAnnotationPresent(IgnoreRegistration.class)) {
-                continue;
+            if (!method.isAnnotationPresent(IgnoreRegistration.class)) {
+                Class<?>[] parameterTypes = method.getParameterTypes();
+                if (parameterTypes.length == 1) {
+                    Class<?> type = parameterTypes[0];
+                    if (Event.class.isAssignableFrom(type)) {
+                        Class<? extends Event> eventClass = type.asSubclass(Event.class);
+                        ListenerData handler = method.getAnnotation(ListenerData.class);
+                        Importance importance = (handler == null) ? Importance.MEDIUM : handler.importance();
+
+                        EventReflector registeredListener = new EventReflector(access, plugin, i, listener, eventClass, importance);
+                        map.put(eventClass, registeredListener);
+                    }
+                }
             }
-            Class<?>[] parameterTypes = method.getParameterTypes();
-            if (parameterTypes.length != 1)
-                continue;
 
-            Class<?> type = parameterTypes[0];
-
-            if (!Event.class.isAssignableFrom(type))
-                continue;
-
-            Class<? extends Event> eventClass = type.asSubclass(Event.class);
-            ListenerData handler = method.getAnnotation(ListenerData.class);
-            Importance importance = handler == null ? Importance.MEDIUM : handler.importance();
-
-            EventReflector registeredListener = new EventReflector(access, plugin, i, listener, eventClass, importance);
-            map.put(eventClass, registeredListener);
         }
 
         return map;
