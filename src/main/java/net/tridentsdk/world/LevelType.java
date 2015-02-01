@@ -17,23 +17,44 @@
 
 package net.tridentsdk.world;
 
+/**
+ * I (sexcel) am under the assumption that this class represents the biome
+ * type of the Minecraft world
+ * TODO: add your fucking name to this
+ *
+ * @author sexcel
+ */
 public enum LevelType {
 
     DEFAULT("default"),
     FLAT("flat"),
-    LARGE_BIOMES("largeBiomes"), // why lowerCamelCase I'll never know
+    LARGE_BIOMES("largeBiomes"), //TODO: CameCase:  I (sexcel) don't understand why you're doing this
     AMPLIFIED("amplified"),
-    DEFAULT_1_1("default_1_1"); // I don't even...
 
-    private final String s;
+    DEFAULT_1_1("default_1_1"); //TODO: SnakeCase: I (sexcel) don't understand why you're doing this.  Also wtf is this supposed to mean.
 
-    LevelType(String s) {
-        this.s = s;
+    private final String typeName;
+
+
+    /**
+     * Sets the typeName to passed typeName
+     *
+     * @param typeName name of LevelType
+     */
+    LevelType(String typeName) {
+        this.typeName = typeName;
     }
 
-    public static LevelType levelTypeOf(String s) {
+
+    /**
+     * Retrieves the LevelType based on the input levelName
+     * If not matched, will default to {@see DEFAULT}
+     * @param levelName name of level
+     * @return LevelType value
+     */
+    public static LevelType levelTypeOf(String levelName) {
         for (LevelType level : values()) {
-            if (level.s.equalsIgnoreCase(s)) {
+            if (level.typeName.equalsIgnoreCase(levelName)) {
                 return level;
             }
         }
@@ -41,8 +62,14 @@ public enum LevelType {
         return LevelType.DEFAULT;
     }
 
-    @Override
-    public String toString() {
-        return this.s;
+
+    /**
+     * Returns the string name of the LevelType
+     * TODO: I (sexcel) don't know why you wouldn't just use the name of the enum value
+     *
+     * @return String representation of this enum value
+     */
+    @Override public String toString() {
+        return this.typeName;
     }
 }

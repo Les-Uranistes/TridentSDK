@@ -17,16 +17,24 @@
 
 package net.tridentsdk.world;
 
+/**
+ * I'm under the assumption that this class represents a snapshot of the
+ * chunk data before the chunk is loaded with this specified data
+ *
+ * @author The TridentSDK Team, sexcel
+ */
 public interface ChunkSnapshot extends Chunk {
     /**
      * Loads the data of the snapshot into the specified chunk
      *
-     * @param chunk the chunk to reset the data contained in this snapshot to
+     * @param chunk
+     *         the chunk to reset the data contained in this snapshot to
      */
     public void load(Chunk chunk);
 
     /**
-     * Updates the chunk from this snapshot with the data contained in this snapshot
+     * Updates the chunk from this snapshot with the data contained in this
+     * snapshot
      */
     public void load();
 }
