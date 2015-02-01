@@ -30,6 +30,7 @@ import net.tridentsdk.util.TridentLogger;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 public class CommandHandler {
@@ -149,17 +150,20 @@ public class CommandHandler {
     }
 
     public void removeCommand(Class<? extends Command> cls) {
-        for (Map.Entry<String, CommandData> e : COMMANDS.entrySet()) {
-            if (e.getValue().command().getClass().equals(cls))
+        for (Entry<String, CommandData> e : COMMANDS.entrySet()) {
+            if (e.getValue().command().getClass().equals(cls)) {
                 COMMANDS.remove(e.getKey());
+            }
         }
     }
 
     public Map<Class<? extends Command>, Command> commandsFor(TridentPlugin plugin) {
         Map<Class<? extends Command>, Command> map = Maps.newHashMap();
-        for (CommandData data : COMMANDS.values())
-            if (data.plugin().equals(plugin))
+        for (CommandData data : COMMANDS.values()) {
+            if (data.plugin().equals(plugin)) {
                 map.put(data.encapsulated.getClass(), data.encapsulated);
+            }
+        }
         return map;
     }
 
