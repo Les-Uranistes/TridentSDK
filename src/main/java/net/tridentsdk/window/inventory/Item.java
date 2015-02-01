@@ -68,16 +68,7 @@ public class Item {
     }
 
     public boolean isSimilar(Item i) {
-        if (id != i.id) {
-            return false;
-        } else if (mat != i.mat) {
-            return false;
-        } else if (quantity != i.quantity) {
-            return false;
-        } else if (damageValue != i.damageValue) {
-            return false;
-        }
+        return (id == i.id) && (mat == i.mat) && (quantity == i.quantity) && (damageValue == i.damageValue);
 
-        return true;
     }
 }
