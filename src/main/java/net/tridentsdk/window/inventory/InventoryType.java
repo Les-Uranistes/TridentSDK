@@ -36,11 +36,13 @@ public enum InventoryType {
     DROPPER("minecraft:dropper"),
     HORSE("minecraft:horse");
 
-    private final String s;
+    private final String stringId;
 
-    InventoryType(String s) {
-        this.s = s;
+
+    InventoryType(String stringId) {
+        this.stringId = stringId;
     }
+
 
     /**
      * Returns the Minecraft ID for the entity or block which holds the InventoryType
@@ -49,6 +51,6 @@ public enum InventoryType {
      */
     @Override
     public String toString() {
-        return this.s;
+        return this.stringId;
     }
 }
