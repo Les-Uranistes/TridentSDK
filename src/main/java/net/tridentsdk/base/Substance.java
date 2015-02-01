@@ -470,11 +470,11 @@ public enum Substance {
      * <p>Should be the favored method for getting a substance</p>
      * <p>E.g. fromId(1) will return Substance.STONE</p>
      *
-     * @param id
-     * @return
+     * @param id id du substance
+     * @return substance correspondait a id
      */
     public static Substance fromId (byte id) {
-        return ids.get(id);
+        return ids.get(id); // TODO convertit implicite du integer-byte
     }
 
     /**
