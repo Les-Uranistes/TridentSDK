@@ -96,8 +96,9 @@ public class ConcurrentCache<K, V> {
     public V retrieve(K k) {
         try {
             HeldValueLatch<V> latch = cache.get(k);
-            if (latch == null)
+            if (latch == null) {
                 return null;
+            }
             return latch.await();
         } catch (InterruptedException e) {
             TridentLogger.error(e);
@@ -116,8 +117,9 @@ public class ConcurrentCache<K, V> {
     public V remove(K k) {
         HeldValueLatch<V> val = this.cache.get(k);
 
-        if (val == null)
+        if (val == null) {
             return null;
+        }
 
         this.cache.remove(k);
         try {
