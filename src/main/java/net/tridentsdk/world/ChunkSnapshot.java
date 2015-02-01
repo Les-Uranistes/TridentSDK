@@ -20,8 +20,9 @@ package net.tridentsdk.world;
 /**
  * I'm under the assumption that this class represents a snapshot of the
  * chunk data before the chunk is loaded with this specified data
+ * TODO: add your fucking name to this
  *
- * @author The TridentSDK Team, sexcel
+ * @author sexcel
  */
 public interface ChunkSnapshot extends Chunk {
     /**
