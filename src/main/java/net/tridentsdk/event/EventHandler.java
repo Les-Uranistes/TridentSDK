@@ -98,10 +98,10 @@ public final class EventHandler {
     }
 
     private HashMultimap<Class<? extends Event>, EventReflector> reflectorsFrom(TridentPlugin plugin, Listener listener,
-            Class<?> c) {
-        MethodAccess access = accessors.retrieve(c, new MethodAccessCallable(c));
+            Class<?> clazz) {
+        MethodAccess access = accessors.retrieve(clazz, new MethodAccessCallable(clazz));
 
-        Method[] methods = c.getDeclaredMethods();
+        Method[] methods = clazz.getDeclaredMethods();
 
         HashMultimap<Class<? extends Event>, EventReflector> map = HashMultimap.create(11, 11);
         for (int i = 0, n = methods.length; i < n; i++) {
