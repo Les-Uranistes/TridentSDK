@@ -24,5 +24,4 @@ import net.tridentsdk.window.Window;
  *
  * @author The TridentSDK Team
  */
-public interface Inventory extends Window {
-}
+public interface Inventory extends Window {}

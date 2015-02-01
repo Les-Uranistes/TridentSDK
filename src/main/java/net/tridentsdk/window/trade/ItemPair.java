@@ -25,6 +25,7 @@ import net.tridentsdk.window.inventory.Item;
  * @author TridentSDK Team
  */
 public class ItemPair {
+
     private final Item one;
     private final Item two;
 

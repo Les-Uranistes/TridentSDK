@@ -25,6 +25,7 @@ import net.tridentsdk.window.inventory.Item;
  * @author TridentSDK Team
  */
 public interface Trade {
+
     /**
      * Whether or not this trade rewards xp
      *

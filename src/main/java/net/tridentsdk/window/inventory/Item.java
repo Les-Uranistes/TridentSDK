@@ -25,6 +25,7 @@ import net.tridentsdk.base.Substance;
  * @author The TridentSDK Team
  */
 public class Item {
+
     private final int id;
     private final Substance mat;
 
