@@ -187,6 +187,8 @@ public final class TridentLogger {
         org.slf4j.Logger logger = logger();
         StackTraceElement[] stackTrace = throwable.getStackTrace();
 
+        logger.warn("error(Throwable) should not be called when an exception should be thrown");
+
         logger.error("========  BEGIN ERROR =========");
 
         logger.error("");
