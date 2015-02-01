@@ -457,8 +457,9 @@ public enum Substance {
      */
     public static Substance fromStringId(String id) {
         for (Substance mat : Substance.values()) {
-            if (mat.replaced.equalsIgnoreCase(id))
+            if (mat.replaced.equalsIgnoreCase(id)) {
                 return mat;
+            }
         }
 
         return null;
