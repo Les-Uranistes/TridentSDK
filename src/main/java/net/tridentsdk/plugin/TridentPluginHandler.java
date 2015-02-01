@@ -137,32 +137,30 @@ public class TridentPluginHandler {
     }
 
     private void register(TridentPlugin plugin, Class<?> cls, TaskExecutor executor) throws InstantiationException {
-        if (Modifier.isAbstract(cls.getModifiers()))
-            return;
+        if (!Modifier.isAbstract(cls.getModifiers())) {
 
-        Object instance = null;
-        Constructor<?> c = null;
+            try {
+                Object instance = null;
+                Constructor<?> constr = null;
+                if (Listener.class.isAssignableFrom(cls) && !cls.isAnnotationPresent(IgnoreRegistration.class)) {
+                    constr = cls.getConstructor();
+                    instance = constr.newInstance();
+                    Trident.eventHandler().registerListener(plugin, executor, (Listener) instance);
+                }
 
-        try {
-            if (Listener.class.isAssignableFrom(cls) && !cls.isAnnotationPresent(IgnoreRegistration.class)) {
-                c = cls.getConstructor();
-                Trident.eventHandler().registerListener(plugin, executor, (Listener) (instance = c.newInstance()));
+                if (Command.class.isAssignableFrom(cls)) {
+                    if (constr == null) {
+                        constr = cls.getConstructor();
+                    }
+                    Trident.commandHandler().addCommand(plugin, executor, (Command) ((instance == null) ? constr.newInstance() : instance));
+                }
+            } catch (NoSuchMethodException e) {
+                TridentLogger.error(new PluginLoadException("A no-arg constructor for class " + cls.getName() + " does not exist"));
+            } catch (IllegalAccessException e) {
+                TridentLogger.error(new PluginLoadException("A no-arg constructor for class " + cls.getName() + " is not accessible"));
+            } catch (InvocationTargetException e) {
+                TridentLogger.error(e);
             }
-
-            if (Command.class.isAssignableFrom(cls)) {
-                if (c == null)
-                    c = cls.getConstructor();
-                Trident.commandHandler()
-                        .addCommand(plugin, executor, (Command) (instance == null ? c.newInstance() : instance));
-            }
-        } catch (NoSuchMethodException e) {
-            TridentLogger.error(
-                    new PluginLoadException("A no-arg constructor for class " + cls.getName() + " does not exist"));
-        } catch (IllegalAccessException e) {
-            TridentLogger.error(
-                    new PluginLoadException("A no-arg constructor for class " + cls.getName() + " is not accessible"));
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
         }
     }
 
