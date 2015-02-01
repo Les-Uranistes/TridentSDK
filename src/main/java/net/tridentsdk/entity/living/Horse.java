@@ -30,6 +30,7 @@ import net.tridentsdk.entity.decorate.Tameable;
  * @author TridentSDK Team
  */
 public interface Horse extends Tameable, Saddleable, InventoryHolder, Peaceful {
+
     /**
      * What breed of horse this is
      *

@@ -24,5 +24,4 @@ import net.tridentsdk.entity.decorate.Hostile;
  *
  * @author TridentSDK Team
  */
-public interface Wither extends Hostile {
-}
+public interface Wither extends Hostile {}

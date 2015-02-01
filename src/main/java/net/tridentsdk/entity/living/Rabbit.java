@@ -26,6 +26,7 @@ import net.tridentsdk.entity.decorate.Neutral;
  * @author TridentSDK Team
  */
 public interface Rabbit extends Neutral {
+
     /**
      * Get the breed of Rabbit that this Rabbit is
      *

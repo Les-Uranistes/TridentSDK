@@ -26,6 +26,7 @@ import net.tridentsdk.entity.Projectile;
  * @author The TridentSDK Team
  */
 public interface ProjectileLauncher {
+
     /**
      * Launch a projectile based on the given EntityProperties
      *

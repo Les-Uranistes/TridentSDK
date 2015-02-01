@@ -25,6 +25,7 @@ import net.tridentsdk.entity.decorate.Hostile;
  * @author TridentSDK Team
  */
 public interface Guardian extends Hostile {
+
     /**
      * Whether this Guardian is an Elder Guardian or not
      *

@@ -25,6 +25,7 @@ import net.tridentsdk.entity.decorate.Hostile;
  * @author TridentSDK Team
  */
 public interface Ghast extends Hostile {
+
     /**
      * Gets the explosion radius used when a Fireball launched by this Ghast explodes
      *

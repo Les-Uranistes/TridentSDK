@@ -24,5 +24,4 @@ import net.tridentsdk.entity.decorate.Hostile;
  *
  * @author TridentSDK Team
  */
-public interface Endermite extends Hostile {
-}
+public interface Endermite extends Hostile {}
