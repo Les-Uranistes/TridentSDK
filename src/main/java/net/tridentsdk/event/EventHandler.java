@@ -206,4 +206,13 @@ public class EventHandler {
 
         return listeners;
     }
+
+    @Override
+    public String toString() {
+        return "EventHandler{" +
+                "callers=" + callers +
+                ", accessors=" + accessors +
+                ", handles=" + handles +
+                '}';
+    }
 }
