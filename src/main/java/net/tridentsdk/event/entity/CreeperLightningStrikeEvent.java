@@ -26,6 +26,7 @@ import net.tridentsdk.event.weather.LightningStrikeEvent;
  * @author The TridentSDK Team
  */
 public class CreeperLightningStrikeEvent extends EntityEvent {
+
     private final LightningStrikeEvent cause;
 
     public CreeperLightningStrikeEvent(Entity entity, LightningStrikeEvent cause) {

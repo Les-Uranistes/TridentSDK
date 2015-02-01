@@ -25,6 +25,7 @@ import net.tridentsdk.entity.Entity;
  * @author The TridentSDK Team
  */
 public class EntityBeginExplosionCountdownEvent extends EntityEvent {
+
     private volatile int length;
 
     public EntityBeginExplosionCountdownEvent(Entity entity, int length) {

@@ -27,6 +27,7 @@ import net.tridentsdk.entity.living.Player;
  * @author The TridentSDK Team
  */
 public class EntityDeathEvent extends EntityEvent {
+
     /**
      * @param entity the entity that has died
      */
@@ -38,11 +39,9 @@ public class EntityDeathEvent extends EntityEvent {
         return this.entity().lastDamageEvent();
     }
 
-    /**
-     * Returns a Player if a player was involved in the killing of this entity, else null
-     */
-    public Player killedByPlayer() {
-        return this.entity().lastPlayerDamager();
+    @Override
+    public LivingEntity entity() {
+        return (LivingEntity) super.entity();
     }
 
     /**
@@ -52,9 +51,11 @@ public class EntityDeathEvent extends EntityEvent {
         return this.killedByPlayer() == null;
     }
 
-    @Override
-    public LivingEntity entity() {
-        return (LivingEntity) super.entity();
+    /**
+     * Returns a Player if a player was involved in the killing of this entity, else null
+     */
+    public Player killedByPlayer() {
+        return this.entity().lastPlayerDamager();
     }
 }
 

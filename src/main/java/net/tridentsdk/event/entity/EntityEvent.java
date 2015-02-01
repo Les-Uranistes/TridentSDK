@@ -27,6 +27,7 @@ import net.tridentsdk.event.Event;
  * @author The TridentSDK Team
  */
 public class EntityEvent extends Event implements Cancellable {
+
     private volatile Entity entity;
     private volatile boolean cancelled;
 
@@ -36,18 +37,18 @@ public class EntityEvent extends Event implements Cancellable {
     }
 
     /**
+     * set the entity associated with this event
+     */
+    protected void setEntity(Entity entity) {
+        this.entity = entity;
+    }
+
+    /**
      * @return return entity associated with this event
      */
 
     public Entity entity() {
         return this.entity;
-    }
-
-    /**
-     * set the entity associated with this event
-     */
-    protected void setEntity(Entity entity) {
-        this.entity = entity;
     }
 
     @Override
