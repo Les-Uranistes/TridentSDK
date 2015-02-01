@@ -29,6 +29,7 @@ import java.io.Serializable;
  *
  * @author The TridentSDK Team
  */
+// TODO Considérer deplacér a 'Vector3D'
 @NotThreadSafe
 public class Vector implements Serializable, Cloneable {
     private static final long serialVersionUID = -7634050835106851288L;
