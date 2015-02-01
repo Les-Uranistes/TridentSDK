@@ -26,7 +26,9 @@ import net.tridentsdk.entity.decorate.DecorationAdapter;
 import javax.annotation.concurrent.GuardedBy;
 import javax.annotation.concurrent.ThreadSafe;
 import java.lang.ref.WeakReference;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -227,9 +229,15 @@ public final class WeakEntity<T extends Entity> {
      * is {@code null}
      */
     public static <T extends Entity> WeakEntity<T> orEmpty(T referencedEntity) {
-        if (referencedEntity == null)
-            return empty();
-        return of(referencedEntity);
+        WeakEntity<T> retournais;
+
+        if (referencedEntity == null) {
+            retournais = empty();
+        } else {
+            retournais = of(referencedEntity);
+        }
+
+        return retournais;
     }
 
     /**
@@ -243,8 +251,10 @@ public final class WeakEntity<T extends Entity> {
      */
     @InternalUseOnly
     public static void clearReferencesTo(Entity entity) throws IllegalAccessException {
-        if (!Trident.isTrident())
+        if (!Trident.isTrident()) {
+            // TODO déplacer avec un réalisation du SecurityManager
             throw new IllegalAccessException("WeakEntities may only be cleared by a Trident class");
+        }
         REFERENCE_QUEUE.clearReference(entity);
     }
 
@@ -264,9 +274,13 @@ public final class WeakEntity<T extends Entity> {
      * the same entity
      */
     public static Object finderOf(Entity entity) {
-        if (entity == null)
-            return RefList.NULL;
-        return REFERENCE_QUEUE.finderOf(entity);
+        Object retournais;
+        if (entity == null) {
+            retournais = RefList.NULL;
+        } else {
+            retournais = REFERENCE_QUEUE.finderOf(entity);
+        }
+        return retournais;
     }
 
     /**
@@ -307,7 +321,7 @@ public final class WeakEntity<T extends Entity> {
      */
     public T or(T fallback) {
         T ref = this.referencedEntity.get();
-        return ref == null ? fallback : ref;
+        return (ref == null) ? fallback : ref;
     }
 
     /**
@@ -330,8 +344,9 @@ public final class WeakEntity<T extends Entity> {
      */
     public T obtain() {
         T ref = this.referencedEntity.get();
-        if (ref == null)
+        if (ref == null) {
             throw new IllegalStateException("Obtained entity is null");
+        }
         return ref;
     }
 
@@ -362,7 +377,7 @@ public final class WeakEntity<T extends Entity> {
      */
     @Override
     public boolean equals(Object obj) {
-        return obj == null ? isNull() : obj.equals(referencedEntity.get());
+        return (obj == null) ? isNull() : obj.equals(referencedEntity.get());
     }
 
     /**
@@ -385,13 +400,12 @@ public final class WeakEntity<T extends Entity> {
     private static class SafeReference<T> extends WeakReference<T> {
         private volatile int fence = 0;
 
-        public SafeReference(T referent) {
+        SafeReference(T referent) {
             super(referent);
         }
 
         @Override
         public T get() {
-            int barrier = fence;
             return super.get();
         }
 
@@ -399,6 +413,13 @@ public final class WeakEntity<T extends Entity> {
         public void clear() {
             super.clear();
             fence = 0;
+        }
+
+        @Override
+        public String toString() {
+            return "SafeReference{" +
+                    "fence=" + fence +
+                    '}';
         }
     }
 
@@ -408,7 +429,7 @@ public final class WeakEntity<T extends Entity> {
         private RefEntry[] entries = new RefEntry[16];
 
         @GuardedBy("lock")
-        private int length;
+        private int length = 0;
 
         // Locking mechanisms
         private final Lock lock = new ReentrantLock();
@@ -416,9 +437,6 @@ public final class WeakEntity<T extends Entity> {
 
         // INVARIANT: MODIFIED THREAD-LOCALLY ONLY
         private final Set<WeakEntity> marked = Sets.newHashSet();
-
-        private CleaningRefCollection() {
-        }
 
         public static CleaningRefCollection newQueue() {
             return new CleaningRefCollection();
@@ -434,21 +452,19 @@ public final class WeakEntity<T extends Entity> {
         public void clearReference(Entity entity) {
             RefList entities = get(entity);
 
-            if (entities == null)
-                return;
-            for (WeakEntity<?> e : entities)
-                e.clear();
+            if (entities != null) {
+                for (WeakEntity<?> e : entities) {
+                    e.clear();
+                }
 
-            // Clear unused reference
-            beginSweep();
+                // Clear unused reference
+                beginSweep();
+            }
         }
 
         public Object finderOf(Entity entity) {
             RefList node = get(entity);
-            if (node == null)
-                return RefList.NULL;
-
-            return node.finder();
+            return (node == null) ? RefList.NULL : node.finder();
         }
 
         public void beginSweep() {
@@ -462,17 +478,18 @@ public final class WeakEntity<T extends Entity> {
 
         @Override
         public void run() {
+            //noinspection InfiniteLoopStatement
             while (true) {
                 // Step 1: find nodes
-                Set<RefEntry> entries = entries();
+                Set<RefEntry> localEntries = entries();
 
                 // Try to make the collector run
                 // This might help stored references be checked
                 // In case the GC doesn't run, who cares anyways
-                System.gc();
+                System.gc(); // TODO Tres mal!
 
                 // Step 2: mark
-                for (RefEntry entry : entries) {
+                for (RefEntry entry : localEntries) {
                     Set<WeakEntity> weakRefs = entry.val().refs();
 
                     for (WeakEntity ref : weakRefs) {
@@ -484,11 +501,12 @@ public final class WeakEntity<T extends Entity> {
 
                 try {
                     lock.lockInterruptibly();
-                    while (marked.isEmpty())
+                    while (marked.isEmpty()) {
                         hasNodes.await();
+                    }
 
                     // Step 3: sweep
-                    for (RefEntry entry : entries) {
+                    for (RefEntry entry : localEntries) {
                         Set<WeakEntity> refs = entry.val().refs();
                         refs.removeAll(marked);
 
@@ -525,10 +543,7 @@ public final class WeakEntity<T extends Entity> {
             try {
                 int hash = hash(key);
                 RefEntry node = this.loop(key, this.entries[hash]);
-                if (node == null)
-                    return null;
-                else
-                    return node.val();
+                return (node == null) ? null : node.val();
             } finally {
                 lock.unlock();
             }
@@ -537,10 +552,9 @@ public final class WeakEntity<T extends Entity> {
         private void remove(Object key) {
             try {
                 RefEntry head = this.entries[hash(key)];
-                if (head == null)
-                    return;
-
-                this.remove(key, head);
+                if (head != null) {
+                    this.remove(key, head);
+                }
             } finally {
                 lock.unlock();
             }
@@ -549,9 +563,9 @@ public final class WeakEntity<T extends Entity> {
         private Set<RefEntry> entries() {
             Set<RefEntry> set = Sets.newHashSet();
             for (RefEntry entry : entries) {
-                if (entry == null)
-                    continue;
-                set.add(entry);
+                if (entry != null) {
+                    set.add(entry);
+                }
             }
             return set;
         }
@@ -559,7 +573,7 @@ public final class WeakEntity<T extends Entity> {
         private void resize() {
             lock.lock();
             try {
-                if (this.length > entries.length - 2) {
+                if (this.length > (entries.length - 2)) {
                     int newLen = entries.length * 2;
 
                     RefEntry[] resize = new RefEntry[newLen];
@@ -572,72 +586,87 @@ public final class WeakEntity<T extends Entity> {
         }
 
         private int hash(Object key) {
-            long h = key.hashCode();
-            h = (h >> 16 ^ h) * 0x33L;
-            h = (h >> 16 ^ h) * 0x33L;
-            h = h >> 16 ^ h;
+            long h = (long) key.hashCode();
+            h = ((h >> 16) ^ h) * 0x33L;
+            h = ((h >> 16) ^ h) * 0x33L;
+            h = (h >> 16) ^ h;
 
             return (int) (h & ((long) entries.length - 1));
         }
 
         private RefEntry loop(Object key, RefEntry head) {
             RefEntry tail = head;
+            RefEntry retournais = null;
             while (tail != null) {
-                if (tail.key().equals(key))
-                    return tail;
+                if (tail.key().equals(key)) {
+                    retournais = tail;
+                    break;
+                }
                 tail = tail.next();
             }
 
-            return null;
+            return retournais;
         }
 
         private RefEntry search(Object k, RefList v, int hash) {
             RefEntry head = this.entries[hash];
             RefEntry tail = this.loop(k, head);
-            if (tail != null)
-                return tail;
-            else
-                return this.create(k, null, v, hash);
+            return (tail != null) ? tail : this.create(k, null, v, hash);
         }
 
         private RefEntry create(Object k, RefEntry previous, RefList v, int hash) {
             RefEntry node = new RefEntry(k, v, hash);
+            RefEntry retournais;
+
             if (previous == null) {
                 this.entries[hash] = node;
                 this.length++;
                 this.resize();
-                return node;
+                retournais = node;
+            } else {
+                previous.setNext(node);
+                this.length++;
+                this.resize();
+                retournais = node;
             }
 
-            previous.setNext(node);
-            this.length++;
-            this.resize();
-            return node;
+            return retournais;
         }
 
         private void remove(Object k, RefEntry head) {
             RefEntry leading = head;
-            RefEntry tail = leading == null ? null : leading.next();
+            RefEntry tail = (leading == null) ? null : leading.next();
 
             while (tail != null) {
                 if (tail.key().equals(k)) {
                     leading.setNext(tail.next());
                     this.length--;
-                    return;
+                } else {
+                    tail = tail.next();
+                    leading = leading.next();
                 }
-
-                tail = tail.next();
-                leading = leading.next();
             }
 
-            if (leading != null && leading.key().equals(k))
+            if ((leading != null) && leading.key().equals(k)) {
                 this.entries[leading.hash()] = null;
+            }
 
             this.length--;
         }
+
+        @Override
+        public String toString() {
+            return "CleaningRefCollection{" +
+                    "entries=" + Arrays.toString(entries) +
+                    ", length=" + length +
+                    ", lock=" + lock +
+                    ", hasNodes=" + hasNodes +
+                    ", marked=" + marked +
+                    '}';
+        }
     }
 
-    private static class RefEntry {
+    private static final class RefEntry {
         private final Object key;
 
         @GuardedBy("RefList.lock")
@@ -645,7 +674,7 @@ public final class WeakEntity<T extends Entity> {
         @GuardedBy("RefList.lock")
         private int hash;
         @GuardedBy("RefList.lock")
-        private RefEntry next;
+        private RefEntry next = null;
 
         private RefEntry(Object key, RefList entity, int hash) {
             this.key = key;
@@ -684,10 +713,20 @@ public final class WeakEntity<T extends Entity> {
         public void setNext(RefEntry next) {
             this.next = next;
         }
+
+        @Override
+        public String toString() {
+            return "RefEntry{" +
+                    "key=" + key +
+                    ", list=" + list +
+                    ", hash=" + hash +
+                    ", next=" + next +
+                    '}';
+        }
     }
 
     // A set of references assigned to a particular entity
-    private static class RefList implements Iterable<WeakEntity> {
+    private static final class RefList implements Iterable<WeakEntity> {
         private static final Entity NULL = new DecorationAdapter<Entity>(null) {
             @Override
             public int hashCode() {
@@ -706,26 +745,29 @@ public final class WeakEntity<T extends Entity> {
         private final Object lock = new Object();
 
         private RefList(final WeakEntity entity, RefList node) {
-            entity.finder = this.finder = new Object() {
+            entity.finder = new Object() {
                 @Override
                 public int hashCode() {
                     return entity.hashCode();
-                }
+                } // TODO CQD?
 
                 @Override
                 public boolean equals(Object obj) {
                     return entity.equals(obj);
                 }
             };
+            this.finder = entity.finder;
 
             Set<WeakEntity> original;
-            if (node == null)
+            if (node == null) {
                 original = Sets.newHashSet();
-            else
+            } else {
                 original = node.weakEntities;
+            }
 
-            if (original == null)
+            if (original == null) {
                 original = Sets.newHashSet();
+            }
             original.add(entity);
 
             weakEntities = original;
@@ -739,8 +781,9 @@ public final class WeakEntity<T extends Entity> {
         public void clean() throws InterruptedException {
             synchronized (lock) {
                 for (WeakEntity entity : weakEntities) {
-                    if (entity.isNull())
+                    if (entity.isNull()) {
                         weakEntities.remove(entity);
+                    }
                 }
             }
         }
@@ -768,6 +811,15 @@ public final class WeakEntity<T extends Entity> {
         // Used to reference the entity without actually using it
         public Object finder() {
             return this.finder;
+        }
+
+        @Override
+        public String toString() {
+            return "RefList{" +
+                    "weakEntities=" + weakEntities +
+                    ", finder=" + finder +
+                    ", lock=" + lock +
+                    '}';
         }
     }
 }
