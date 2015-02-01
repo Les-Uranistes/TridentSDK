@@ -66,12 +66,12 @@ public class ConfigList<V> implements List<V> {
     /**
      * Creates a new linked list by transferring elements from an existing collection
      *
-     * @param handle the array handler for the new list
-     * @param c      the initializing elements
+     * @param handle        the array handler for the new list
+     * @param collection    the initializing elements
      */
-    protected ConfigList(JsonArray handle, Collection<V> c) {
+    protected ConfigList(JsonArray handle, Collection<V> collection) {
         this(handle);
-        addAll(c);
+        this.addAll(collection);
     }
 
     private void lockFully() {
