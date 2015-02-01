@@ -66,29 +66,28 @@ public class TridentPluginHandler {
             @Override
             public void run() {
                 TridentPlugin plugin = null;
-                try(JarFile jarFile = new JarFile(pluginFile)) {
-                    // load all classes
-                    PluginClassLoader loader = new PluginClassLoader(pluginFile, getClass().getClassLoader());
-                    Class<? extends TridentPlugin> pluginClass = null;
+                try(JarFile jarFile = new JarFile(pluginFile);
+                    PluginClassLoader loader = new PluginClassLoader(pluginFile, getClass().getClassLoader())) {
 
+                    Class<? extends TridentPlugin> pluginClass = null;
                     Enumeration<JarEntry> entries = jarFile.entries();
+
                     while (entries.hasMoreElements()) {
                         JarEntry entry = entries.nextElement();
 
-                        if(entry.isDirectory() || !entry.getName().endsWith(".class")) {
-                            continue;
-                        }
+                        if(!(entry.isDirectory() || !entry.getName().endsWith(".class"))) {
+                            String name = entry.getName().replace(".class", "").replace(File.separatorChar, '.');
+                            Class<?> loadedClass = loader.loadClass(name);
 
-                        String name = entry.getName().replace(".class", "").replace('/', '.');
-                        Class<?> loadedClass = loader.loadClass(name);
+                            loader.putClass(loadedClass);
 
-                        loader.putClass(loadedClass);
+                            if(TridentPlugin.class.isAssignableFrom(loadedClass)) {
+                                if(pluginClass != null) {
+                                    TridentLogger.error(new PluginLoadException("Plugin has more than one main class!"));
+                                }
 
-                        if(TridentPlugin.class.isAssignableFrom(loadedClass)) {
-                            if(pluginClass != null)
-                                TridentLogger.error(new PluginLoadException("Plugin has more than one main class!"));
-
-                            pluginClass = loadedClass.asSubclass(TridentPlugin.class);
+                                pluginClass = loadedClass.asSubclass(TridentPlugin.class);
+                            }
                         }
                     }
 
@@ -96,44 +95,42 @@ public class TridentPluginHandler {
                     if (pluginClass == null) {
                         TridentLogger.error(new PluginLoadException("Plugin does not have a main class"));
                         loader.unloadClasses();
-                        loader = null; // help gc
-                        return;
+                    } else {
+                        PluginDescription description = pluginClass.getAnnotation(PluginDescription.class);
+
+                        if (description == null) {
+                            TridentLogger.error(new PluginLoadException("PluginDescription annotation does not exist!"));
+                            loader.unloadClasses();
+                        } else {
+                            TridentLogger.log("Loading " + description.name() + " version " + description.version());
+
+                            Constructor<? extends TridentPlugin> defaultConstructor = pluginClass.getSuperclass()
+                                    .asSubclass(TridentPlugin.class)
+                                    .getDeclaredConstructor(File.class, PluginDescription.class, PluginClassLoader.class);
+                            defaultConstructor.setAccessible(true);
+                            plugin = defaultConstructor.newInstance(pluginFile, description, loader);
+
+                            plugins.add(plugin);
+                            PLUGIN_EXECUTOR_FACTORY.set(executor, plugin);
+
+                            plugin.startup(executor);
+                            plugin.onLoad();
+
+                            for (Class<?> cls : loader.locallyLoaded.values()) {
+                                register(plugin, cls, executor);
+                            }
+
+                            plugin.onEnable();
+                            TridentLogger.success("Loaded " + description.name() + " version " + description.version());
+                        }
                     }
 
-                    PluginDescription description = pluginClass.getAnnotation(PluginDescription.class);
-
-                    if (description == null) {
-                        TridentLogger.error(new PluginLoadException("PluginDescription annotation does not exist!"));
-                        loader.unloadClasses();
-                        loader = null; // help gc
-                        return;
-                    }
-
-                    TridentLogger.log("Loading " + description.name() + " version " + description.version());
-
-                    Constructor<? extends TridentPlugin> defaultConstructor = pluginClass.getSuperclass()
-                            .asSubclass(TridentPlugin.class)
-                            .getDeclaredConstructor(File.class, PluginDescription.class, PluginClassLoader.class);
-                    defaultConstructor.setAccessible(true);
-                    plugin = defaultConstructor.newInstance(pluginFile, description, loader);
-
-                    plugins.add(plugin);
-                    PLUGIN_EXECUTOR_FACTORY.set(executor, plugin);
-
-                    plugin.startup(executor);
-                    plugin.onLoad();
-
-                    for (Class<?> cls : loader.locallyLoaded.values()) {
-                        register(plugin, cls, executor);
-                    }
-
-                    plugin.onEnable();
-                    TridentLogger.success("Loaded " + description.name() + " version " + description.version());
                 } catch (IOException | NoSuchMethodException | IllegalAccessException | InvocationTargetException
-                        | InstantiationException | ClassNotFoundException ex) { // UNLOAD PLYGIN
+                        | InstantiationException | ClassNotFoundException ex) {
                     TridentLogger.error(new PluginLoadException(ex));
-                    if (plugin != null)
+                    if (plugin != null) {
                         disable(plugin);
+                    }
                 }
             }
         });
