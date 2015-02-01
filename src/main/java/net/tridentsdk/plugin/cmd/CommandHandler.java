@@ -83,10 +83,11 @@ public class CommandHandler {
         for (CommandData d : COMMANDS.values()) {
             if (d.hasAlias(label)) {
                 Set<CommandData> set = dataMap.get(d.executor());
-                if (set == null)
+                if (set == null) {
                     set = Sets.newHashSet(d);
-                else
+                } else {
                     set.add(d);
+                }
                 dataMap.put(d.executor(), set);
             }
         }
@@ -95,10 +96,13 @@ public class CommandHandler {
     }
 
     private void handleCommand(Command cmd, CommandIssuer issuer, String args, String[] contents) {
-        if (issuer instanceof Player)
+
+        // TODO développiez interface commun pour Player et ServerConsole
+        if (issuer instanceof Player) {
             cmd.handlePlayer((Player) issuer, args, contents[0]);
-        else if (issuer instanceof ServerConsole)
+        } else if (issuer instanceof ServerConsole) {
             cmd.handleConsole((ServerConsole) issuer, args, contents[0]);
+        }
 
         cmd.handle(issuer, args, contents[0]);
     }
