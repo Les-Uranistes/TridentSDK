@@ -25,15 +25,16 @@ import net.tridentsdk.world.Chunk;
 /**
  * Represents a tile that is awaiting pending status to be set in a generated world
  *
- * @author The TridentSDK Team
+ * @author The TridentSDK Team, sexcel
  */
 public class ChunkTile {
 
-    private final int x;
-    private final int y;
-    private final int z;
+    private final int       x;
+    private final int       y;
+    private final int       z;
     private final Substance substance;
-    private final byte data;
+    private final byte      data;
+
 
     private ChunkTile(int x, int y, int z, Substance substance, byte data) {
         this.x = x;
@@ -43,40 +44,56 @@ public class ChunkTile {
         this.data = data;
     }
 
+
     /**
      * Creates a new pending chunk tile
      *
-     * @param x         x coordinate of the tile
-     * @param y         y coordinate of the tile
-     * @param z         z coordinate of the tile
-     * @param substance the material to set at the location
-     *
+     * @param x
+     *         x coordinate of the tile
+     * @param y
+     *         y coordinate of the tile
+     * @param z
+     *         z coordinate of the tile
+     * @param substance
+     *         the material to set at the location
      * @return the new pending chunk tile
      */
     public static ChunkTile create(int x, int y, int z, Substance substance) {
         return new ChunkTile(x, y, z, substance, (byte) 0);
     }
 
+
     public static ChunkTile create(int x, int y, int z, Substance substance, byte data) {
         return new ChunkTile(x, y, z, substance, data);
     }
 
+
+    /**
+     * Generates a new Position object with a null World, and coordinates (x,y,z)
+     *
+     * @return new position object
+     */
     public Position coordinates() {
         return Position.create(null, x, y, z);
     }
+
 
     public Substance substance() {
         return substance;
     }
 
+
+    //TODO: Magic numbers are bad, fix
     public byte meta() {
         return data;
     }
 
+
     /**
      * Sets the block at the location in the specified world the pending tile
      *
-     * @param chunk chunk to set block to
+     * @param chunk
+     *         chunk to set block to
      */
 
     public void apply(Chunk chunk) {
