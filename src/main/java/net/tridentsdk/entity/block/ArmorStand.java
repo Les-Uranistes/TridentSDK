@@ -26,6 +26,7 @@ import net.tridentsdk.util.PartRotation;
  * @author TridentSDK Team
  */
 public interface ArmorStand extends Equippable {
+
     /**
      * Gets the slot properties of this Armor Stand
      *
@@ -65,6 +66,7 @@ public interface ArmorStand extends Equippable {
      * Returns the pose for this Armor Stand
      *
      * @return the post of this Armor Stand
+     *
      * @deprecated Uses magic numbers for indexing, exists until another way is pushed
      */
     @Deprecated

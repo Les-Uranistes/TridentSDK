@@ -26,6 +26,7 @@ import net.tridentsdk.entity.LivingEntity;
  * @author The TridentSDK Team
  */
 public class EntityDamageEvent extends EntityEvent {
+
     private final Cause cause;
     private volatile boolean cancelled;
     private volatile double damage;
@@ -42,6 +43,16 @@ public class EntityDamageEvent extends EntityEvent {
         this.cancelled = false;
     }
 
+    /**
+     * Change the damage value dealt
+     *
+     * @param damage the amount of damage dealt
+     */
+
+    public void setDamage(double damage) {
+        this.damage = damage;
+    }
+
     public Cause cause() {
         return this.cause;
     }
@@ -52,16 +63,6 @@ public class EntityDamageEvent extends EntityEvent {
 
     public double damage() {
         return this.damage;
-    }
-
-    /**
-     * Change the damage value dealt
-     *
-     * @param damage the amount of damage dealt
-     */
-
-    public void setDamage(double damage) {
-        this.damage = damage;
     }
 
     @Override

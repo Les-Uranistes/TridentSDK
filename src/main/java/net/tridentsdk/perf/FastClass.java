@@ -29,6 +29,7 @@ import java.lang.reflect.Field;
  * @author The TridentSDK Team
  */
 public final class FastClass {
+
     private final Class<?> cls;
 
     private final FieldAccess fieldAccess;
@@ -43,19 +44,10 @@ public final class FastClass {
     }
 
     /**
-     * Creates a new FastClass from a Java class
-     *
-     * @param cls the class to use
-     * @return the member accessors for the class
-     */
-    public static FastClass get(Class<?> cls) {
-        return new FastClass(cls);
-    }
-
-    /**
      * Creates a new FastClass from the class object of the object
      *
      * @param obj the object's class to use
+     *
      * @return the member accessors for the class
      */
     public static FastClass get(Object obj) {
@@ -63,9 +55,21 @@ public final class FastClass {
     }
 
     /**
+     * Creates a new FastClass from a Java class
+     *
+     * @param cls the class to use
+     *
+     * @return the member accessors for the class
+     */
+    public static FastClass get(Class<?> cls) {
+        return new FastClass(cls);
+    }
+
+    /**
      * Get a field from the class
      *
      * @param name Name of the field
+     *
      * @return FastField instance
      */
     public FastField fieldBy(String name) {
@@ -76,6 +80,7 @@ public final class FastClass {
      * Get a method from the class
      *
      * @param name Name of the method
+     *
      * @return FastMethod instance
      */
     public FastMethod methodBy(Object object, String name) {

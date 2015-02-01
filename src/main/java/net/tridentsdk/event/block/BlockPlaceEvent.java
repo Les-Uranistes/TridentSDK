@@ -29,6 +29,7 @@ import net.tridentsdk.event.Cancellable;
  * @author The TridentSDK Team
  */
 public class BlockPlaceEvent extends BlockEvent implements Cancellable {
+
     private final Player player;
     private final Block blockClicked;
     private final BlockOrientation faceClicked;

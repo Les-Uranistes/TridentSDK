@@ -26,6 +26,7 @@ import net.tridentsdk.entity.Projectile;
  * @author The TridentSDK Team
  */
 public class EntityLaunchProjectileEvent extends EntityEvent {
+
     private final Projectile projectile;
     private final Entity target;
     private volatile boolean cancelled;

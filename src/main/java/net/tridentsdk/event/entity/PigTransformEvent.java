@@ -26,6 +26,7 @@ import net.tridentsdk.event.weather.LightningStrikeEvent;
  * @author The TridentSDK Team
  */
 public class PigTransformEvent extends EntityEvent {
+
     private final LightningStrikeEvent cause;
 
     public PigTransformEvent(Entity entity, LightningStrikeEvent cause) {

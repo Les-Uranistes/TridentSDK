@@ -23,22 +23,24 @@ package net.tridentsdk.meta;
  * @author The TridentSDK Team
  */
 public class HoverEvent {
+
     private HoverAction action;
     private String value;
+
+    public HoverEvent() {
+        this(null, null);
+    }
 
     public HoverEvent(HoverAction acte, String valu) {
         this.action = acte;
         this.value = valu;
     }
 
-    public HoverEvent() {
-        this(null, null);
-    }
-
     /**
      * Sets the action associated with the player hovers over the chat
      *
      * @param action the action to occur
+     *
      * @return the instance of the event
      */
     public HoverEvent action(HoverAction action) {
@@ -51,6 +53,7 @@ public class HoverEvent {
      * Sets the value associated with the player hovers over the chat
      *
      * @param value the action to occur
+     *
      * @return the instance of the event
      */
     public HoverEvent value(String value) {
@@ -77,6 +80,14 @@ public class HoverEvent {
         return value;
     }
 
+    @Override
+    public String toString() {
+        return "HoverEvent{" +
+                "action=" + action +
+                ", value='" + value + '\'' +
+                '}';
+    }
+
     /**
      * An action that occurs when the player hovers over the chat message
      *
@@ -91,13 +102,5 @@ public class HoverEvent {
         public String toString() {
             return super.toString().toLowerCase();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "HoverEvent{" +
-                "action=" + action +
-                ", value='" + value + '\'' +
-                '}';
     }
 }

@@ -27,6 +27,7 @@ import net.tridentsdk.window.inventory.Item;
  * @author The TridentSDK Team
  */
 public class PlayerDropItemEvent extends PlayerEvent implements Cancellable {
+
     private final Item item;
     private volatile boolean cancelled;
 

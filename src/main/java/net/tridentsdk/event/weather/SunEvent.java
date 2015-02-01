@@ -25,6 +25,7 @@ import net.tridentsdk.world.World;
  * @author The TridentSDK Team
  */
 public class SunEvent extends WeatherEvent {
+
     public SunEvent(World world) {
         super(world);
     }

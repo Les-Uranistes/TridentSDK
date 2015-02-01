@@ -25,13 +25,14 @@ import java.util.UUID;
 
 /**
  * Builds an entity from initializer components and auto-spawns safely
- *
+ * <p/>
  * <p>This is not thread safe. Do not share across methods, and you should be good.</p>
  *
  * @author The TridentSDK Team
  */
 @NotThreadSafe // Designed for use in a single method
 public abstract class EntityBuilder {
+
     public abstract EntityBuilder uuid(UUID uuid);
 
     public abstract EntityBuilder spawn(Position spawn);

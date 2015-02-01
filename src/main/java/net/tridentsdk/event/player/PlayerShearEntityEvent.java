@@ -28,6 +28,7 @@ import net.tridentsdk.event.Cancellable;
  * @author The TridentSDK Team
  */
 public class PlayerShearEntityEvent extends PlayerEvent implements Cancellable {
+
     private final LivingEntity sheared;
     private volatile DroppedItem drop;
     private boolean cancelled;

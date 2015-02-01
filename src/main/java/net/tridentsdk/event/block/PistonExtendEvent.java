@@ -29,6 +29,7 @@ import java.util.List;
  * @author The TridentSDK Team
  */
 public class PistonExtendEvent extends BlockPistonEvent {
+
     private final ImmutableList<Block> blocksInfluenced;
     private volatile boolean cancelled;
 

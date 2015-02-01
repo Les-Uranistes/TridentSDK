@@ -25,5 +25,4 @@ import net.tridentsdk.entity.LivingEntity;
  *
  * @author TridentSDK Team
  */
-public interface Hostile extends LivingEntity {
-}
+public interface Hostile extends LivingEntity {}

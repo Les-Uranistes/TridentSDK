@@ -25,6 +25,7 @@ import net.tridentsdk.entity.living.Player;
  * @author The TridentSDK Team
  */
 public class PlayerTabCompleteEvent extends PlayerEvent {
+
     private final String message;
     private final String[] suggestions;
 
@@ -32,7 +33,7 @@ public class PlayerTabCompleteEvent extends PlayerEvent {
         super(player);
 
         this.message = message;
-        this.suggestions = new String[] { };
+        this.suggestions = new String[]{ };
     }
 
     public String message() {

@@ -21,26 +21,27 @@ package net.tridentsdk.meta.nbt;
  * @author The TridentSDK Team
  */
 public class NBTBuilder {
-    final CompoundTag base;
 
-    private NBTBuilder(CompoundTag base) {
-        this.base = base;
-    }
+    final CompoundTag base;
 
     private NBTBuilder(String name) {
         this(new CompoundTag(name));
+    }
+
+    private NBTBuilder(CompoundTag base) {
+        this.base = base;
     }
 
     public static CompoundTagBuilder<NBTBuilder> newBase(String name) {
         return new NBTBuilder(name).begin();
     }
 
-    public static CompoundTagBuilder<NBTBuilder> fromBase(CompoundTag tag) {
-        return new NBTBuilder(tag).begin();
-    }
-
     private CompoundTagBuilder<NBTBuilder> begin() {
         return new CompoundTagBuilder<>(this.base, this);
+    }
+
+    public static CompoundTagBuilder<NBTBuilder> fromBase(CompoundTag tag) {
+        return new NBTBuilder(tag).begin();
     }
 
     public CompoundTag build() {

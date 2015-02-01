@@ -22,5 +22,4 @@ import net.tridentsdk.entity.decorate.Hostile;
 /**
  * Represents a Blaze
  */
-public interface Blaze extends Hostile {
-}
+public interface Blaze extends Hostile {}

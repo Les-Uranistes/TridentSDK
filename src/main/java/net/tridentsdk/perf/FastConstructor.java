@@ -25,6 +25,7 @@ import com.esotericsoftware.reflectasm.ConstructorAccess;
  * @author The TridentSDK Team
  */
 public class FastConstructor {
+
     private final ConstructorAccess access;
 
     /**
@@ -40,6 +41,7 @@ public class FastConstructor {
      * Creates a new instance of the constructor's class
      *
      * @param <T> the class type
+     *
      * @return the instance of T
      */
     public <T> T newInstance() {

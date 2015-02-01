@@ -28,24 +28,6 @@ import java.util.List;
  * @author The TridentSDK Team, sexcel
  */
 public abstract class AbstractGenerator {
-    /**
-     * Where ChunkLocation is the x/z of the block for the height to be specified in the value
-     *
-     * @param x the x coordinate to find the height
-     * @param z the z coordinate to find the height
-     * @return the height at that coordinate
-     */
-    public abstract int height(int x, int z);
-
-    /**
-     * The tile to be set at the coordinates
-     *
-     * @param x the x coordinate
-     * @param y the y coordinate
-     * @param z the z coordinate
-     * @return the tile to be set at the coordinates
-     */
-    public abstract ChunkTile atCoordinate(int x, int y, int z);
 
 
     /**
@@ -81,4 +63,25 @@ public abstract class AbstractGenerator {
 
         return gen;
     }
+
+    /**
+     * Where ChunkLocation is the x/z of the block for the height to be specified in the value
+     *
+     * @param x the x coordinate to find the height
+     * @param z the z coordinate to find the height
+     *
+     * @return the height at that coordinate
+     */
+    public abstract int height(int x, int z);
+
+    /**
+     * The tile to be set at the coordinates
+     *
+     * @param x the x coordinate
+     * @param y the y coordinate
+     * @param z the z coordinate
+     *
+     * @return the tile to be set at the coordinates
+     */
+    public abstract ChunkTile atCoordinate(int x, int y, int z);
 }

@@ -26,6 +26,7 @@ import net.tridentsdk.entity.decorate.Hostile;
  * @author The TridentSDK Team
  */
 public interface Skeleton extends Hostile, Equippable {
+
     /**
      * Whether or not this is a Wither Skeleton
      *

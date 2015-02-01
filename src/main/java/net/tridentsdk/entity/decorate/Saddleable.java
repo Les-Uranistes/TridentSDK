@@ -25,6 +25,7 @@ import net.tridentsdk.entity.LivingEntity;
  * @author TridentSDK Team
  */
 public interface Saddleable extends LivingEntity {
+
     /**
      * Whether this entity is saddled or not
      *

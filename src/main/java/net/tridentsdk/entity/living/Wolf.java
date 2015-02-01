@@ -27,6 +27,7 @@ import net.tridentsdk.entity.decorate.Tameable;
  * @author TridentSDK Team
  */
 public interface Wolf extends Tameable, Neutral {
+
     /**
      * Whether or not this entity is angry
      *

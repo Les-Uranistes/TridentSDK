@@ -29,6 +29,7 @@ import net.tridentsdk.entity.decorate.Tradeable;
  * @author TridentSDK Team
  */
 public interface Villager extends Ageable, Tradeable, Peaceful {
+
     /**
      * The profession of this villager
      *

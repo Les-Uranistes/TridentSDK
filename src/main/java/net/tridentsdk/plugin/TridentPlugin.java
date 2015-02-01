@@ -41,6 +41,7 @@ import java.nio.file.Files;
  * @author The TridentSDK Team
  */
 public class TridentPlugin {
+
     private static final HashFunction HASHER = Hashing.murmur3_32();
     private final File pluginFile;
     private final File configDirectory;
@@ -60,8 +61,7 @@ public class TridentPlugin {
     TridentPlugin(File pluginFile, PluginDescription description, PluginClassLoader loader) {
         for (TridentPlugin plugin : Trident.pluginHandler().plugins()) {
             if (plugin.description().name().equalsIgnoreCase(description.name())) {
-                TridentLogger.error(new IllegalStateException(
-                        "Plugin already initialized or plugin named" + description.name() + " exists already"));
+                TridentLogger.error(new IllegalStateException("Plugin already initialized or plugin named" + description.name() + " exists already"));
             }
         }
 
@@ -73,8 +73,18 @@ public class TridentPlugin {
     }
 
     /**
-     * Obtains the instance of the plugin which the caller class is in
+     * Obtains the annotation given by this plugin
      *
+     * @return the plugin descriptor for this plugin
+     */
+    @Nonnull
+    public final PluginDescription description() {
+        return this.description;
+    }
+
+    /**
+     * Obtains the instance of the plugin which the caller class is in
+     * <p/>
      * <p>Returns {@code null} if the plugin has not been loaded yet, or if the class is not a plugin loaded on the
      * server.</p>
      *
@@ -98,11 +108,12 @@ public class TridentPlugin {
 
     /**
      * Obtains the instance of the plugin which has the specified main class
-     *
+     * <p/>
      * <p>Returns {@code null} if the plugin has not been loaded yet, or if the class is not a plugin loaded on the
      * server.</p>
      *
      * @param clazz the main class of the plugin to obtain the instance of
+     *
      * @return the instance of the plugin with the specified main class
      */
     @Nullable
@@ -150,6 +161,7 @@ public class TridentPlugin {
      * Obtains the listener instance with the class specified
      *
      * @param c the class to find the listener instance by
+     *
      * @return the listener instance registered to the server
      */
     public <T extends Listener> T listenerBy(Class<T> c) {
@@ -160,6 +172,7 @@ public class TridentPlugin {
      * Obtains the command instance with the class specified
      *
      * @param c the class to find the command instance by
+     *
      * @return the command instance registered to the server
      */
     public <T extends Command> T commandBy(Class<T> c) {
@@ -168,7 +181,7 @@ public class TridentPlugin {
 
     /**
      * Saves the configuration inside the jar to the plugin directory
-     *
+     * <p/>
      * <p>If the configuration is already saved, this does not overwrite it.</p>
      */
     public void saveDefaultConfig() {
@@ -217,7 +230,7 @@ public class TridentPlugin {
 
     /**
      * The plugin directory
-     *
+     * <p/>
      * <p>The returned file includes the trailing file separator</p>
      *
      * @return the plugin directory where resources like the default config are saved
@@ -227,18 +240,8 @@ public class TridentPlugin {
     }
 
     /**
-     * Obtains the annotation given by this plugin
-     *
-     * @return the plugin descriptor for this plugin
-     */
-    @Nonnull
-    public final PluginDescription description() {
-        return this.description;
-    }
-
-    /**
      * Obtains the executor for this plugin
-     *
+     * <p/>
      * <p>If threads are manipulated, this executor MUST be used to ensure that the data read is consistent with the
      * plugin.</p>
      *
@@ -253,12 +256,21 @@ public class TridentPlugin {
             TridentLogger.error(e);
         }
 
-        if(retournais == null) {
-            TridentLogger.error(new PluginLoadException(
-                    "Plugin not loaded correctly, the executor is null for " + description().name()));
+        if (retournais == null) {
+            TridentLogger.error(new PluginLoadException("Plugin not loaded correctly, the executor is null for " + description().name()));
         }
 
         return retournais;
+    }
+
+    @Override
+    // TODO pas necessaire par le contrat java?
+    public int hashCode() {
+        // Find constants
+        String name = this.description().name();
+        String author = this.description().author();
+
+        return HASHER.newHasher().putUnencodedChars(name).putUnencodedChars(author).hash().hashCode();
     }
 
     @Override
@@ -277,15 +289,5 @@ public class TridentPlugin {
         }
 
         return retournais;
-    }
-
-    @Override
-    // TODO pas necessaire par le contrat java?
-    public int hashCode() {
-        // Find constants
-        String name = this.description().name();
-        String author = this.description().author();
-
-        return HASHER.newHasher().putUnencodedChars(name).putUnencodedChars(author).hash().hashCode();
     }
 }

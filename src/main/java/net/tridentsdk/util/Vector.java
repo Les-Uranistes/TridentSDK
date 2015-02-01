@@ -32,6 +32,7 @@ import java.io.Serializable;
 // TODO Considérer deplacér a 'Vector3D'
 @NotThreadSafe
 public class Vector implements Serializable, Cloneable {
+
     private static final long serialVersionUID = -7634050835106851288L;
 
     private double x;
@@ -52,10 +53,37 @@ public class Vector implements Serializable, Cloneable {
      * @param y the y value of the vector
      * @param z the z value of the vector
      */
-    public Vector(double x, double y, double z) {
-        this.setX(x);
-        this.setY(y);
-        this.setZ(z);
+    public Vector(int x, int y, int z) {
+        this.setX((double) x);
+        this.setY((double) y);
+        this.setZ((double) z);
+    }
+
+    /**
+     * Sets this vector's x value
+     *
+     * @param x the x value to set this vector
+     */
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    /**
+     * Sets this vector's y value
+     *
+     * @param y the y value to set this vector
+     */
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    /**
+     * Sets this vector's z value
+     *
+     * @param z the z value to set this vector
+     */
+    public void setZ(double z) {
+        this.z = z;
     }
 
     /**
@@ -65,16 +93,17 @@ public class Vector implements Serializable, Cloneable {
      * @param y the y value of the vector
      * @param z the z value of the vector
      */
-    public Vector(int x, int y, int z) {
-        this.setX((double) x);
-        this.setY((double) y);
-        this.setZ((double) z);
+    public Vector(double x, double y, double z) {
+        this.setX(x);
+        this.setY(y);
+        this.setZ(z);
     }
 
     /**
      * Adds the vector x, y, and z to the current vector coordinates
      *
      * @param vector the vector to retrieve the values to be added
+     *
      * @return the current vector with updated coordinates
      */
     public Vector add(Vector vector) {
@@ -87,6 +116,7 @@ public class Vector implements Serializable, Cloneable {
      * @param x the x value of the vector to add
      * @param y the y value of the vector to add
      * @param z the z value of the vector to add
+     *
      * @return the current vector with updated coordinates
      */
     public Vector add(double x, double y, double z) {
@@ -98,11 +128,39 @@ public class Vector implements Serializable, Cloneable {
     }
 
     /**
+     * Gets the x directional-magnitude value
+     *
+     * @return the vector x value
+     */
+    public double x() {
+        return this.x;
+    }
+
+    /**
+     * Gets the y directional-magnitude value
+     *
+     * @return the vector y value
+     */
+    public double y() {
+        return this.y;
+    }
+
+    /**
+     * Gets the z directional-magnitude value
+     *
+     * @return the vector z value
+     */
+    public double z() {
+        return this.z;
+    }
+
+    /**
      * Adds the coordinate values to the current vector's coordinates
      *
      * @param x the x value of the vector to add
      * @param y the y value of the vector to add
      * @param z the z value of the vector to add
+     *
      * @return the current vector with updated coordinates
      */
     public Vector add(int x, int y, int z) {
@@ -119,6 +177,7 @@ public class Vector implements Serializable, Cloneable {
      * Takes the current vector coordinates and subtract them with the vector x, y, and z
      *
      * @param vector the vector to retrieve the values to be subtracted
+     *
      * @return the current vector with updated coordinates
      */
     public Vector subtract(Vector vector) {
@@ -131,6 +190,7 @@ public class Vector implements Serializable, Cloneable {
      * @param x the x value of the vector to subtract
      * @param y the y value of the vector to subtract
      * @param z the z value of the vector to subtract
+     *
      * @return the current vector with updated coordinates
      */
     public Vector subtract(double x, double y, double z) {
@@ -147,6 +207,7 @@ public class Vector implements Serializable, Cloneable {
      * @param x the x value of the vector to subtract
      * @param y the y value of the vector to subtract
      * @param z the z value of the vector to subtract
+     *
      * @return the current vector with updated coordinates
      */
     public Vector subtract(int x, int y, int z) {
@@ -157,20 +218,11 @@ public class Vector implements Serializable, Cloneable {
      * Multiplies the vector x, y, and z to the current vector coordinates
      *
      * @param vec the vector to retrieve the values to be multiplied
+     *
      * @return the current vector with updated coordinates
      */
     public Vector multiply(Vector vec) {
         return this.multiply(vec.x(), vec.y(), vec.z());
-    }
-
-    /**
-     * Multiplies the magnitude of this vector by a double
-     *
-     * @param amount The amount to multiply by
-     * @return This vector, with updated coordinates
-     */
-    public Vector multiply(double amount) {
-        return this.multiply(amount, amount, amount);
     }
 
     /**
@@ -179,6 +231,7 @@ public class Vector implements Serializable, Cloneable {
      * @param x the x value of the vector to multiply
      * @param y the y value of the vector to multiply
      * @param z the z value of the vector to multiply
+     *
      * @return the current vector with updated coordinates
      */
     public Vector multiply(double x, double y, double z) {
@@ -190,11 +243,23 @@ public class Vector implements Serializable, Cloneable {
     }
 
     /**
+     * Multiplies the magnitude of this vector by a double
+     *
+     * @param amount The amount to multiply by
+     *
+     * @return This vector, with updated coordinates
+     */
+    public Vector multiply(double amount) {
+        return this.multiply(amount, amount, amount);
+    }
+
+    /**
      * Multiplies the coordinate values to the current vector's coordinates
      *
      * @param x the x value of the vector to multiply
      * @param y the y value of the vector to multiply
      * @param z the z value of the vector to multiply
+     *
      * @return the current vector with updated coordinates
      */
     public Vector multiply(int x, int y, int z) {
@@ -205,20 +270,11 @@ public class Vector implements Serializable, Cloneable {
      * Takes the current vector coordinates and divide them with the vector x, y, and z
      *
      * @param vec the vector to retrieve the values to be divided
+     *
      * @return the current vector with updated coordinates
      */
     public Vector divide(Vector vec) {
         return this.divide(vec.x(), vec.y(), vec.z());
-    }
-
-    /**
-     * Divides the magnitude of this vector by a given amount.
-     *
-     * @param amount The amount to divide by
-     * @return this vector
-     */
-    public Vector divide(double amount) {
-        return this.divide(amount, amount, amount);
     }
 
     /**
@@ -227,6 +283,7 @@ public class Vector implements Serializable, Cloneable {
      * @param x the x value of the vector to divide
      * @param y the y value of the vector to divide
      * @param z the z value of the vector to divide
+     *
      * @return the current vector with updated coordinates
      */
     public Vector divide(double x, double y, double z) {
@@ -243,6 +300,7 @@ public class Vector implements Serializable, Cloneable {
      * @param x the x value of the vector to divide
      * @param y the y value of the vector to divide
      * @param z the z value of the vector to divide
+     *
      * @return the current vector with updated coordinates
      */
     public Vector divide(int x, int y, int z) {
@@ -253,6 +311,7 @@ public class Vector implements Serializable, Cloneable {
      * Sets the current vector to the crossproduct between this vector and another one
      *
      * @param vector the vector to crossproduct with
+     *
      * @return this vector, updated with the crossproduct with the other vector
      */
     public Vector crossProduct(Vector vector) {
@@ -268,12 +327,23 @@ public class Vector implements Serializable, Cloneable {
     }
 
     /**
-     * Gets the square of the magnitude of this vector
+     * Normalizes this vector (changes the magnitude to 1 without changing the direction)
      *
-     * @return The magnitude of this vector, squared
+     * @return This vector
      */
-    public double magnitudeSquared() {
-        return this.x * this.x + this.y * this.y + this.z * this.z;
+    public Vector normalize() {
+        return this.divide(this.magnitude());
+    }
+
+    /**
+     * Divides the magnitude of this vector by a given amount.
+     *
+     * @param amount The amount to divide by
+     *
+     * @return this vector
+     */
+    public Vector divide(double amount) {
+        return this.divide(amount, amount, amount);
     }
 
     /**
@@ -287,18 +357,19 @@ public class Vector implements Serializable, Cloneable {
     }
 
     /**
-     * Normalizes this vector (changes the magnitude to 1 without changing the direction)
+     * Gets the square of the magnitude of this vector
      *
-     * @return This vector
+     * @return The magnitude of this vector, squared
      */
-    public Vector normalize() {
-        return this.divide(this.magnitude());
+    public double magnitudeSquared() {
+        return this.x * this.x + this.y * this.y + this.z * this.z;
     }
 
     /**
      * Calculates the dot product of this vector and another
      *
      * @param vec the other vector
+     *
      * @return dot product of the two vectors
      */
     public double dotProduct(Vector vec) {
@@ -310,60 +381,6 @@ public class Vector implements Serializable, Cloneable {
      */
     public Position asLocation(World world) {
         return Position.create(world, this.x, this.y, this.z);
-    }
-
-    /**
-     * Gets the x directional-magnitude value
-     *
-     * @return the vector x value
-     */
-    public double x() {
-        return this.x;
-    }
-
-    /**
-     * Sets this vector's x value
-     *
-     * @param x the x value to set this vector
-     */
-    public void setX(double x) {
-        this.x = x;
-    }
-
-    /**
-     * Gets the y directional-magnitude value
-     *
-     * @return the vector y value
-     */
-    public double y() {
-        return this.y;
-    }
-
-    /**
-     * Sets this vector's y value
-     *
-     * @param y the y value to set this vector
-     */
-    public void setY(double y) {
-        this.y = y;
-    }
-
-    /**
-     * Gets the z directional-magnitude value
-     *
-     * @return the vector z value
-     */
-    public double z() {
-        return this.z;
-    }
-
-    /**
-     * Sets this vector's z value
-     *
-     * @param z the z value to set this vector
-     */
-    public void setZ(double z) {
-        this.z = z;
     }
 
     /**
@@ -382,10 +399,8 @@ public class Vector implements Serializable, Cloneable {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof Vector))
-            return false;
-        if (obj.hashCode() != this.hashCode())
-            return false;
+        if (!(obj instanceof Vector)) return false;
+        if (obj.hashCode() != this.hashCode()) return false;
         if (x != ((Vector) obj).x) {
             return false;
         } else if (y != ((Vector) obj).y) {

@@ -26,6 +26,7 @@ import net.tridentsdk.entity.living.Player;
  * @author The TridentSDK Team
  */
 public class EntitySaddleEvent extends EntityEvent {
+
     private final Player player;
     private volatile boolean cancelled;
 

@@ -22,64 +22,54 @@ import net.tridentsdk.base.Substance;
 /**
  * Inventory item, holding all properties of the item
  *
- * @author The TridentSDK Team, sexcel
+ * @author The TridentSDK Team
  */
 public class Item {
-    private final int       id;
+
+    private final int id;
     private final Substance mat;
 
     private volatile short quantity;
     private volatile short damageValue;
 
-
     public Item(Substance mat) {
         this(mat, (short) 1);
     }
-
 
     public Item(Substance mat, short quantity) {
         this.id = mat.id();
         this.mat = mat;
 
         this.quantity = quantity;
-        this.damageValue = (short) 100; // psudeo-value //fix this isn't pseudo, its a default
+        this.damageValue = (short) 100; // psudeo-value
     }
-
 
     public int id() {
         return this.id;
     }
 
-
     public Substance type() {
         return this.mat;
     }
-
 
     public short quantity() {
         return this.quantity;
     }
 
-
     public void setQuantity(short quantity) {
         this.quantity = quantity;
     }
-
 
     public short damageValue() {
         return this.damageValue;
     }
 
-
     public void setDamageValue(short damageValue) {
         this.damageValue = damageValue;
     }
 
-
     public boolean isSimilar(Item i) {
-        return (id == i.id &&
-                mat == i.mat &&
-                quantity == i.quantity &&
-                damageValue == i.damageValue);
+        return (id == i.id) && (mat == i.mat) && (quantity == i.quantity) && (damageValue == i.damageValue);
+
     }
 }

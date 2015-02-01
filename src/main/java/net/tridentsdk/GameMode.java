@@ -19,7 +19,7 @@ package net.tridentsdk;
 
 /**
  * Minecraft game modes
- *
+ * <p/>
  * <p>If you need more help, take a look at <a href="http://minecraft.gamepedia.com/Gameplay#Game_modes">Wiki</a></p>
  *
  * @author The TridentSDK Team
@@ -41,10 +41,20 @@ public enum GameMode {
      * Returns the {@code byte} value of the GameMode
      *
      * @param gameMode GameMode
+     *
      * @return {@code byte} value of the GameMode
      */
     public static byte asByte(GameMode gameMode) {
         return gameMode.asByte();
+    }
+
+    /**
+     * Returns the {@code byte} value of the GameMode
+     *
+     * @return {@code byte} value of the GameMode
+     */
+    public byte asByte() {
+        return this.b;
     }
 
     public static GameMode gamemodeOf(int i) {
@@ -55,14 +65,5 @@ public enum GameMode {
         }
 
         return null;
-    }
-
-    /**
-     * Returns the {@code byte} value of the GameMode
-     *
-     * @return {@code byte} value of the GameMode
-     */
-    public byte asByte() {
-        return this.b;
     }
 }

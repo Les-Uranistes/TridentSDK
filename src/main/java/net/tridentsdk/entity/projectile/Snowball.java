@@ -24,5 +24,4 @@ import net.tridentsdk.entity.Projectile;
  *
  * @author TridentSDK Team
  */
-public interface Snowball extends Projectile {
-}
+public interface Snowball extends Projectile {}

@@ -26,6 +26,7 @@ import net.tridentsdk.entity.living.Player;
  * @author The TridentSDK Team
  */
 public abstract class Command {
+
     /**
      * Called when this cmd is invoked by a player
      *

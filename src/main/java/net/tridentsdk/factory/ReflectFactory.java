@@ -33,10 +33,12 @@ import javax.annotation.concurrent.ThreadSafe;
  */
 @ThreadSafe
 public class ReflectFactory {
+
     /**
      * Acquires a class wrapper. Note this method is extremely slow.
      *
      * @param cls the default class to wrap
+     *
      * @return the wrapped class
      */
     public FastClass fastClass(Class<?> cls) {
@@ -47,6 +49,7 @@ public class ReflectFactory {
      * Acquires a class wrapper. Note this method is extremely slow.
      *
      * @param o the instance representing the class you need
+     *
      * @return the wrapped class
      */
     public FastClass fastClass(Object o) {
@@ -58,6 +61,7 @@ public class ReflectFactory {
      *
      * @param o    the instance to get the field from
      * @param name the name of the declared field
+     *
      * @return the wrapped field
      */
     public FastField field(Object o, String name) {
@@ -71,6 +75,7 @@ public class ReflectFactory {
      *
      * @param cls  the class to acquire the field from
      * @param name the name of the {@code static} field
+     *
      * @return the wrapped {@code static} field
      */
     public FastField field(Class<?> cls, String name) {
@@ -82,6 +87,7 @@ public class ReflectFactory {
      *
      * @param o    the instance used to invoke the method
      * @param name the method name
+     *
      * @return the wrapped method
      */
     public FastMethod method(Object o, String name) {
@@ -93,6 +99,7 @@ public class ReflectFactory {
      *
      * @param cls  the class to get the method from
      * @param name the name of the method
+     *
      * @return the wrapped {@code static} method
      */
     public FastMethod method(Class<?> cls, String name) {
@@ -101,10 +108,11 @@ public class ReflectFactory {
 
     /**
      * Acquires the wrapped DEFAULT constructor of the given class
-     *
+     * <p/>
      * <p>Only a no-arg constructor can be wrapped</p>
      *
      * @param cls the class to get the constructor from
+     *
      * @return the wrapped default class constructor
      */
     public FastConstructor constructor(Class<?> cls) {

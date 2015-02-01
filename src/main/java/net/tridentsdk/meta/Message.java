@@ -25,6 +25,7 @@ import com.google.gson.JsonObject;
  * @author The TridentSDK Team
  */
 public final class Message {
+
     private final JsonObject message;
 
     /**
@@ -38,6 +39,7 @@ public final class Message {
      * The text to display to the messageable
      *
      * @param input the text
+     *
      * @return the current message
      */
     public Message text(String input) {
@@ -46,9 +48,19 @@ public final class Message {
     }
 
     /**
+     * The object representation of the JSON
+     *
+     * @return the message in object form of JSON
+     */
+    public JsonObject message() {
+        return message;
+    }
+
+    /**
      * Adds color to the message
      *
      * @param color the color to add
+     *
      * @return the current message
      */
     public Message color(ChatColor color) {
@@ -61,6 +73,7 @@ public final class Message {
      * Adds an action when the message is clicked
      *
      * @param event the clickevent to use
+     *
      * @return the current message
      */
     public Message clickEvent(ClickEvent event) {
@@ -77,6 +90,7 @@ public final class Message {
      * Adds an action when the message is hovered by the mouse
      *
      * @param event the hoverevent to use
+     *
      * @return the current message
      */
     public Message hoverEvent(HoverEvent event) {
@@ -96,15 +110,6 @@ public final class Message {
      */
     public String asJson() {
         return MessageBuilder.GSON.toJson(this.message());
-    }
-
-    /**
-     * The object representation of the JSON
-     *
-     * @return the message in object form of JSON
-     */
-    public JsonObject message() {
-        return message;
     }
 
     @Override

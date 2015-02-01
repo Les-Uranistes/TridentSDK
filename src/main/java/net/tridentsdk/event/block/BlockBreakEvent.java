@@ -29,6 +29,7 @@ import net.tridentsdk.window.inventory.Item;
  * @author The TridentSDK Team
  */
 public class BlockBreakEvent extends BlockEvent implements Cancellable {
+
     private final Player player;
     private final BlockOrientation blockFace;
     private final Item itemInHand;

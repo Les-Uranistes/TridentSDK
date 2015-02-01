@@ -28,6 +28,7 @@ import java.util.Map;
  * @author The TridentSDK Team
  */
 public final class ChannelHandler {
+
     private static final ChannelHandler INSTANCE = new ChannelHandler();
 
     private final Map<String, PluginChannel> channels = Factories.collect().createMap();
@@ -71,6 +72,7 @@ public final class ChannelHandler {
      * Find a channel by its name
      *
      * @param name the name to find the channel by
+     *
      * @return the channel having the specified name
      */
     public PluginChannel forChannel(String name) {

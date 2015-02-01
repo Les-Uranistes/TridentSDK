@@ -21,9 +21,11 @@ package net.tridentsdk.entity;
  * Immutable parameter type and object value for dynamic constructor resolvation
  *
  * @param <T> the type for the parameter
+ *
  * @author The TridentSDK Team
  */
 public final class ParameterValue<T> {
+
     private final Class<T> clazz;
     private final T value;
 
@@ -38,6 +40,7 @@ public final class ParameterValue<T> {
      * @param clazz the class type
      * @param value the value of the parameter
      * @param <T>   the type
+     *
      * @return the new parameter value
      */
     public static <T> ParameterValue from(Class<T> clazz, T value) {

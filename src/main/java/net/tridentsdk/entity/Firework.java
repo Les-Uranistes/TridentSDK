@@ -23,6 +23,7 @@ package net.tridentsdk.entity;
  * @author The TridentSDK Team
  */
 public interface Firework extends Entity {
+
     /**
      * Get the number of ticks that this Firework will explode at
      *

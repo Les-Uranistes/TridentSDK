@@ -23,13 +23,14 @@ import javax.annotation.concurrent.Immutable;
 
 /**
  * Represents an instance or "snapshot" of a tile when viewed by the construction method
- *
+ * <p/>
  * <p>Snapshot using the {@link #of(Block)} method</p>
  *
  * @author The TridentSDK Team
  */
 @Immutable
 public final class BlockSnapshot {
+
     private final Position location;
     private final Substance material;
     private final byte data;
@@ -44,6 +45,7 @@ public final class BlockSnapshot {
      * Creates a view of the block at the time when "snapshotted"
      *
      * @param block the tile to view
+     *
      * @return the snapshot of the tile
      */
     public static BlockSnapshot of(Block block) {
@@ -52,7 +54,7 @@ public final class BlockSnapshot {
 
     /**
      * Places the data stored in the snapshot into the original block
-     *
+     * <p/>
      * <p>Does not clear data from this snapshot</p>
      */
     public void load() {

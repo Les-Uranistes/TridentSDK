@@ -26,5 +26,4 @@ import java.lang.annotation.Target;
  */
 @Documented
 @Target(ElementType.TYPE)
-public @interface PossiblyThreadSafe {
-}
+public @interface PossiblyThreadSafe {}

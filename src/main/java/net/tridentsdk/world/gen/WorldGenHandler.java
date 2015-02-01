@@ -27,6 +27,7 @@ import net.tridentsdk.world.World;
  * @author The TridentSDK Team, sexcel
  */
 public class WorldGenHandler {
+
     private final AbstractGenerator generator;
 
 

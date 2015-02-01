@@ -25,6 +25,7 @@ import net.tridentsdk.entity.Entity;
  * @author The TridentSDK Team
  */
 public abstract class EntityBurnEvent extends EntityEvent {
+
     private volatile boolean cancelled;
     private volatile int fireTicks;
 

@@ -23,12 +23,13 @@ import net.tridentsdk.world.World;
 
 /**
  * Called when an event relating to the world occurs
- *
+ * <p/>
  * <p>This is an umbrella event, do not listen to it</p>
  *
  * @author The TridentSDK Team
  */
 public class WeatherEvent extends Event implements Cancellable {
+
     public final World world;
     private volatile boolean cancelled;
 

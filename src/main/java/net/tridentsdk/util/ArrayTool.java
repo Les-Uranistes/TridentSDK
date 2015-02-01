@@ -22,19 +22,20 @@ import com.google.common.reflect.TypeToken;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.lang.reflect.Array;
+import java.util.Arrays;
 
 /**
  * Tools for modifying elements of an array
- *
- * <p>Expect this to be very slow, uses LOAD of reflection to simplify array tasks at the cost of performance</p>
+ * <p/>
+ * WARNING: Potentially slow blocking method calls
  *
  * @param <T> the type held by the array to be converted
  */
 @ThreadSafe
-public class ArrayTool<T> {
+public final class ArrayTool<T> {
+
     private final T[] array;
-    private final TypeToken<T> typeToken = new TypeToken<T>() {
-    };
+    private final TypeToken<T> typeToken = new TypeToken<T>() {};
 
     private ArrayTool(T[] array) {
         this.array = array;
@@ -45,6 +46,7 @@ public class ArrayTool<T> {
      *
      * @param array the underlying array
      * @param <T>   the type of the array
+     *
      * @return the new array tool
      */
     public static <T> ArrayTool<T> using(T[] array) {
@@ -54,13 +56,16 @@ public class ArrayTool<T> {
     /**
      * Converts the underlying array to an array of the type specified
      *
-     * @param c   the classtype for the new array
-     * @param <C> the array type
+     * @param clazz class type of array elements, implicitly sets generic method type parameter C
+     * @param <C>   generic type of array elements
+     *
      * @return the new array converted from the underlying array
+     *
      * @throws java.lang.ClassCastException if the type of the underlying array cannot be cast to the new type
      */
-    public <C> C[] convertTo(Class<C> c) {
-        C[] cs = (C[]) Array.newInstance(c, array.length);
+    public <C> C[] convertTo(Class<C> clazz) {
+        //noinspection unchecked
+        C[] cs = (C[]) Array.newInstance(clazz, array.length);
         for (int i = 0; i < array.length; i++) {
             cs[i] = (C) array[i];
         }
@@ -74,6 +79,7 @@ public class ArrayTool<T> {
      * @return the deep copy of the underlying array
      */
     public T[] cloneArray(Function<T, T> cloner) {
+        //noinspection unchecked
         T[] ts = (T[]) Array.newInstance(typeToken.getRawType(), array.length);
         for (int i = 0; i < array.length; i++) {
             ts[i] = cloner.apply(array[i]);
@@ -89,5 +95,13 @@ public class ArrayTool<T> {
      */
     public T[] underlyingArray() {
         return this.array;
+    }
+
+    @Override
+    public String toString() {
+        return "ArrayTool{" +
+                "array=" + Arrays.toString(array) +
+                ", typeToken=" + typeToken +
+                '}';
     }
 }

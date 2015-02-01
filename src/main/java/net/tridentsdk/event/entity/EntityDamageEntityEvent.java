@@ -25,6 +25,7 @@ import net.tridentsdk.entity.Entity;
  * @author The TridentSDK Team
  */
 public class EntityDamageEntityEvent extends EntityDamageEvent {
+
     private final Entity damager;
 
     public EntityDamageEntityEvent(Entity entity, Entity damager, double damage, Cause cause) {

@@ -29,6 +29,7 @@ import net.tridentsdk.entity.living.Player;
  */
 // FIXME
 public final class MessageBuilder {
+
     static final Gson GSON = new Gson();
 
     private final JsonObject obj;
@@ -53,6 +54,7 @@ public final class MessageBuilder {
      * Sets the text color of the message
      *
      * @param color the color the message should be
+     *
      * @return the instance of this message builder
      */
     public MessageBuilder color(ChatColor color) {
@@ -64,6 +66,7 @@ public final class MessageBuilder {
      * Makes the message a clickable link
      *
      * @param url the URL to lead the player to when the message is clicked
+     *
      * @return the instance of this message builder
      */
     public MessageBuilder link(String url) {
@@ -76,6 +79,7 @@ public final class MessageBuilder {
      * Makes the message a clickable link that opens a file on the player's client
      *
      * @param file the file to open, must be available on the client
+     *
      * @return the instance of this message builder
      */
     public MessageBuilder file(String file) {
@@ -88,6 +92,7 @@ public final class MessageBuilder {
      * Causes a popup to open when the the message is hovered over
      *
      * @param message the message in the popup
+     *
      * @return the instance of this message builder
      */
     public MessageBuilder hover(String message) {
@@ -100,6 +105,7 @@ public final class MessageBuilder {
      * Appends extra text to the end of this message
      *
      * @param message the message to be appended after the current text
+     *
      * @return the instance of this message builder
      */
     public MessageBuilder then(String message) {
@@ -113,6 +119,7 @@ public final class MessageBuilder {
      * Appends extra text to the end of this message
      *
      * @param message the message to be appended after the current text
+     *
      * @return the instance of this message builder
      */
     public MessageBuilder then(Message message) {
@@ -136,9 +143,19 @@ public final class MessageBuilder {
         return this;
     }
 
-    @Override
-    public String toString() {
-        return GSON.toJson(this.obj);
+    /**
+     * Sends the formatted text to the specified players
+     *
+     * @param players the players to send the formatted text
+     *
+     * @return the instance of this message builder
+     */
+    public MessageBuilder sendTo(Player... players) {
+        for (Player p : players) {
+            p.sendRaw(asJson());
+        }
+
+        return this;
     }
 
     /**
@@ -150,17 +167,8 @@ public final class MessageBuilder {
         return this.toString();
     }
 
-    /**
-     * Sends the formatted text to the specified players
-     *
-     * @param players the players to send the formatted text
-     * @return the instance of this message builder
-     */
-    public MessageBuilder sendTo(Player... players) {
-        for (Player p : players) {
-            p.sendRaw(asJson());
-        }
-
-        return this;
+    @Override
+    public String toString() {
+        return GSON.toJson(this.obj);
     }
 }

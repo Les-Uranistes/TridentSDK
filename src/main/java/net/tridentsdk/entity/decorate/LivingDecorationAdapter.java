@@ -31,6 +31,7 @@ import net.tridentsdk.event.entity.EntityDamageEvent;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class LivingDecorationAdapter extends DecorationAdapter<LivingEntity> implements LivingEntity {
+
     private final LivingEntity entity;
     private final AtomicInteger restTicks = new AtomicInteger(0);
     private volatile AiModule ai;
@@ -109,32 +110,13 @@ public class LivingDecorationAdapter extends DecorationAdapter<LivingEntity> imp
     }
 
     @Override
-    public <T extends Projectile> T launchProjectile(EntityProperties properties) {
-        return entity.launchProjectile(properties);
-    }
-
-    @Override
-    protected LivingEntity original() {
-        return entity;
+    public AiModule aiModule() {
+        return (ai == null) ? Trident.instance().aiHandler().defaultAiFor(type()) : ai;
     }
 
     @Override
     public void setAiModule(AiModule module) {
         this.ai = module;
-    }
-
-    @Override
-    public AiModule aiModule() {
-        return (ai == null) ? Trident.instance().aiHandler().defaultAiFor(type()) : ai;
-    }
-
-    public void performAiUpdate() {
-        if (this.restTicks.get() == 0) {
-            this.restTicks.set(this.aiModule().think(this));
-        } else {
-            this.restTicks.getAndDecrement();
-            // TODO: follow path
-        }
     }
 
     @Override
@@ -145,5 +127,24 @@ public class LivingDecorationAdapter extends DecorationAdapter<LivingEntity> imp
     @Override
     public void setPath(Path path) {
         this.path = path;
+    }
+
+    @Override
+    public <T extends Projectile> T launchProjectile(EntityProperties properties) {
+        return entity.launchProjectile(properties);
+    }
+
+    @Override
+    protected LivingEntity original() {
+        return entity;
+    }
+
+    public void performAiUpdate() {
+        if (this.restTicks.get() == 0) {
+            this.restTicks.set(this.aiModule().think(this));
+        } else {
+            this.restTicks.getAndDecrement();
+            // TODO: follow path
+        }
     }
 }

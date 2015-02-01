@@ -39,6 +39,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  */
 @ThreadSafe
 public class ConfigList<V> implements List<V> {
+
     private static final long serialVersionUID = -7535821700183585211L;
 
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
@@ -54,6 +55,17 @@ public class ConfigList<V> implements List<V> {
     private int size = 0;
 
     /**
+     * Creates a new linked list by transferring elements from an existing collection
+     *
+     * @param handle     the array handler for the new list
+     * @param collection the initializing elements
+     */
+    protected ConfigList(JsonArray handle, Collection<V> collection) {
+        this(handle);
+        this.addAll(collection);
+    }
+
+    /**
      * Creates a new linked list for the JSON config serializable
      *
      * @param handle the array handler for the list
@@ -63,23 +75,101 @@ public class ConfigList<V> implements List<V> {
         head.next = tail;
     }
 
-    /**
-     * Creates a new linked list by transferring elements from an existing collection
-     *
-     * @param handle        the array handler for the new list
-     * @param collection    the initializing elements
-     */
-    protected ConfigList(JsonArray handle, Collection<V> collection) {
-        this(handle);
-        this.addAll(collection);
-    }
+    @AccessNoDoc
+    private static final class Node<E> {
 
-    private void lockFully() {
+        @GuardedBy("lock")
+        E value;
+        @GuardedBy("lock")
+        Node<E> next;
+        @GuardedBy("lock")
+        Node<E> prev;
+
+        private Node(E value, Node<E> next, Node<E> prev) {
+            this.value = value;
+            this.next = next;
+            this.prev = prev;
+        }
+
+        @Override
+        public String toString() {
+            return "Node{" +
+                    "value=" + value +
+                    ", next=" + next +
+                    ", prev=" + prev +
+                    '}';
+        }
+    }    private void lockFully() {
         write.unlock();
         read.lock();
     }
 
-    private void unlockFully() {
+    @AccessNoDoc
+    private final class ConfigIterator implements ListIterator<V> {
+
+        private final AtomicInteger current = new AtomicInteger();
+
+        ConfigIterator(int index) {
+            current.set(index);
+        }
+
+        @Override
+        public boolean hasNext() {
+            return (current.get() + 1) <= size();
+        }
+
+        @Override
+        public V next() {
+            return get(current.incrementAndGet());
+        }
+
+        @Override
+        public boolean hasPrevious() {
+            return current.get() > 0;
+        }
+
+        @Override
+        public V previous() {
+            read.lock();
+            try {
+                return nodeAt(current.get()).prev.value;
+            } finally {
+                read.unlock();
+            }
+        }
+
+        @Override
+        public int nextIndex() {
+            return current.get() + 1;
+        }
+
+        @Override
+        public int previousIndex() {
+            return current.get() - 1;
+        }
+
+        @Override
+        public void remove() {
+            ConfigList.this.remove(current.get());
+        }
+
+        @Override
+        public void set(V v) {
+            ConfigList.this.set(current.get(), v);
+        }
+
+        @Override
+        public void add(V v) {
+            ConfigList.this.add(v);
+        }
+
+        @Override
+        public String toString() {
+            return "ConfigIterator{" +
+                    "current=" + current +
+                    '}';
+        }
+    }    private void unlockFully() {
         read.unlock();
         write.unlock();
     }
@@ -88,7 +178,7 @@ public class ConfigList<V> implements List<V> {
         int size = this.size;
 
         if ((index < 0) && (index > size)) {
-            throw  new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
     }
 
@@ -115,7 +205,7 @@ public class ConfigList<V> implements List<V> {
         try {
             checkElementIndex(index);
             retournais = nodeAt(index).value;
-        } catch(IndexOutOfBoundsException eIOB) {
+        } catch (IndexOutOfBoundsException eIOB) {
             TridentLogger.error(eIOB);
         } finally {
             read.unlock();
@@ -226,7 +316,7 @@ public class ConfigList<V> implements List<V> {
             size -= 1;
 
             retournais = value;
-        } catch(IndexOutOfBoundsException eIOB) {
+        } catch (IndexOutOfBoundsException eIOB) {
             TridentLogger.error(eIOB);
         } finally {
             write.unlock();
@@ -265,7 +355,7 @@ public class ConfigList<V> implements List<V> {
             int idx = size - 1;
             Node<V> node = tail;
             while ((node = node.prev) != null) {
-                if (node.value == o){
+                if (node.value == o) {
                     retournais = idx;
                     break;
                 } else {
@@ -469,94 +559,7 @@ public class ConfigList<V> implements List<V> {
         return null;
     }
 
-    @AccessNoDoc
-    private static final class Node<E> {
-        @GuardedBy("lock")
-        E value;
-        @GuardedBy("lock")
-        Node<E> next;
-        @GuardedBy("lock")
-        Node<E> prev;
 
-        private Node(E value, Node<E> next, Node<E> prev) {
-            this.value = value;
-            this.next = next;
-            this.prev = prev;
-        }
 
-        @Override
-        public String toString() {
-            return "Node{" +
-                    "value=" + value +
-                    ", next=" + next +
-                    ", prev=" + prev +
-                    '}';
-        }
-    }
 
-    @AccessNoDoc
-    private final class ConfigIterator implements ListIterator<V> {
-        private final AtomicInteger current = new AtomicInteger();
-
-        ConfigIterator(int index) {
-            current.set(index);
-        }
-
-        @Override
-        public boolean hasNext() {
-            return (current.get() + 1) <= size();
-        }
-
-        @Override
-        public V next() {
-            return get(current.incrementAndGet());
-        }
-
-        @Override
-        public boolean hasPrevious() {
-            return current.get() > 0;
-        }
-
-        @Override
-        public V previous() {
-            read.lock();
-            try {
-                return nodeAt(current.get()).prev.value;
-            } finally {
-                read.unlock();
-            }
-        }
-
-        @Override
-        public int nextIndex() {
-            return current.get() + 1;
-        }
-
-        @Override
-        public int previousIndex() {
-            return current.get() - 1;
-        }
-
-        @Override
-        public void remove() {
-            ConfigList.this.remove(current.get());
-        }
-
-        @Override
-        public void set(V v) {
-            ConfigList.this.set(current.get(), v);
-        }
-
-        @Override
-        public void add(V v) {
-            ConfigList.this.add(v);
-        }
-
-        @Override
-        public String toString() {
-            return "ConfigIterator{" +
-                    "current=" + current +
-                    '}';
-        }
-    }
 }

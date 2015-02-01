@@ -27,6 +27,7 @@ import net.tridentsdk.window.Window;
  * @author The TridentSDK Team
  */
 public class PlayerClickItemEvent extends Event implements Cancellable {
+
     private final Window window;
     private final short clickedSlot;
     private final int actionId;

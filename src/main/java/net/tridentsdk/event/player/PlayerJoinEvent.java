@@ -25,6 +25,7 @@ import net.tridentsdk.entity.living.Player;
  * @author The TridentSDK Team
  */
 public class PlayerJoinEvent extends PlayerEvent {
+
     /**
      * @param player the player associated with this event
      */

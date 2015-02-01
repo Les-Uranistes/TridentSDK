@@ -32,6 +32,7 @@ import java.util.Locale;
  * @author The TridentSDK Team
  */
 public interface Player extends LivingEntity, Messagable, CommandIssuer, InventoryHolder {
+
     /**
      * Returns the flying speed of the Player
      *

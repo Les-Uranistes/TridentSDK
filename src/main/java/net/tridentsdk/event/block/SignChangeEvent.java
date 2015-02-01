@@ -31,6 +31,7 @@ import javax.annotation.concurrent.GuardedBy;
  * @author The TridentSDK Team
  */
 public class SignChangeEvent extends BlockEvent implements Cancellable {
+
     private final Player editor;
     @Volatile(policy = "No individual element modify",
             reason = "Not thread safe",
@@ -82,6 +83,7 @@ public class SignChangeEvent extends BlockEvent implements Cancellable {
      * Returns the text of the specified line
      *
      * @param i line of the Sign
+     *
      * @return String text of the specified line
      */
     public String line(int i) {
@@ -97,6 +99,7 @@ public class SignChangeEvent extends BlockEvent implements Cancellable {
      *
      * @param i    line of the Sign
      * @param text String text to set the line as
+     *
      * @return String previous text on the specified line
      */
     public String setLine(int i, String text) {

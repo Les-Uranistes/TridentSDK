@@ -26,6 +26,7 @@ import net.tridentsdk.event.Cancellable;
  * @author The TridentSDK Team
  */
 public class PlayerChatEvent extends PlayerEvent implements Cancellable {
+
     private volatile boolean cancelled;
 
     private String message;
@@ -43,19 +44,19 @@ public class PlayerChatEvent extends PlayerEvent implements Cancellable {
     }
 
     /**
-     * @return return the message sent
-     */
-
-    public String message() {
-        return this.message;
-    }
-
-    /**
      * @param message the message associated with this event
      */
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    /**
+     * @return return the message sent
+     */
+
+    public String message() {
+        return this.message;
     }
 
     @Override

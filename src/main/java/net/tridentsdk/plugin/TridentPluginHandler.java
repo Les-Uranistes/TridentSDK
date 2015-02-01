@@ -46,8 +46,8 @@ import java.util.jar.JarFile;
  * @author The TridentSDK Team
  */
 public class TridentPluginHandler {
-    private static final ExecutorFactory<TridentPlugin> PLUGIN_EXECUTOR_FACTORY = Factories.threads()
-            .executor(2, "Plugins");
+
+    private static final ExecutorFactory<TridentPlugin> PLUGIN_EXECUTOR_FACTORY = Factories.threads().executor(2, "Plugins");
     private final List<TridentPlugin> plugins = Lists.newArrayList();
 
     /**
@@ -66,29 +66,28 @@ public class TridentPluginHandler {
             @Override
             public void run() {
                 TridentPlugin plugin = null;
-                try(JarFile jarFile = new JarFile(pluginFile)) {
-                    // load all classes
-                    PluginClassLoader loader = new PluginClassLoader(pluginFile, getClass().getClassLoader());
-                    Class<? extends TridentPlugin> pluginClass = null;
+                try (JarFile jarFile = new JarFile(pluginFile);
+                     PluginClassLoader loader = new PluginClassLoader(pluginFile, getClass().getClassLoader())) {
 
+                    Class<? extends TridentPlugin> pluginClass = null;
                     Enumeration<JarEntry> entries = jarFile.entries();
+
                     while (entries.hasMoreElements()) {
                         JarEntry entry = entries.nextElement();
 
-                        if(entry.isDirectory() || !entry.getName().endsWith(".class")) {
-                            continue;
-                        }
+                        if (!(entry.isDirectory() || !entry.getName().endsWith(".class"))) {
+                            String name = entry.getName().replace(".class", "").replace(File.separatorChar, '.');
+                            Class<?> loadedClass = loader.loadClass(name);
 
-                        String name = entry.getName().replace(".class", "").replace('/', '.');
-                        Class<?> loadedClass = loader.loadClass(name);
+                            loader.putClass(loadedClass);
 
-                        loader.putClass(loadedClass);
+                            if (TridentPlugin.class.isAssignableFrom(loadedClass)) {
+                                if (pluginClass != null) {
+                                    TridentLogger.error(new PluginLoadException("Plugin has more than one main class!"));
+                                }
 
-                        if(TridentPlugin.class.isAssignableFrom(loadedClass)) {
-                            if(pluginClass != null)
-                                TridentLogger.error(new PluginLoadException("Plugin has more than one main class!"));
-
-                            pluginClass = loadedClass.asSubclass(TridentPlugin.class);
+                                pluginClass = loadedClass.asSubclass(TridentPlugin.class);
+                            }
                         }
                     }
 
@@ -96,76 +95,70 @@ public class TridentPluginHandler {
                     if (pluginClass == null) {
                         TridentLogger.error(new PluginLoadException("Plugin does not have a main class"));
                         loader.unloadClasses();
-                        loader = null; // help gc
-                        return;
+                    } else {
+                        PluginDescription description = pluginClass.getAnnotation(PluginDescription.class);
+
+                        if (description == null) {
+                            TridentLogger.error(new PluginLoadException("PluginDescription annotation does not exist!"));
+                            loader.unloadClasses();
+                        } else {
+                            TridentLogger.log("Loading " + description.name() + " version " + description.version());
+
+                            Constructor<? extends TridentPlugin> defaultConstructor = pluginClass.getSuperclass().asSubclass(TridentPlugin.class).getDeclaredConstructor(File.class, PluginDescription.class, PluginClassLoader.class);
+                            defaultConstructor.setAccessible(true);
+                            plugin = defaultConstructor.newInstance(pluginFile, description, loader);
+
+                            plugins.add(plugin);
+                            PLUGIN_EXECUTOR_FACTORY.set(executor, plugin);
+
+                            plugin.startup(executor);
+                            plugin.onLoad();
+
+                            for (Class<?> cls : loader.locallyLoaded.values()) {
+                                register(plugin, cls, executor);
+                            }
+
+                            plugin.onEnable();
+                            TridentLogger.success("Loaded " + description.name() + " version " + description.version());
+                        }
                     }
 
-                    PluginDescription description = pluginClass.getAnnotation(PluginDescription.class);
-
-                    if (description == null) {
-                        TridentLogger.error(new PluginLoadException("PluginDescription annotation does not exist!"));
-                        loader.unloadClasses();
-                        loader = null; // help gc
-                        return;
-                    }
-
-                    TridentLogger.log("Loading " + description.name() + " version " + description.version());
-
-                    Constructor<? extends TridentPlugin> defaultConstructor = pluginClass.getSuperclass()
-                            .asSubclass(TridentPlugin.class)
-                            .getDeclaredConstructor(File.class, PluginDescription.class, PluginClassLoader.class);
-                    defaultConstructor.setAccessible(true);
-                    plugin = defaultConstructor.newInstance(pluginFile, description, loader);
-
-                    plugins.add(plugin);
-                    PLUGIN_EXECUTOR_FACTORY.set(executor, plugin);
-
-                    plugin.startup(executor);
-                    plugin.onLoad();
-
-                    for (Class<?> cls : loader.locallyLoaded.values()) {
-                        register(plugin, cls, executor);
-                    }
-
-                    plugin.onEnable();
-                    TridentLogger.success("Loaded " + description.name() + " version " + description.version());
                 } catch (IOException | NoSuchMethodException | IllegalAccessException | InvocationTargetException
-                        | InstantiationException | ClassNotFoundException ex) { // UNLOAD PLYGIN
+                        | InstantiationException | ClassNotFoundException ex) {
                     TridentLogger.error(new PluginLoadException(ex));
-                    if (plugin != null)
+                    if (plugin != null) {
                         disable(plugin);
+                    }
                 }
             }
         });
     }
 
     private void register(TridentPlugin plugin, Class<?> cls, TaskExecutor executor) throws InstantiationException {
-        if (Modifier.isAbstract(cls.getModifiers()))
-            return;
+        if (!Modifier.isAbstract(cls.getModifiers())) {
 
-        Object instance = null;
-        Constructor<?> c = null;
+            try {
+                Object instance = null;
+                Constructor<?> constr = null;
+                if (Listener.class.isAssignableFrom(cls) && !cls.isAnnotationPresent(IgnoreRegistration.class)) {
+                    constr = cls.getConstructor();
+                    instance = constr.newInstance();
+                    Trident.eventHandler().registerListener(plugin, executor, (Listener) instance);
+                }
 
-        try {
-            if (Listener.class.isAssignableFrom(cls) && !cls.isAnnotationPresent(IgnoreRegistration.class)) {
-                c = cls.getConstructor();
-                Trident.eventHandler().registerListener(plugin, executor, (Listener) (instance = c.newInstance()));
+                if (Command.class.isAssignableFrom(cls)) {
+                    if (constr == null) {
+                        constr = cls.getConstructor();
+                    }
+                    Trident.commandHandler().addCommand(plugin, executor, (Command) ((instance == null) ? constr.newInstance() : instance));
+                }
+            } catch (NoSuchMethodException e) {
+                TridentLogger.error(new PluginLoadException("A no-arg constructor for class " + cls.getName() + " does not exist"));
+            } catch (IllegalAccessException e) {
+                TridentLogger.error(new PluginLoadException("A no-arg constructor for class " + cls.getName() + " is not accessible"));
+            } catch (InvocationTargetException e) {
+                TridentLogger.error(e);
             }
-
-            if (Command.class.isAssignableFrom(cls)) {
-                if (c == null)
-                    c = cls.getConstructor();
-                Trident.commandHandler()
-                        .addCommand(plugin, executor, (Command) (instance == null ? c.newInstance() : instance));
-            }
-        } catch (NoSuchMethodException e) {
-            TridentLogger.error(
-                    new PluginLoadException("A no-arg constructor for class " + cls.getName() + " does not exist"));
-        } catch (IllegalAccessException e) {
-            TridentLogger.error(
-                    new PluginLoadException("A no-arg constructor for class " + cls.getName() + " is not accessible"));
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
         }
     }
 

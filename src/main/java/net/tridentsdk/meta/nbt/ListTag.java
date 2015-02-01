@@ -25,6 +25,7 @@ import java.util.List;
  * @author The TridentSDK Team
  */
 public class ListTag extends NBTTag implements TagContainer {
+
     final List<NBTTag> tags = Lists.newArrayList();
     final TagType innerType;
 

@@ -24,5 +24,4 @@ import net.tridentsdk.entity.Projectile;
  *
  * @author TridentSDK Team
  */
-public interface WitherSkull extends Projectile {
-}
+public interface WitherSkull extends Projectile {}

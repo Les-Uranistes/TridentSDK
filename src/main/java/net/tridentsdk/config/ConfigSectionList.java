@@ -30,6 +30,7 @@ import java.util.concurrent.locks.Lock;
  */
 @ThreadSafe
 public class ConfigSectionList<V> extends ConfigList<V> {
+
     private final ConfigSection parent;
 
     private final Lock lock = this.write;

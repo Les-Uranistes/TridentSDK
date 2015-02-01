@@ -24,6 +24,7 @@ import net.tridentsdk.event.Cancellable;
  * Called when a player attempts to change their flying state i.e. double-taps jump
  */
 public class PlayerToggleFlyingEvent extends PlayerEvent implements Cancellable {
+
     private final boolean toggleState;
     private volatile boolean cancelled;
 

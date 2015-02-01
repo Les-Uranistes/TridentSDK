@@ -26,6 +26,7 @@ import net.tridentsdk.entity.living.Player;
  * @author The TridentSDK Team
  */
 public class PlayerConsumeEvent extends PlayerHungerEvent {
+
     private final DroppedItem item;
     private volatile boolean cancelled;
 
@@ -43,17 +44,17 @@ public class PlayerConsumeEvent extends PlayerHungerEvent {
     }
 
     /**
-     * @return return the amount of hunger replenished
-     */
-    public double replenishAmount() {
-        return super.feed();
-    }
-
-    /**
      * @param feed the amount of hunger replenished
      */
     public void setReplenishAmount(double feed) {
         super.setFeed(feed);
+    }
+
+    /**
+     * @return return the amount of hunger replenished
+     */
+    public double replenishAmount() {
+        return super.feed();
     }
 
     /**

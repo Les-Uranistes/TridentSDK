@@ -26,6 +26,7 @@ import net.tridentsdk.entity.Entity;
  * @author The TridentSDK Team
  */
 public class EntityBurnByBlockEvent extends EntityBurnEvent {
+
     private final Block causer;
 
     public EntityBurnByBlockEvent(Entity entity, int fireTicks, Block causer) {

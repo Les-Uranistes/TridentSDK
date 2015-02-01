@@ -27,6 +27,7 @@ import net.tridentsdk.entity.projectile.Arrow;
  * @author The TridentSDK Team
  */
 public class EntityShootArrowEvent extends EntityLaunchProjectileEvent {
+
     public EntityShootArrowEvent(Entity entity, Projectile projectile, Entity target) {
         super(entity, projectile, target);
     }

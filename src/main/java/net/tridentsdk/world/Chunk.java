@@ -26,6 +26,7 @@ import net.tridentsdk.base.Block;
  */
 //TODO: add your fucking name to this
 public interface Chunk {
+
     /**
      * I'm under the assumption that this method is supposed to fill the
      * chunk with blocks
@@ -69,12 +70,10 @@ public interface Chunk {
     /**
      * Retrieves a {@code Block} object at the specified coordinate (x, y, z)
      *
-     * @param relX
-     *         x value
-     * @param y
-     *         y value
-     * @param relZ
-     *         z value
+     * @param relX x value
+     * @param y    y value
+     * @param relZ z value
+     *
      * @return relative Block object at specified coordinate values
      */
     Block tileAt(int relX, int y, int relZ);

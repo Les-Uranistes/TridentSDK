@@ -19,12 +19,13 @@ package net.tridentsdk.plugin.cmd;
 
 /**
  * ANSI codes for coloring the console
- *
+ * <p/>
  * <p>Don't use this class if you need console colors. Use {@link net.tridentsdk.plugin.cmd.ServerConsole}</p>
  *
  * @author The TridentSDK Team
  */
 public final class PlatformColor {
+
     /**
      * An empty string
      */
@@ -36,9 +37,9 @@ public final class PlatformColor {
 
     /**
      * Obtains the colors needed by name
-     *
+     * <p/>
      * <p>This is <strong>not</strong> case-sensitive</p>
-     *
+     * <p/>
      * <p>The list of colors which can be retrieved:
      * <ul>
      * <li>reset</li>
@@ -53,6 +54,7 @@ public final class PlatformColor {
      * </ul></p>
      *
      * @param color the name of the color to retrieve the escape for
+     *
      * @return the proper escape code or {@link net.tridentsdk.plugin.cmd.PlatformColor#EMPTY} if it does not exist, or
      * if the platform is windows, which does not support color codes or ANSI escapes
      */

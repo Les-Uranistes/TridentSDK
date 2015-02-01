@@ -26,6 +26,7 @@ import net.tridentsdk.world.World;
  * @author The TridentSDK Team
  */
 public class LightningStrikeEvent extends WeatherEvent {
+
     private final Position location;
 
     public LightningStrikeEvent(World world, Position location) {

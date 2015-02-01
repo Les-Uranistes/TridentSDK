@@ -32,6 +32,7 @@ import java.io.IOException;
  * @author The TridentSDK Team
  */
 public class DisplayInfo {
+
     /**
      * A string containing the current broadcast MOTD of the server
      *
@@ -54,6 +55,7 @@ public class DisplayInfo {
      * Returns the {@link java.io.File} that represents the picture displayed next to the server listing on clients
      *
      * @return the file that represents the picture sent to clients when they ping the server
+     *
      * @see #motdPictureImage() for the representing the image sent to clients
      */
     public File motdPicture() {
@@ -64,6 +66,7 @@ public class DisplayInfo {
      * Gets the {@link java.awt.image.BufferedImage} that represents the Motd picture sent to clients
      *
      * @return the image sent to clients
+     *
      * @see #motdPicture() for the file itself
      */
     public BufferedImage motdPictureImage() {
@@ -84,6 +87,7 @@ public class DisplayInfo {
      * Sets the MOTD image sent to clients, may or may not take a server restart to take effect
      *
      * @param image the image to set it to
+     *
      * @return 0 for success, -1 if this feature is disabled in config, -2 for generic failure
      */
     public int setMotdImage(Image image) {

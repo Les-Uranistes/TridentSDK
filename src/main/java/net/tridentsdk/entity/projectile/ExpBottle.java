@@ -24,5 +24,4 @@ import net.tridentsdk.entity.Projectile;
  *
  * @author TridentSDK Team
  */
-public interface ExpBottle extends Projectile {
-}
+public interface ExpBottle extends Projectile {}

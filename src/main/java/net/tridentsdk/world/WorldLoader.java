@@ -25,10 +25,12 @@ import net.tridentsdk.world.gen.AbstractGenerator;
  * @author The TridentSDK Team
  */
 public interface WorldLoader {
+
     /**
      * Load an existing world inside the server's file container
      *
      * @param world the name of the folder containing a world
+     *
      * @return the world loaded
      */
     World load(String world);
@@ -44,6 +46,7 @@ public interface WorldLoader {
      * Creates a new world
      *
      * @param name the name of the new world
+     *
      * @return the world which was created
      */
     World createWorld(String name);
@@ -52,6 +55,7 @@ public interface WorldLoader {
      * Checks if the world has been loaded yet
      *
      * @param world the name of the folder to check
+     *
      * @return {@code true} if the world has been loaded
      */
     boolean worldExists(String world);
@@ -62,6 +66,7 @@ public interface WorldLoader {
      * @param world the world which to check the existence of a chunk
      * @param x     the X coordinate of the chunk
      * @param z     the Z coordinate of the chunk
+     *
      * @return {@code true} if the chunk is not present within the world directory
      */
     boolean chunkExists(World world, int x, int z);
@@ -71,6 +76,7 @@ public interface WorldLoader {
      *
      * @param world    the world which to check the existence of a chunk
      * @param location the location which the chunk should be checked for existence
+     *
      * @return {@code true} if the chunk is not present within the world directory
      */
     boolean chunkExists(World world, ChunkLocation location);
@@ -81,6 +87,7 @@ public interface WorldLoader {
      * @param world the world which to load the chunk
      * @param x     the X of the chunk
      * @param z     the Z of the chunk
+     *
      * @return the chunk which was loaded
      */
     Chunk loadChunk(World world, int x, int z);
@@ -90,6 +97,7 @@ public interface WorldLoader {
      *
      * @param world    the world which to load the chunk
      * @param location the location of the chunk to load
+     *
      * @return the chunk which was loaded
      */
     Chunk loadChunk(World world, ChunkLocation location);

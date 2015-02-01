@@ -27,6 +27,7 @@ import net.tridentsdk.entity.decorate.Tameable;
  * @author TridentSDK Team
  */
 public interface Ocelot extends Tameable, Peaceful {
+
     /**
      * The breed of this ocelot, represented as a {@link net.tridentsdk.entity.OcelotType}OcelotType
      *

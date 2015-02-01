@@ -25,5 +25,4 @@ import net.tridentsdk.entity.LivingEntity;
  *
  * @author TridentSDK Team
  */
-public interface Peaceful extends LivingEntity {
-}
+public interface Peaceful extends LivingEntity {}

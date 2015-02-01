@@ -25,6 +25,7 @@ import net.tridentsdk.base.Block;
  * @author TridentSDK Team
  */
 public interface Hanging extends Entity {
+
     /**
      * The block this entity was placed on
      *

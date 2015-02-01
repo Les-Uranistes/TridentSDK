@@ -23,10 +23,8 @@ import net.tridentsdk.factory.Factories;
 import net.tridentsdk.util.TridentLogger;
 
 import javax.annotation.concurrent.ThreadSafe;
-import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Collection;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -37,10 +35,12 @@ import java.util.concurrent.ConcurrentMap;
  *
  * @param <K> the key type
  * @param <V> the value type
+ *
  * @author The TridentSDK Team
  */
 @ThreadSafe
 public class ConcurrentCache<K, V> {
+
     private final ConcurrentMap<K, HeldValueLatch<V>> cache = Factories.collect().createMap();
 
     private ConcurrentCache() {
@@ -51,6 +51,7 @@ public class ConcurrentCache<K, V> {
      *
      * @param <K> the key type
      * @param <V> the value type
+     *
      * @return a new cache
      */
     public static <K, V> ConcurrentCache<K, V> create() {
@@ -62,6 +63,7 @@ public class ConcurrentCache<K, V> {
      *
      * @param key      the key to retrieve the value from, or assign it to
      * @param callable the result of which to assign the key a value if the key is not in the cache
+     *
      * @return the return value of the callable
      */
     public V retrieve(K key, Callable<V> callable) {
@@ -93,6 +95,7 @@ public class ConcurrentCache<K, V> {
      * succeeds
      *
      * @param k the key to retrieve the value with
+     *
      * @return the value associated with the key, or {@code null} if none
      */
     public V retrieve(K k) {
@@ -111,6 +114,7 @@ public class ConcurrentCache<K, V> {
      * Removes the entry assigned to the specified key
      *
      * @param k the key to remove the entry for
+     *
      * @return the old value assigned to the key, otherwise, {@code null} if not in the cache
      */
     public V remove(K k) {

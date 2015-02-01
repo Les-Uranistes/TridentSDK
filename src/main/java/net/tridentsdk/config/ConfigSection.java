@@ -36,6 +36,7 @@ import java.util.List;
  */
 @ThreadSafe
 public class ConfigSection {
+
     final Object handleLock = new Object();
     private final Object parentLock = new Object();
     @GuardedBy("parentLock")
@@ -67,6 +68,7 @@ public class ConfigSection {
      *
      * @param list the collection of objects to serialize to a config section
      * @param <V>  the type in the collection
+     *
      * @return the config section with all the values in the list
      */
     public static <V> ConfigSection addToList(Collection<V> list) {
@@ -85,10 +87,26 @@ public class ConfigSection {
     }
 
     /**
+     * Gets an integer from the config with the given tag
+     * <p/>
+     * <p>Gives {@code 0} if the value could not be found</p>
+     *
+     * @param tag the tag to find the value from
+     *
+     * @return the integer at the tag
+     */
+    public int getInt(String tag) {
+        synchronized (handleLock) {
+            return this.getInt(tag, 0);
+        }
+    }
+
+    /**
      * Gets an integer from the config with the given tag, or defaults to the fallback if the tag is not found
      *
      * @param tag the tag to find the value from
      * @param def the default value if no tag is found
+     *
      * @return the integer at the tag
      */
     public int getInt(String tag, int def) {
@@ -98,16 +116,15 @@ public class ConfigSection {
     }
 
     /**
-     * Gets an integer from the config with the given tag
+     * Checks to see if the section contains the tag
      *
-     * <p>Gives {@code 0} if the value could not be found</p>
+     * @param tag the tag to see if contained
      *
-     * @param tag the tag to find the value from
-     * @return the integer at the tag
+     * @return {@code true} if the tag is in the section, {@code false} if not
      */
-    public int getInt(String tag) {
+    public boolean contains(String tag) {
         synchronized (handleLock) {
-            return this.getInt(tag, 0);
+            return this.jsonHandle.has(tag);
         }
     }
 
@@ -124,29 +141,31 @@ public class ConfigSection {
     }
 
     /**
-     * Gets a double from the config with the given tag, or defaults to the fallback if the tag is not found
-     *
-     * @param tag the tag to find the value from
-     * @param def the default value if no tag is found
-     * @return the double at the tag
-     */
-    public double getDouble(String tag, double def) {
-        synchronized (handleLock) {
-            return this.contains(tag) ? this.jsonHandle.get(tag).getAsDouble() : def;
-        }
-    }
-
-    /**
      * Gets a double from the config with the given tag
-     *
+     * <p/>
      * <p>Gives {@code 0.0D} if the value could not be found</p>
      *
      * @param tag the tag to find the value from
+     *
      * @return the double at the tag
      */
     public double getDouble(String tag) {
         synchronized (handleLock) {
             return this.getDouble(tag, 0.0D);
+        }
+    }
+
+    /**
+     * Gets a double from the config with the given tag, or defaults to the fallback if the tag is not found
+     *
+     * @param tag the tag to find the value from
+     * @param def the default value if no tag is found
+     *
+     * @return the double at the tag
+     */
+    public double getDouble(String tag, double def) {
+        synchronized (handleLock) {
+            return this.contains(tag) ? this.jsonHandle.get(tag).getAsDouble() : def;
         }
     }
 
@@ -163,29 +182,31 @@ public class ConfigSection {
     }
 
     /**
-     * Gets a float from the config with the given tag, or defaults to the fallback if the tag is not found
-     *
-     * @param tag the tag to find the value from
-     * @param def the default value if no tag is found
-     * @return the float at the tag
-     */
-    public float getFloat(String tag, float def) {
-        synchronized (handleLock) {
-            return this.contains(tag) ? this.jsonHandle.get(tag).getAsFloat() : def;
-        }
-    }
-
-    /**
      * Gets an float from the config with the given tag
-     *
+     * <p/>
      * <p>Gives {@code 0.0F if the value could not be found}</p>
      *
      * @param tag the tag to find the value from
+     *
      * @return the float at the tag
      */
     public float getFloat(String tag) {
         synchronized (handleLock) {
             return this.getFloat(tag, 0.0F);
+        }
+    }
+
+    /**
+     * Gets a float from the config with the given tag, or defaults to the fallback if the tag is not found
+     *
+     * @param tag the tag to find the value from
+     * @param def the default value if no tag is found
+     *
+     * @return the float at the tag
+     */
+    public float getFloat(String tag, float def) {
+        synchronized (handleLock) {
+            return this.contains(tag) ? this.jsonHandle.get(tag).getAsFloat() : def;
         }
     }
 
@@ -202,29 +223,31 @@ public class ConfigSection {
     }
 
     /**
-     * Gets a character from the config with the given tag, or defaults to the fallback if the tag is not found
-     *
-     * @param tag the tag to find the value from
-     * @param def the default value if no tag is found
-     * @return the character at the tag
-     */
-    public char getChar(String tag, char def) {
-        synchronized (handleLock) {
-            return this.contains(tag) ? this.jsonHandle.get(tag).getAsCharacter() : def;
-        }
-    }
-
-    /**
      * Gets a character from the config with the given tag
-     *
+     * <p/>
      * <p>Gives {@code \u0000} if the value could not be found</p>
      *
      * @param tag the tag to find the value from
+     *
      * @return the character at the tag
      */
     public char getChar(String tag) {
         synchronized (handleLock) {
             return this.getChar(tag, '\u0000');
+        }
+    }
+
+    /**
+     * Gets a character from the config with the given tag, or defaults to the fallback if the tag is not found
+     *
+     * @param tag the tag to find the value from
+     * @param def the default value if no tag is found
+     *
+     * @return the character at the tag
+     */
+    public char getChar(String tag, char def) {
+        synchronized (handleLock) {
+            return this.contains(tag) ? this.jsonHandle.get(tag).getAsCharacter() : def;
         }
     }
 
@@ -241,29 +264,31 @@ public class ConfigSection {
     }
 
     /**
-     * Gets a boolean from the config with the given tag, defaulting to the fallback if the tag is not found
-     *
-     * @param tag the tag to find the value from
-     * @param def the default value if the tag is not found
-     * @return the boolean at the tag
-     */
-    public boolean getBoolean(String tag, boolean def) {
-        synchronized (handleLock) {
-            return this.contains(tag) ? this.jsonHandle.get(tag).getAsBoolean() : def;
-        }
-    }
-
-    /**
      * Gets a boolean from the config with the given tag
-     *
+     * <p/>
      * <p>Gives {@code false} if the value could not be found</p>
      *
      * @param tag the tag to find the value from
+     *
      * @return the boolean at the tag
      */
     public boolean getBoolean(String tag) {
         synchronized (handleLock) {
             return this.getBoolean(tag, false);
+        }
+    }
+
+    /**
+     * Gets a boolean from the config with the given tag, defaulting to the fallback if the tag is not found
+     *
+     * @param tag the tag to find the value from
+     * @param def the default value if the tag is not found
+     *
+     * @return the boolean at the tag
+     */
+    public boolean getBoolean(String tag, boolean def) {
+        synchronized (handleLock) {
+            return this.contains(tag) ? this.jsonHandle.get(tag).getAsBoolean() : def;
         }
     }
 
@@ -280,29 +305,31 @@ public class ConfigSection {
     }
 
     /**
-     * Gets a byte from the config with the given tag, defaulting to the fallback if the tag is not found
-     *
-     * @param tag the tag to find the value from
-     * @param def the default if the tag is not found
-     * @return the byte at the tag
-     */
-    public byte getByte(String tag, byte def) {
-        synchronized (handleLock) {
-            return this.contains(tag) ? this.jsonHandle.get(tag).getAsByte() : def;
-        }
-    }
-
-    /**
      * Gets a character from the config with the given tag
-     *
+     * <p/>
      * <p>Gives {@code (byte) 0} if the value could not be found</p>
      *
      * @param tag the tag to find the value from
+     *
      * @return the character at the tag
      */
     public byte getByte(String tag) {
         synchronized (handleLock) {
             return this.getByte(tag, (byte) 0);
+        }
+    }
+
+    /**
+     * Gets a byte from the config with the given tag, defaulting to the fallback if the tag is not found
+     *
+     * @param tag the tag to find the value from
+     * @param def the default if the tag is not found
+     *
+     * @return the byte at the tag
+     */
+    public byte getByte(String tag, byte def) {
+        synchronized (handleLock) {
+            return this.contains(tag) ? this.jsonHandle.get(tag).getAsByte() : def;
         }
     }
 
@@ -318,6 +345,12 @@ public class ConfigSection {
         }
     }
 
+    public String getString(String tag) {
+        synchronized (handleLock) {
+            return this.getString(tag, null);
+        }
+    }
+
     /**
      * Gets the string at the specified tag, defaulting to the specified default if not found
      *
@@ -330,22 +363,21 @@ public class ConfigSection {
         }
     }
 
-    public String getString(String tag) {
-        synchronized (handleLock) {
-            return this.getString(tag, null);
-        }
-    }
-
     /**
-     * Sets the string the specified tag
+     * Adds an empty list into the tag
      *
-     * @param tag the tag to set the value
-     * @param s   the string to set at the tag
+     * @param tag  the tag to set the value
+     * @param type the types in the list
+     * @param <V>  the list type
+     *
+     * @return the list added to the section
      */
-    public void setString(String tag, String s) {
+    public <V> List<V> addList(String tag, Class<V> type) {
         synchronized (handleLock) {
-            this.jsonHandle.addProperty(tag, s);
+            this.jsonHandle.add(tag, new JsonArray());
         }
+
+        return this.getList(tag, type);
     }
 
     /**
@@ -354,6 +386,7 @@ public class ConfigSection {
      * @param tag  the tag to find the value from
      * @param type the types contained in the list
      * @param <V>  the list type
+     *
      * @return the list from the section
      */
     public <V> List<V> getList(String tag, Class<V> type) {
@@ -387,19 +420,18 @@ public class ConfigSection {
     }
 
     /**
-     * Adds an empty list into the tag
+     * Gets the BigInteger at the tag
+     * <p/>
+     * <p>Defaults to {@code null} if not found</p>
      *
-     * @param tag  the tag to set the value
-     * @param type the types in the list
-     * @param <V>  the list type
-     * @return the list added to the section
+     * @param tag the tag to find the value from
+     *
+     * @return the BigInteger at the tag
      */
-    public <V> List<V> addList(String tag, Class<V> type) {
+    public BigInteger getBigInteger(String tag) {
         synchronized (handleLock) {
-            this.jsonHandle.add(tag, new JsonArray());
+            return this.getBigInteger(tag, null);
         }
-
-        return this.getList(tag, type);
     }
 
     /**
@@ -407,25 +439,12 @@ public class ConfigSection {
      *
      * @param tag the tag to find the value from
      * @param def the default value
+     *
      * @return the BigInteger value at the tag
      */
     public BigInteger getBigInteger(String tag, BigInteger def) {
         synchronized (handleLock) {
             return this.contains(tag) ? this.jsonHandle.get(tag).getAsBigInteger() : def;
-        }
-    }
-
-    /**
-     * Gets the BigInteger at the tag
-     *
-     * <p>Defaults to {@code null} if not found</p>
-     *
-     * @param tag the tag to find the value from
-     * @return the BigInteger at the tag
-     */
-    public BigInteger getBigInteger(String tag) {
-        synchronized (handleLock) {
-            return this.getBigInteger(tag, null);
         }
     }
 
@@ -442,29 +461,43 @@ public class ConfigSection {
     }
 
     /**
-     * Gets a BigDecimal at the specified tag, defaulting to the fallback if not found
+     * Sets the string the specified tag
      *
-     * @param tag the tag to find the value from
-     * @param def the default value
-     * @return the value at the tag
+     * @param tag the tag to set the value
+     * @param s   the string to set at the tag
      */
-    public BigDecimal getBigDecimal(String tag, BigDecimal def) {
+    public void setString(String tag, String s) {
         synchronized (handleLock) {
-            return this.contains(tag) ? this.jsonHandle.get(tag).getAsBigDecimal() : def;
+            this.jsonHandle.addProperty(tag, s);
         }
     }
 
     /**
      * Gets a BigDecimal at the specified tag
-     *
+     * <p/>
      * <p>Defaults to {@code null} if the tag is not found</p>
      *
      * @param tag the tag to find the value from
+     *
      * @return the value of the tag
      */
     public BigDecimal getBigDecimal(String tag) {
         synchronized (handleLock) {
             return this.getBigDecimal(tag, null);
+        }
+    }
+
+    /**
+     * Gets a BigDecimal at the specified tag, defaulting to the fallback if not found
+     *
+     * @param tag the tag to find the value from
+     * @param def the default value
+     *
+     * @return the value at the tag
+     */
+    public BigDecimal getBigDecimal(String tag, BigDecimal def) {
+        synchronized (handleLock) {
+            return this.contains(tag) ? this.jsonHandle.get(tag).getAsBigDecimal() : def;
         }
     }
 
@@ -486,6 +519,7 @@ public class ConfigSection {
      * @param tag   the tag to find the value from
      * @param clazz the type of the object
      * @param <V>   the object type
+     *
      * @return the value
      */
     public <V> V getObject(String tag, Class<V> clazz) {
@@ -514,18 +548,6 @@ public class ConfigSection {
     public void remove(String tag) {
         synchronized (handleLock) {
             this.jsonHandle.remove(tag);
-        }
-    }
-
-    /**
-     * Checks to see if the section contains the tag
-     *
-     * @param tag the tag to see if contained
-     * @return {@code true} if the tag is in the section, {@code false} if not
-     */
-    public boolean contains(String tag) {
-        synchronized (handleLock) {
-            return this.jsonHandle.has(tag);
         }
     }
 
@@ -564,10 +586,11 @@ public class ConfigSection {
 
     /**
      * Gets a sub section which has the current section as a parent
-     *
+     * <p/>
      * <p>A new section is created if it does not exist</p>
      *
      * @param tag the tag to get the section from
+     *
      * @return the section with the given tag under this section
      */
     public ConfigSection getConfigSection(String tag) {

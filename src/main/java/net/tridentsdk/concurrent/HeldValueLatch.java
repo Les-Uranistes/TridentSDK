@@ -28,6 +28,7 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 @ThreadSafe
 public class HeldValueLatch<V> {
+
     private final CountDownLatch latch = new CountDownLatch(1);
     private final AtomicReference<V> value = new AtomicReference<>();
 
@@ -38,6 +39,7 @@ public class HeldValueLatch<V> {
      * Creates a new latch that can hold a value
      *
      * @param <V> the type of the value
+     *
      * @return a new value latch
      */
     public static <V> HeldValueLatch<V> create() {
@@ -46,9 +48,9 @@ public class HeldValueLatch<V> {
 
     /**
      * Sets the value in the latch
-     *
+     * <p/>
      * <p>The effects of setting this only once is unspecified</p>
-     *
+     * <p/>
      * <p>This is unsynchronized because all actions prior to counting down <em>happens-before</em> another thread
      * awaits the value</p>
      *
@@ -63,6 +65,7 @@ public class HeldValueLatch<V> {
      * Acquires the value held be the latch, or blocks to wait for the value to become available
      *
      * @return the value held by the latch
+     *
      * @throws InterruptedException if the operation was interrupted while blocked
      */
     public V await() throws InterruptedException {

@@ -37,10 +37,11 @@ import java.util.Map;
  * @author The TridentSDK Team
  */
 public class PluginClassLoader extends URLClassLoader {
+
     final Map<String, Class<?>> locallyLoaded = Factories.collect().createMap();
 
     PluginClassLoader(File pluginFile, ClassLoader loader) throws MalformedURLException {
-        super(new URL[] { pluginFile.toURI().toURL() }, loader);
+        super(new URL[]{ pluginFile.toURI().toURL() }, loader);
     }
 
     void link(Class<?> clazz) {

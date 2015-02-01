@@ -27,6 +27,7 @@ import net.tridentsdk.event.Cancellable;
  * @author The TridentSDK Team
  */
 public class PlayerDigEvent extends PlayerEvent implements Cancellable {
+
     private final BlockOrientation face;
     private final short status;
 

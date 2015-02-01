@@ -24,6 +24,7 @@ import net.tridentsdk.entity.living.Player;
  * Called when an entity is tamed, i.e. a horse or ocelot
  */
 public class EntityTameEvent extends EntityEvent {
+
     private final Player tamer;
     private volatile boolean cancelled;
 

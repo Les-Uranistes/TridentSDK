@@ -26,6 +26,7 @@ import net.tridentsdk.event.Cancellable;
  * @author The TridentSDK Team
  */
 public abstract class BlockGrowthEvent extends BlockEvent implements Cancellable {
+
     private volatile boolean cancelled;
 
     /**

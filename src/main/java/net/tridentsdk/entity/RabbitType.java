@@ -47,6 +47,7 @@ public enum RabbitType {
      * Returns the {@code int} value of the RabbitType
      *
      * @param rabbitType RabbitType
+     *
      * @return {@code int} value of the RabbitType
      */
     public static int asInt(RabbitType rabbitType) {

@@ -34,10 +34,12 @@ import java.nio.file.Paths;
  */
 @ThreadSafe
 public class ConfigFactory {
+
     /**
      * Creates a new configuration from a path specified by a string
      *
      * @param path the path to use
+     *
      * @return the configuration that was created at the path
      */
     public JsonConfig createConfig(String path) {
@@ -48,6 +50,7 @@ public class ConfigFactory {
      * Allows more control over the pathing in which to create the configuration
      *
      * @param file the file to use a config
+     *
      * @return the configuration that was converted
      */
     public JsonConfig createConfig(File file) {
@@ -58,6 +61,7 @@ public class ConfigFactory {
      * Allows more control over the pathing in which to create the configuration
      *
      * @param path the NIO path format used to create the configuration
+     *
      * @return the configuration that was converted
      */
     public JsonConfig createConfig(Path path) {
@@ -78,6 +82,7 @@ public class ConfigFactory {
      *
      * @param parent the parenting config section. Usually a {@link net.tridentsdk.config.JsonConfig}.
      * @param obj    the value to place under the section. Can be {@code null}.
+     *
      * @return the new section
      */
     public ConfigSection newSection(ConfigSection parent, JsonObject obj) {

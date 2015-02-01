@@ -54,6 +54,7 @@ public enum Instrument {
      * Resolves the Instrument from its respective Byte value
      *
      * @param b Byte representing the Instrument
+     *
      * @return Instrument from the supplied Byte
      */
     public static Instrument fromByte(byte b) {

@@ -29,6 +29,7 @@ import net.tridentsdk.window.inventory.Item;
  * @author The TridentSDK Team
  */
 public class PlayerBucketFillEvent extends BlockBreakEvent {
+
     public PlayerBucketFillEvent(Player player, Block block, BlockOrientation blockFace, Item itemInHand) {
         super(player, block, blockFace, itemInHand);
     }

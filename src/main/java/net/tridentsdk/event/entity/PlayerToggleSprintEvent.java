@@ -25,6 +25,7 @@ import net.tridentsdk.event.player.PlayerEvent;
  * Called when a player tries to start sprinting, even if hunger would otherwise prevent them from sprinting
  */
 public class PlayerToggleSprintEvent extends PlayerEvent implements Cancellable {
+
     private final boolean toggle;
     private volatile boolean cancelled;
 

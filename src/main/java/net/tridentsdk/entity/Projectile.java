@@ -25,6 +25,7 @@ import net.tridentsdk.entity.living.ProjectileLauncher;
  * @author TridentSDK Team
  */
 public interface Projectile extends Entity {
+
     /**
      * Performs hit action
      */

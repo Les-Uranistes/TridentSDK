@@ -28,10 +28,12 @@ import java.util.concurrent.Executor;
  * A task executor that has multiple specified threads
  *
  * @param <E> the task assignment type
+ *
  * @author The TridentSDK Team
  */
 @ThreadSafe
 public interface ExecutorFactory<E> extends Executor {
+
     /**
      * The thread with the least amount of tasks assigned to it
      *
@@ -41,17 +43,18 @@ public interface ExecutorFactory<E> extends Executor {
 
     /**
      * Assigns the scaled thread to the assignment
-     *
+     * <p/>
      * <p>If already assigned, the executor is returned for the fast-path</p>
      *
      * @param assignment the assignment that uses the executor
+     *
      * @return the executor assigned
      */
     TaskExecutor assign(E assignment);
 
     /**
      * Adds a scaled thread to the assignment Map, useful if the assignment is created with the thread
-     *
+     * <p/>
      * <p>Cannot replace existing entries. Acquired threads using {@link #assign(Object)} cannot be set.</p>
      *
      * @param executor   the executor assigned

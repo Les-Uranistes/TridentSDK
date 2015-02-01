@@ -22,12 +22,13 @@ import java.io.Serializable;
 
 /**
  * Stores the location of a Chunk
+ * https://www.securecoding.cert.org/confluence/display/java/TSM03-J.+Do+not+publish+partially+initialized+objects
  *
  * @author The TridentSDK Team, sexcel
  */
 //TODO: While this mutable object is a compliant solution to the partially initialized objects problem, it is still not deemed a thread-safe alternative as seen in the provided link below
-//https://www.securecoding.cert.org/confluence/display/java/TSM03-J.+Do+not+publish+partially+initialized+objects
 public class ChunkLocation implements Serializable, Cloneable {
+
     private static final long serialVersionUID = 9083698035337137603L;
     private final int x;
     private final int z;
@@ -35,10 +36,8 @@ public class ChunkLocation implements Serializable, Cloneable {
     /**
      * Sets the coordinates(x,z) of this ChunkLocation
      *
-     * @param x
-     *         x value
-     * @param z
-     *         z value
+     * @param x x value
+     * @param z z value
      */
     private ChunkLocation(int x, int z) {
         this.x = x;
@@ -48,10 +47,9 @@ public class ChunkLocation implements Serializable, Cloneable {
     /**
      * Creates a new ChunkLocation object with the give coordinates(x,z)
      *
-     * @param x
-     *         x value
-     * @param z
-     *         z value
+     * @param x x value
+     * @param z z value
+     *
      * @return new instantiated ChunkLocation
      */
     public static ChunkLocation create(int x, int z) {
@@ -79,14 +77,14 @@ public class ChunkLocation implements Serializable, Cloneable {
     /**
      * Compares the this with the passed Object and compares coordinates(x,z) if the obj is an instanceof ChunkLocation
      *
-     * @param obj
-     *         Object to compare
+     * @param obj Object to compare
+     *
      * @return true if ChunkLocation and coordinates match(x,z), else false
      */
     @Override
     public boolean equals(Object obj) {
         return (obj instanceof ChunkLocation) &&
-                ((ChunkLocation) obj).x == x && ((ChunkLocation) obj).z == z;
+                (((ChunkLocation) obj).x == x) && (((ChunkLocation) obj).z == z);
     }
 
     /**
@@ -101,8 +99,7 @@ public class ChunkLocation implements Serializable, Cloneable {
         Object retVal = null;
         try {
             retVal = super.clone();
-        }
-        catch (CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
 

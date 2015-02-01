@@ -17,9 +17,9 @@
 
 package net.tridentsdk.world;
 
-import net.tridentsdk.Position;
 import net.tridentsdk.Difficulty;
 import net.tridentsdk.GameMode;
+import net.tridentsdk.Position;
 import net.tridentsdk.base.Block;
 import net.tridentsdk.entity.Entity;
 
@@ -32,6 +32,7 @@ import java.util.Set;
  */
 //TODO: add your fucking name to this
 public interface World extends Cloneable {
+
     /**
      * Gets the name of the world
      *

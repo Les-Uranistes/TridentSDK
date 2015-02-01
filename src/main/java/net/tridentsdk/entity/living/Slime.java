@@ -25,6 +25,7 @@ import net.tridentsdk.entity.decorate.Hostile;
  * @author TridentSDK Team
  */
 public interface Slime extends Hostile {
+
     /**
      * Returns the size of this slime
      *

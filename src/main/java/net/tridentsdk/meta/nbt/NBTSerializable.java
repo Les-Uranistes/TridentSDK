@@ -17,5 +17,4 @@
 
 package net.tridentsdk.meta.nbt;
 
-public interface NBTSerializable {
-}
+public interface NBTSerializable {}

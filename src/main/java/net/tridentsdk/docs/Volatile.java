@@ -23,6 +23,7 @@ package net.tridentsdk.docs;
  * @author the TridentSDK Team
  */
 public @interface Volatile {
+
     /**
      * What is being protected and what needs to be done
      */

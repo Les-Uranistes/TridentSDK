@@ -25,6 +25,7 @@ import net.tridentsdk.entity.EntityType;
  * @author The TridentSDK Team
  */
 public interface AiHandler {
+
     /**
      * Returns the AI Module that is the default for a certain type of entity
      */
@@ -33,7 +34,7 @@ public interface AiHandler {
     /**
      * Sets the AI for this entity type, used to provide a separate AiModule for
      * Entities
-     *
+     * <p/>
      * <p>Entities of this type in the world will immediately start using this
      * {@link net.tridentsdk.entity.living.ai.AiModule}, even if they were
      * created before this was set.</p>

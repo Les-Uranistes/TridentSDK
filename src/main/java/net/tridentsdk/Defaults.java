@@ -33,6 +33,7 @@ import java.util.concurrent.ThreadFactory;
  */
 @ThreadSafe
 public final class Defaults {
+
     /**
      * Maximum allowed players on the server
      */

@@ -32,9 +32,11 @@ import java.util.UUID;
  * specifics
  *
  * @param <T> the entity type to delegate to
+ *
  * @author The TridentSDK Team
  */
 public class DecorationAdapter<T extends Entity> implements Entity {
+
     private final T entity;
 
     /**

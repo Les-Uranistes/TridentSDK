@@ -25,6 +25,7 @@ import net.tridentsdk.entity.Entity;
  * @author The TridentSDK Team
  */
 public class EntityTeleportEvent extends EntityMoveEvent {
+
     public EntityTeleportEvent(Entity entity) {
         super(entity);
     }

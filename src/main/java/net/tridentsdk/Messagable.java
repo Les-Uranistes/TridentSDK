@@ -23,6 +23,7 @@ package net.tridentsdk;
  * @author The TridentSDK Team
  */
 public interface Messagable {
+
     /**
      * Send an array of messages to this recipient
      *
