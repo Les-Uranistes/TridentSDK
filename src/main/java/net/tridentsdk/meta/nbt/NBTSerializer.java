@@ -36,91 +36,83 @@ public final class NBTSerializer {
         return deserialize(instance, tag);
     }
 
+    // TODO fonction est plus compliqué (20+)
     public static <T> T deserialize(T instance, CompoundTag tag) {
-        if (!(NBTSerializable.class.isAssignableFrom(instance.getClass()))) {
-            TridentLogger.error(new IllegalArgumentException("Provided object is not serializable!"));
-        }
+        if (NBTSerializable.class.isAssignableFrom(instance.getClass())) {
+            FastClass cls = FastClass.get(instance.getClass());
 
-        FastClass cls = FastClass.get(instance.getClass());
+            for (FastField field : cls.fields()) {
+                Field fld = field.toField();
 
-        for (FastField field : cls.fields()) {
-            Field f = field.toField();
+                if (fld.isAnnotationPresent(NBTField.class)) {
+                    String tagName = fld.getAnnotation(NBTField.class).name();
+                    TagType type = fld.getAnnotation(NBTField.class).type();
 
-            if (!f.isAnnotationPresent(NBTField.class)) {
-                continue;
-            }
+                    NBTTag value = tag.containsTag(tagName) ? tag.getTag(tagName) : new NullTag(tagName);
 
-            String tagName = f.getAnnotation(NBTField.class).name();
-            TagType type = f.getAnnotation(NBTField.class).type();
-            NBTTag value;
+                    if (value.type() == type) {
+                        switch (value.type()) {
+                            case BYTE:
+                                field.set(instance, value.asType(ByteTag.class).value());
+                                break;
 
-            if (!tag.containsTag(tagName)) {
-                value = new NullTag(tagName);
-            } else {
-                value = tag.getTag(tagName);
-            }
+                            case BYTE_ARRAY:
+                                field.set(instance, value.asType(ByteArrayTag.class).value());
+                                break;
 
-            if (value.type() != type) {
-                continue;
-            }
+                            case COMPOUND:
+                                if (NBTSerializable.class.isAssignableFrom(field.toField().getType())) {
+                                    field.set(instance, deserialize(field.toField().getType(), value.asType(CompoundTag.class)));
+                                } else {
+                                    field.set(instance, value);
+                                }
 
-            switch (value.type()) {
-                case BYTE:
-                    field.set(instance, value.asType(ByteTag.class).value());
-                    break;
+                                break;
 
-                case BYTE_ARRAY:
-                    field.set(instance, value.asType(ByteArrayTag.class).value());
-                    break;
+                            case DOUBLE:
+                                field.set(instance, value.asType(DoubleTag.class).value());
+                                break;
 
-                case COMPOUND:
-                    if (NBTSerializable.class.isAssignableFrom(field.toField().getType())) {
-                        field.set(instance, deserialize(field.toField().getType(), value.asType(CompoundTag.class)));
-                    } else {
-                        field.set(instance, value);
+                            case FLOAT:
+                                field.set(instance, value.asType(FloatTag.class).value());
+                                break;
+
+                            case INT:
+                                field.set(instance, value.asType(IntTag.class).value());
+                                break;
+
+                            case INT_ARRAY:
+                                field.set(instance, value.asType(IntArrayTag.class).value());
+                                break;
+
+                            case LONG:
+                                field.set(instance, value.asType(LongTag.class).value());
+                                break;
+
+                            case SHORT:
+                                field.set(instance, value.asType(ShortTag.class).value());
+                                break;
+
+                            case LIST:
+                                field.set(instance, value.asType(ListTag.class));
+                                break;
+
+                            case STRING:
+                                field.set(instance, value.asType(StringTag.class).value());
+                                break;
+
+                            case NULL:
+                                field.set(instance, null);
+                                break;
+
+                            default:
+                                break;
+                        }
                     }
-
-                    break;
-
-                case DOUBLE:
-                    field.set(instance, value.asType(DoubleTag.class).value());
-                    break;
-
-                case FLOAT:
-                    field.set(instance, value.asType(FloatTag.class).value());
-                    break;
-
-                case INT:
-                    field.set(instance, value.asType(IntTag.class).value());
-                    break;
-
-                case INT_ARRAY:
-                    field.set(instance, value.asType(IntArrayTag.class).value());
-                    break;
-
-                case LONG:
-                    field.set(instance, value.asType(LongTag.class).value());
-                    break;
-
-                case SHORT:
-                    field.set(instance, value.asType(ShortTag.class).value());
-                    break;
-
-                case LIST:
-                    field.set(instance, value.asType(ListTag.class));
-                    break;
-
-                case STRING:
-                    field.set(instance, value.asType(StringTag.class).value());
-                    break;
-
-                case NULL:
-                    field.set(instance, null);
-                    break;
-
-                default:
-                    break;
+                }
             }
+        } else {
+            TridentLogger.error(new IllegalArgumentException("Provided object is not serializable!"));
         }
 
         return instance;
