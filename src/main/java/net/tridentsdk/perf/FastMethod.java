@@ -26,6 +26,7 @@ import net.tridentsdk.docs.InternalUseOnly;
  * @author The TridentSDK Team
  */
 public class FastMethod {
+
     private final MethodAccess access;
     private final String name;
     private final Object instance;
@@ -42,6 +43,7 @@ public class FastMethod {
      *
      * @param instance the instance of the class to use, to {@code null for static methods}
      * @param args     the parameter values for the method
+     *
      * @return the return type of the method, or {@code null} for {@code void} methods
      */
     public Object invoke(Object instance, Object... args) {
@@ -52,6 +54,7 @@ public class FastMethod {
      * Invokes the method without parameters (no-arg)
      *
      * @param instance the instance of the class to use, to {@code null for static methods}
+     *
      * @return the return type of the method, or {@code null} for {@code void} methods
      */
     public Object invoke(Object instance) {

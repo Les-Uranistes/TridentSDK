@@ -26,6 +26,7 @@ import java.lang.reflect.Field;
  * NOTE: This class only applies to any field which is not private
  */
 public class FastField {
+
     private final FieldAccess access;
     private final String field;
     private final FastClass owner;
