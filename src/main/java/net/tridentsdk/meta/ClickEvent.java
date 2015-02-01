@@ -26,6 +26,15 @@ public class ClickEvent {
     private ClickAction action;
     private String value;
 
+    public ClickEvent(ClickAction acteClique, String valu) {
+        this.action = acteClique;
+        this.value = valu;
+    }
+
+    public ClickEvent() {
+        this(null, null);
+    }
+
     /**
      * Sets the action that occurs when the player clicks the chat message
      *
