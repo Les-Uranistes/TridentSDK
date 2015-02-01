@@ -17,6 +17,12 @@
 
 package net.tridentsdk.world;
 
+/**
+ * I (sexcel) am under the assumption that this class represents the Minecraft Dimension and ID
+ * TODO: add your fucking name to this
+ *
+ * @author sexcel
+ */
 public enum Dimension {
     NETHER(-1),
     OVERWORLD(0),
@@ -24,20 +30,41 @@ public enum Dimension {
 
     private final byte b;
 
+
+    /**
+     * I (sexcel) am under the assumption that this Constructor takes a Dimension id and casts it to the byte value b
+     *
+     * @param i
+     *         dimension id
+     */
     Dimension(int i) {
         this.b = (byte) i;
     }
 
+    /**
+     * Returns the relative dimension based on the passed id
+     *
+     * @param i
+     *         id
+     * @return relative Dimension value, else null
+     */
     public static Dimension dimension(int i) {
+        Dimension retVal = null;
         for (Dimension dimension : values()) {
             if (dimension.b == i) {
-                return dimension;
+                retVal = dimension;
+                break;
             }
         }
 
-        return null;
+        return retVal;
     }
 
+    /**
+     * Returns byte value b
+     *
+     * @return byte value b
+     */
     public byte asByte() {
         return this.b;
     }
