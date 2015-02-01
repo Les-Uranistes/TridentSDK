@@ -112,19 +112,18 @@ public class ConcurrentCache<K, V> {
      * @return the old value assigned to the key, otherwise, {@code null} if not in the cache
      */
     public V remove(K k) {
+        V retournais = null;
         HeldValueLatch<V> val = this.cache.get(k);
 
-        if (val == null) {
-            return null;
+        if (val != null) {
+            this.cache.remove(k);
+            try {
+                retournais = val.await();
+            } catch (InterruptedException e) {
+                TridentLogger.error(e);
+            }
         }
-
-        this.cache.remove(k);
-        try {
-            return val.await();
-        } catch (InterruptedException e) {
-            TridentLogger.error(e);
-            return null;
-        }
+        return retournais;
     }
 
     public Set<K> keys() {
