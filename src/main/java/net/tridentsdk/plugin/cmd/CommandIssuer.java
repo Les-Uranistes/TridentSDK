@@ -25,6 +25,7 @@ import net.tridentsdk.Messagable;
  * @author The TridentSDK Team
  */
 public interface CommandIssuer extends Messagable {
+
     /**
      * Issues a command from this sender, forcing them to run it
      */

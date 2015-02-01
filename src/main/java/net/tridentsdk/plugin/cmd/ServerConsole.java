@@ -21,12 +21,13 @@ import net.tridentsdk.Messagable;
 
 /**
  * Represents a console which runs the server, can be sent messages and execute commands
- *
+ * <p/>
  * <p>Includes hardcoded ANSI escapes for console colors</p>
  *
  * @author The TridentSDK Team
  */
 public interface ServerConsole extends Messagable, CommandIssuer {
+
     //TODO déplaciez a affichier unique
     public static final String RESET = PlatformColor.forColor("reset");
     public static final String BLACK = PlatformColor.forColor("black");

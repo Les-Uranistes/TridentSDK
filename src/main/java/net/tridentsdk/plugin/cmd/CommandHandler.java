@@ -35,6 +35,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 public class CommandHandler {
+
     // TODO: Make this a dictionary tree for fast lookup
     private static final Map<String, CommandData> COMMANDS = Factories.collect().createMap();
 
@@ -109,15 +110,13 @@ public class CommandHandler {
         cmd.handle(issuer, args, contents[0]);
     }
 
-    public int addCommand(TridentPlugin plugin, @Nonnull TaskExecutor executor, Command command) throws
-            PluginLoadException {
+    public int addCommand(TridentPlugin plugin, @Nonnull TaskExecutor executor, Command command) throws PluginLoadException {
         CommandDescription description = command.getClass().getAnnotation(CommandDescription.class);
         int retournais = 0; // TODO: return something meaningful
 
 
         if (description == null) {
-            TridentLogger.error(new PluginLoadException(
-                    "Error in registering commands: Class does not have annotation " + "\"CommandDescription\"!"));
+            TridentLogger.error(new PluginLoadException("Error in registering commands: Class does not have annotation " + "\"CommandDescription\"!"));
             retournais = 0;
         } else {
             String name = description.name();
@@ -169,6 +168,7 @@ public class CommandHandler {
     }
 
     private static class CommandData {
+
         private final String permission;
         private final int priority;
         private final String[] aliases;
@@ -177,8 +177,7 @@ public class CommandHandler {
         private final TridentPlugin plugin;
         private final TaskExecutor executor;
 
-        CommandData(String name, int priority, String[] aliases, String permission, Command command,
-                    TridentPlugin plugin, TaskExecutor executor) {
+        CommandData(String name, int priority, String[] aliases, String permission, Command command, TridentPlugin plugin, TaskExecutor executor) {
             this.priority = priority;
             this.name = name;
             this.aliases = aliases;
