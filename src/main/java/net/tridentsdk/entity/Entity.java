@@ -30,6 +30,7 @@ import java.util.UUID;
  * @author The TridentSDK Team
  */
 public interface Entity {
+
     /**
      * Moves the entity to the specified location
      *
@@ -93,6 +94,7 @@ public interface Entity {
      * Gets the entities that are within proximity to this entity
      *
      * @param radius the spherical radius to look for entities around
+     *
      * @return the collection of entities within the radius around the entity
      */
     Set<Entity> withinRange(double radius);
@@ -129,6 +131,7 @@ public interface Entity {
      * The identifier for this entity for runtime, see uniqueId for a set id of the entity
      *
      * @return the id to all entities on the server at runtime
+     *
      * @see net.tridentsdk.entity.Entity#uniqueId()
      */
     int entityId();

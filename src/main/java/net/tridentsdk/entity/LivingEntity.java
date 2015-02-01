@@ -30,6 +30,7 @@ import net.tridentsdk.event.entity.EntityDamageEvent;
  * @author The TridentSDK Team
  */
 public interface LivingEntity extends Entity, ProjectileLauncher {
+
     /**
      * Makes the specified entity invisible to the current entity
      *
@@ -67,7 +68,7 @@ public interface LivingEntity extends Entity, ProjectileLauncher {
 
     /**
      * Sets the maximum health of the Entity
-     *
+     * <p/>
      * <p>maxHealth cannot be above the current health of the Entity</p>
      *
      * @param maxHealth maximum health of the Entity
@@ -112,7 +113,7 @@ public interface LivingEntity extends Entity, ProjectileLauncher {
 
     /**
      * Returns the last EntityDamageEvent which inflicted this Entity
-     *
+     * <p/>
      * <p>The event may be cancelled.</p>
      *
      * @return EntityDamageEvent the last Entity to inflict this Entity
@@ -121,7 +122,7 @@ public interface LivingEntity extends Entity, ProjectileLauncher {
 
     /**
      * Returns the player who dealt damage to this Entity since its last full heal
-     *
+     * <p/>
      * <p>Used for death messages</p>
      *
      * @return Player the player who dealt damage to this entity since last full heal Returns null if no player has

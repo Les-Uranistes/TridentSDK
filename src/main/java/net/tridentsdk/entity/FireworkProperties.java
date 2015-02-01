@@ -22,5 +22,4 @@ package net.tridentsdk.entity;
  *
  * @author TridentSDK Team
  */
-public interface FireworkProperties {
-}
+public interface FireworkProperties {}
