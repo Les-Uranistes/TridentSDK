@@ -17,7 +17,6 @@
 
 package net.tridentsdk.world.gen;
 
-import javafx.geometry.Pos;
 import net.tridentsdk.Position;
 import net.tridentsdk.base.Block;
 import net.tridentsdk.base.Substance;
