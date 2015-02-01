@@ -25,6 +25,7 @@ import net.tridentsdk.entity.LivingEntity;
  * @author TridentSDK Team
  */
 public interface Ageable extends LivingEntity {
+
     /**
      * The current age of this entity, in ticks
      *

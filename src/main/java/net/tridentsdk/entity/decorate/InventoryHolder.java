@@ -26,6 +26,7 @@ import net.tridentsdk.window.Window;
  * @author TridentSDK Team
  */
 public interface InventoryHolder extends Entity {
+
     /**
      * The Inventory that this entity holds
      *

@@ -26,9 +26,10 @@ import net.tridentsdk.window.inventory.Item;
  * @author TridentSDK Team
  */
 public interface Equippable extends Entity {
+
     /**
      * This entity's equipment
-     *
+     * <p/>
      * <p>Layout:
      * <ul>
      * <li>Index 0: Helmet</li>

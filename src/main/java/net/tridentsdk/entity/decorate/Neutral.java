@@ -26,6 +26,7 @@ import net.tridentsdk.entity.LivingEntity;
  * @author TridentSDK Team
  */
 public interface Neutral extends LivingEntity {
+
     /**
      * Whether or not this entity has been angered. Note, not all neutral entities can be angered. When an entity is
      * angered, it is considered hostile
