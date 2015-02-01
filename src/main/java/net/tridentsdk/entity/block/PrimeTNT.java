@@ -23,6 +23,7 @@ package net.tridentsdk.entity.block;
  * @author TridentSDK Team
  */
 public interface PrimeTNT extends FallingBlock {
+
     /**
      * The number of ticks until this Primed TNT explodes
      *

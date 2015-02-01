@@ -25,6 +25,7 @@ import net.tridentsdk.entity.Hanging;
  * @author TridentSDK Team
  */
 public interface Painting extends Hanging {
+
     /**
      * Get the motive of this Painting
      *

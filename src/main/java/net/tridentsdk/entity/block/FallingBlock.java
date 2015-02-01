@@ -26,6 +26,7 @@ import net.tridentsdk.entity.Entity;
  * @author TridentSDK Team
  */
 public interface FallingBlock extends Entity {
+
     /**
      * The state this FallingBlock represents
      *
