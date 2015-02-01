@@ -27,6 +27,7 @@ import net.tridentsdk.Messagable;
  * @author The TridentSDK Team
  */
 public interface ServerConsole extends Messagable, CommandIssuer {
+    //TODO déplaciez a affichier unique
     public static final String RESET = PlatformColor.forColor("reset");
     public static final String BLACK = PlatformColor.forColor("black");
     public static final String RED = PlatformColor.forColor("red");
