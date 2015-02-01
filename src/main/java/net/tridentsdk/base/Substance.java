@@ -421,14 +421,14 @@ public enum Substance {
     private final int idInt;
     private final String replaced;
 
-    private static final Map<Integer, Substance> ids;
+    private static final Map<Integer, Substance> IDS_BLOC;
 
     static {
         HashMap<Integer, Substance> builder = new HashMap<>();
         for (Substance substance: EnumSet.allOf(Substance.class)) {
             builder.put(substance.idInt, substance);
         }
-        ids = Collections.unmodifiableMap(builder);
+        IDS_BLOC = Collections.unmodifiableMap(builder);
     }
 
     Substance(String id, int stack, String data) {
@@ -474,7 +474,7 @@ public enum Substance {
      * @return substance correspondait a id
      */
     public static Substance fromId (byte id) {
-        return ids.get(id); // TODO convertit implicite du integer-byte
+        return IDS_BLOC.get(id); // TODO convertit implicite du integer-byte
     }
 
     /**
