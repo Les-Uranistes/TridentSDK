@@ -75,7 +75,7 @@ public class ChunkTile {
     /**
      * Sets the block at the location in the specified world the pending tile
      *
-     * @param world the world to set the block to
+     * @param chunk chunk to set block to
      */
     public void apply(Chunk chunk) {
         Factories.gen().putBlock(this, chunk);
