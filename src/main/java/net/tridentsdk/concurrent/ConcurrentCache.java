@@ -58,16 +58,16 @@ public class ConcurrentCache<K, V> {
     /**
      * Retrieves the key in the cache, or adds the return value of the callable provided
      *
-     * @param k        the key to retrieve the value from, or assign it to
+     * @param key      the key to retrieve the value from, or assign it to
      * @param callable the result of which to assign the key a value if the key is not in the cache
      * @return the return value of the callable
      */
-    public V retrieve(K k, Callable<V> callable) {
+    public V retrieve(K key, Callable<V> callable) {
         while (true) {
-            HeldValueLatch<V> value = cache.get(k);
+            HeldValueLatch<V> value = cache.get(key);
             if (value == null) {
                 HeldValueLatch<V> latch = HeldValueLatch.create();
-                value = cache.putIfAbsent(k, latch);
+                value = cache.putIfAbsent(key, latch);
                 if (value == null) {
                     value = latch;
                     try {
