@@ -316,14 +316,14 @@ public enum Audio {
     MUSIC_GAME_END_CREDITS("music.game. end.credits"),
     MUSIC_GAME_NETHER("music.game.nether");
 
-    private final String s;
+    private final String MOT_TRADUCTION;
 
-    Audio(String s) {
-        this.s = s;
+    Audio(String motTrad) {
+        this.MOT_TRADUCTION = motTrad;
     }
 
     @Override
     public String toString() {
-        return this.s;
+        return this.MOT_TRADUCTION;
     }
 }
