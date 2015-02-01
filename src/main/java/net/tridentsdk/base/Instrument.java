@@ -26,28 +26,28 @@ public enum Instrument {
     /**
      * Piano note
      */
-    PIANO(0x0),
+    PIANO((byte) 0x0),
     /**
      * Bass drum note
      */
-    BASS_DRUM(0x1),
+    BASS_DRUM((byte) 0x1),
     /**
      * Snare drum note
      */
-    SNARE_DRUM(0x2),
+    SNARE_DRUM((byte) 0x2),
     /**
      * Stick note
      */
-    STICKS(0x3),
+    STICKS((byte) 0x3),
     /**
      * Bass guitar note
      */
-    BASS_GUITAR(0x4);
+    BASS_GUITAR((byte) 0x4);
 
     final byte id;
 
-    Instrument(int i) {
-        this.id = (byte) i;
+    Instrument(byte i) {
+        this.id = i;
     }
 
     /**

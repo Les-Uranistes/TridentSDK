@@ -23,14 +23,14 @@ package net.tridentsdk.base.board;
  * @author The TridentSDK Team
  */
 public enum BoardType {
-    LIST(0),
-    SIDEBAR(1),
-    BELOW_NAME(2);
+    LIST((byte) 0),
+    SIDEBAR((byte) 1),
+    BELOW_NAME((byte) 2);
 
     private final byte position;
 
-    BoardType(int position) {
-        this.position = (byte) position;
+    BoardType(byte position) {
+        this.position = position;
     }
 
     /**
