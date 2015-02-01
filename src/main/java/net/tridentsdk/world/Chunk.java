@@ -21,6 +21,7 @@ import net.tridentsdk.base.Block;
 
 /**
  * I (sexcel) am under the assumption that this class represents a Minecraft world chunk
+ * TODO: add your fucking name to this
  *
  * @author sexcel
  */
