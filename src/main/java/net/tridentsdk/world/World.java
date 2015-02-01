@@ -27,10 +27,10 @@ import java.util.Set;
 
 /**
  * I (sexcel) am under the assumption that this class represents a Minecraft World
- * TODO: add your fucking name to this
  *
  * @author sexcel
  */
+//TODO: add your fucking name to this
 public interface World extends Cloneable {
     /**
      * Gets the name of the world

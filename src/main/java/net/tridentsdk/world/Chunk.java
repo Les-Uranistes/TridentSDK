@@ -21,17 +21,16 @@ import net.tridentsdk.base.Block;
 
 /**
  * I (sexcel) am under the assumption that this class represents a Minecraft world chunk
- * TODO: add your fucking name to this
  *
  * @author sexcel
  */
+//TODO: add your fucking name to this
 public interface Chunk {
     /**
      * I'm under the assumption that this method is supposed to fill the
      * chunk with blocks
-     *
-     * TODO: rename this method to something less ambiguous OR fill JavaDoc with more pertinent information
      */
+    //TODO: rename this method to something less ambiguous OR fill JavaDoc with more pertinent information
     void generate();
 
     /**

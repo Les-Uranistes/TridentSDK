@@ -19,10 +19,10 @@ package net.tridentsdk.world;
 
 /**
  * I (sexcel) am under the assumption that this class represents the Minecraft Dimension and ID
- * TODO: add your fucking name to this
  *
  * @author sexcel
  */
+//TODO: add your fucking name to this
 public enum Dimension {
     NETHER(-1),
     OVERWORLD(0),

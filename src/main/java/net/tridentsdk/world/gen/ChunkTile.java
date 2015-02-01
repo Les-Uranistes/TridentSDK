@@ -18,23 +18,23 @@
 package net.tridentsdk.world.gen;
 
 import net.tridentsdk.Position;
-import net.tridentsdk.base.Block;
 import net.tridentsdk.base.Substance;
 import net.tridentsdk.factory.Factories;
 import net.tridentsdk.world.Chunk;
-import net.tridentsdk.world.World;
 
 /**
- * Represents a tile that is awaiting pending status to be set in a generated world
+ * Represents a tile that is awaiting pending status to be set in a generated
+ * world
  *
- * @author The TridentSDK Team
+ * @author The TridentSDK Team, sexcel
  */
 public class ChunkTile {
-    private final int x;
-    private final int y;
-    private final int z;
+    private final int       x;
+    private final int       y;
+    private final int       z;
     private final Substance substance;
-    private final byte data;
+    private final byte      data;
+
 
     private ChunkTile(int x, int y, int z, Substance substance, byte data) {
         this.x = x;
@@ -44,41 +44,84 @@ public class ChunkTile {
         this.data = data;
     }
 
+
     /**
      * Creates a new pending chunk tile
      *
-     * @param x         x coordinate of the tile
-     * @param y         y coordinate of the tile
-     * @param z         z coordinate of the tile
-     * @param substance the material to set at the location
+     * @param x
+     *         x coordinate of the tile
+     * @param y
+     *         y coordinate of the tile
+     * @param z
+     *         z coordinate of the tile
+     * @param substance
+     *         the material to set at the location
      * @return the new pending chunk tile
      */
     public static ChunkTile create(int x, int y, int z, Substance substance) {
         return new ChunkTile(x, y, z, substance, (byte) 0);
     }
 
-    public static ChunkTile create(int x, int y, int z, Substance substance, byte data) {
+
+    /**
+     * Creates a new chunk tile
+     *
+     * @param x
+     *         x coordinate
+     * @param y
+     *         y coordinate
+     * @param z
+     *         z coordinate
+     * @param substance
+     *         substance of the tile
+     * @param data
+     *         magic number
+     * @return new chunk tile instance
+     */
+    public static ChunkTile create(int x, int y, int z, Substance substance,
+            byte data) {
         return new ChunkTile(x, y, z, substance, data);
     }
 
+
+    /**
+     * Returns a new position with the coordinates(x,y,z) of this tile and null instead of a World instance
+     *
+     * @return new position instance
+     */
     public Position coordinates() {
         return Position.create(null, x, y, z);
     }
 
+
+    /**
+     * Substance getter (I (sexcel) am under the assumption that a Substance is like the BlockType)
+     *
+     * @return substance
+     */
     public Substance substance() {
         return substance;
     }
 
+
+    /**
+     * Magic number getter
+     *
+     * @return magic number
+     */
+    //TODO: GTFO with these magic numbers
     public byte meta() {
         return data;
     }
 
+
     /**
      * Sets the block at the location in the specified world the pending tile
      *
-     * @param chunk chunk to set block to
+     * @param chunk
+     *         chunk to set block to
      */
-    
+    //TODO: fix this ambiguous naming
     public void apply(Chunk chunk) {
         Factories.gen().putBlock(this, chunk);
     }

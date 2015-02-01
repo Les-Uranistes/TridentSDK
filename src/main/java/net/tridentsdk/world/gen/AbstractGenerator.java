@@ -17,15 +17,15 @@
 
 package net.tridentsdk.world.gen;
 
-import com.google.common.collect.Lists;
 import net.tridentsdk.world.ChunkLocation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * The base class for implementing world generation extensions
  *
- * @author The TridentSDK Team
+ * @author The TridentSDK Team, sexcel
  */
 public abstract class AbstractGenerator {
     /**
@@ -47,13 +47,26 @@ public abstract class AbstractGenerator {
      */
     public abstract ChunkTile atCoordinate(int x, int y, int z);
 
+
+    /**
+     * I (sexcel) am under the assumption that this method generates a list of
+     * tiles(blocks) within the given rectangle while forcing the generation to
+     * assume you want tile(block) locations 16(chunk side length) units larger
+     *
+     * @param corner1 one corner of rect
+     * @param corner2 other corner of rect
+     * @return ArrayList of included tiles(blocks)
+     */
+    //TODO: fix naming, this method implicates generation, not list creation of tiles(blocks)
+    //TODO: explain your bitshifting logic, if any
     public List<ChunkTile> doGen(ChunkLocation corner1, ChunkLocation corner2) {
         int minX = Math.min(corner1.x(), corner2.x()) << 4;
         int maxX = (Math.max(corner1.x(), corner2.x()) << 4) + 16;
         int minZ = Math.min(corner1.z(), corner2.z()) << 4;
         int maxZ = (Math.max(corner1.z(), corner2.z()) << 4) + 16;
 
-        List<ChunkTile> gen = Lists.newArrayList();
+        //no need for a method call to Lists.newArrayList();, simply just instantiate with new
+        List<ChunkTile> gen = new ArrayList<>();
 
         for (int x = minX; x < maxX; x++) {
             for (int z = minZ; z < maxZ; z++) {

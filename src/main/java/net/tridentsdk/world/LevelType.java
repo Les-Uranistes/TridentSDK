@@ -20,10 +20,10 @@ package net.tridentsdk.world;
 /**
  * I (sexcel) am under the assumption that this class represents the biome
  * type of the Minecraft world
- * TODO: add your fucking name to this
  *
  * @author sexcel
  */
+//TODO: add your fucking name to this
 public enum LevelType {
 
     DEFAULT("default"),
@@ -72,10 +72,10 @@ public enum LevelType {
 
     /**
      * Returns the string name of the LevelType
-     * TODO: I (sexcel) don't know why you wouldn't just use the name of the enum value
      *
      * @return String representation of this enum value
      */
+    //TODO: I (sexcel) don't know why you wouldn't just use the name of the enum value
     @Override
     public String toString() {
         return this.typeName;
