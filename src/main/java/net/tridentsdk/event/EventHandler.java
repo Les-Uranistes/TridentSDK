@@ -169,13 +169,14 @@ public final class EventHandler {
      */
     public void unregister(Class<? extends Listener> cls) {
         for (Entry<Class<? extends Event>, Queue<EventReflector>> entry : this.callers.entries()) {
-            for (Iterator<EventReflector> iterator = entry.getValue().iterator(); iterator.hasNext(); ) {
+            Iterator<EventReflector> iterator = entry.getValue().iterator();
+            do {
                 EventReflector it = iterator.next();
                 if (it.instance().getClass().equals(cls)) {
                     iterator.remove();
                     break;
                 }
-            }
+            } while (iterator.hasNext());
         }
     }
 
