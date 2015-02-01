@@ -66,10 +66,8 @@ public class TridentPluginHandler {
             @Override
             public void run() {
                 TridentPlugin plugin = null;
-                JarFile jarFile = null;
-                try {
+                try(JarFile jarFile = new JarFile(pluginFile)) {
                     // load all classes
-                    jarFile = new JarFile(pluginFile);
                     PluginClassLoader loader = new PluginClassLoader(pluginFile, getClass().getClassLoader());
                     Class<? extends TridentPlugin> pluginClass = null;
 
@@ -136,13 +134,6 @@ public class TridentPluginHandler {
                     TridentLogger.error(new PluginLoadException(ex));
                     if (plugin != null)
                         disable(plugin);
-                } finally {
-                    if (jarFile != null)
-                        try {
-                            jarFile.close();
-                        } catch (IOException e) {
-                            TridentLogger.error(e);
-                        }
                 }
             }
         });

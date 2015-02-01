@@ -36,6 +36,7 @@ public class BlockFlowEvent extends BlockEvent implements Cancellable {
     public BlockFlowEvent(Block from, Block to) {
         super(from);
         this.to = to;
+        this.cancelled = false;
     }
 
     /**

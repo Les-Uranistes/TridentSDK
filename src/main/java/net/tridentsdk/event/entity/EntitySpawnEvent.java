@@ -37,6 +37,8 @@ public class EntitySpawnEvent extends EntityEvent {
     public EntitySpawnEvent(Entity entity, Position location) {
         super(entity);
         this.location = location;
+
+        this.cancelled = false;
     }
 
     /**

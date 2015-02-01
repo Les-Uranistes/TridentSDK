@@ -37,6 +37,8 @@ public class PlayerDigEvent extends PlayerEvent implements Cancellable {
 
         this.face = face;
         this.status = status;
+
+        this.cancelled = false;
     }
 
     public BlockOrientation face() {

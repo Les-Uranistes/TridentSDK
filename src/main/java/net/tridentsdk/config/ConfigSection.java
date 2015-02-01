@@ -47,6 +47,8 @@ public class ConfigSection {
      * Instantiated by subclasses only
      */
     protected ConfigSection() {
+        parent = null;
+        jsonHandle = null;
     }
 
     /**
@@ -68,15 +70,18 @@ public class ConfigSection {
      * @return the config section with all the values in the list
      */
     public static <V> ConfigSection addToList(Collection<V> list) {
-        if (!(list instanceof ConfigSectionList)) {
-            TridentLogger.error(
-                    new UnsupportedOperationException("Can only add new ConfigSection-s to ConfigSectionList"));
-            return null;
-        }
-        ConfigSection section = new ConfigSection(((ConfigSectionList) list).parent(), new JsonObject());
-        list.add((V) section);
+        ConfigSection retournais;
 
-        return section;
+        if (list instanceof ConfigSectionList) {
+            ConfigSection section = new ConfigSection(((ConfigSectionList) list).parent(), new JsonObject());
+            list.add((V) section);
+            retournais = section;
+        } else {
+            TridentLogger.error(new UnsupportedOperationException("Can only add new ConfigSection-s to ConfigSectionList"));
+            retournais = null;
+        }
+
+        return retournais;
     }
 
     /**
@@ -357,24 +362,28 @@ public class ConfigSection {
             array = this.jsonHandle.get(tag).getAsJsonArray();
         }
 
+        List<V> retournais;
+
         //Handle ConfigSection seperately as it is special
         if (type.equals(ConfigSection.class)) {
             List<V> result = new ConfigSectionList<>(this, array);
             for (JsonElement element : array) {
-                if (element == null)
-                    continue;
-                result.add((V) new ConfigSection(this, element.getAsJsonObject()));
+                if (element != null) {
+                    result.add((V) new ConfigSection(this, element.getAsJsonObject()));
+                }
             }
-            return result;
+            retournais = result;
         } else {
             List<V> result = new ConfigList<>(array);
             for (JsonElement element : array) {
-                if (element == null)
-                    continue;
-                result.add(GsonFactory.gson().fromJson(element, type));
+                if (element != null) {
+                    result.add(GsonFactory.gson().fromJson(element, type));
+                }
             }
-            return result;
+            retournais = result;
         }
+
+        return retournais;
     }
 
     /**
@@ -562,12 +571,16 @@ public class ConfigSection {
      * @return the section with the given tag under this section
      */
     public ConfigSection getConfigSection(String tag) {
+        ConfigSection retournais;
+
         if (this.contains(tag)) {
-            return new ConfigSection(this, this.jsonHandle.get(tag).getAsJsonObject());
+            retournais = new ConfigSection(this, this.jsonHandle.get(tag).getAsJsonObject());
         } else {
             this.jsonHandle.add(tag, new JsonObject());
-            return new ConfigSection(this, this.jsonHandle.get(tag).getAsJsonObject());
+            retournais = new ConfigSection(this, this.jsonHandle.get(tag).getAsJsonObject());
         }
+
+        return retournais;
     }
 
     /**
@@ -577,5 +590,15 @@ public class ConfigSection {
         synchronized (parentLock) {
             this.parent.save();
         }
+    }
+
+    @Override
+    public String toString() {
+        return "ConfigSection{" +
+                "handleLock=" + handleLock +
+                ", parentLock=" + parentLock +
+                ", parent=" + parent +
+                ", jsonHandle=" + jsonHandle +
+                '}';
     }
 }

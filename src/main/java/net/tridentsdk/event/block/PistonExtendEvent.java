@@ -36,6 +36,7 @@ public class PistonExtendEvent extends BlockPistonEvent {
         super(block, direction, false, influenced.get(0));
 
         this.blocksInfluenced = ImmutableList.copyOf(influenced);
+        this.cancelled = false;
     }
 
     @Override

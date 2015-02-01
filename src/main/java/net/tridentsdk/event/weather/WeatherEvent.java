@@ -34,6 +34,7 @@ public class WeatherEvent extends Event implements Cancellable {
 
     public WeatherEvent(World world) {
         this.world = world;
+        this.cancelled = false;
     }
 
     public World world() {

@@ -106,4 +106,11 @@ public final class Message {
     public JsonObject message() {
         return message;
     }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "message=" + message +
+                '}';
+    }
 }

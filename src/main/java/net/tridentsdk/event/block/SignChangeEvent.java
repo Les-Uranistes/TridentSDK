@@ -43,6 +43,7 @@ public class SignChangeEvent extends BlockEvent implements Cancellable {
         super(block);
         this.editor = editor;
         this.contents = contents;
+        this.cancelled = false;
     }
 
     @Override

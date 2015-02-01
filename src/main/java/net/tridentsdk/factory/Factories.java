@@ -73,13 +73,15 @@ public final class Factories {
      * @return the task factory
      */
     public static TaskFactory tasks() {
+        TaskFactory retournais;
         try {
-            return taskFactory.await();
+            retournais = taskFactory.await();
         } catch (InterruptedException e) {
             // Release up the stack
             Thread.currentThread().interrupt();
-            return null;
+            retournais = null;
         }
+        return retournais;
     }
 
     /**
@@ -88,13 +90,15 @@ public final class Factories {
      * @return the threads factory
      */
     public static ThreadFactory threads() {
+        ThreadFactory retournais;
         try {
-            return threadFactory.await();
+            retournais = threadFactory.await();
         } catch (InterruptedException e) {
             // Release up the stack
             Thread.currentThread().interrupt();
-            return null;
+            retournais = null;
         }
+        return retournais;
     }
 
     /**
@@ -112,13 +116,15 @@ public final class Factories {
      * @return the collection factory
      */
     public static CollectFactory collect() {
+        CollectFactory retournais;
         try {
-            return collectFactory.await();
+            retournais = collectFactory.await();
         } catch (InterruptedException e) {
             // Release up the stack
             Thread.currentThread().interrupt();
-            return null;
+            retournais = null;
         }
+        return retournais;
     }
 
     /**
@@ -127,13 +133,15 @@ public final class Factories {
      * @return the world generation factory
      */
     public static GenFactory gen() {
+        GenFactory retournais;
         try {
-            return genFactory.await();
+            retournais = genFactory.await();
         } catch (InterruptedException e) {
             // Release up the stack
             Thread.currentThread().interrupt();
-            return null;
+            retournais = null;
         }
+        return retournais;
     }
 
     /**

@@ -31,6 +31,7 @@ import net.tridentsdk.util.TridentLogger;
 import javax.annotation.concurrent.ThreadSafe;
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.PriorityBlockingQueue;
@@ -41,7 +42,7 @@ import java.util.concurrent.PriorityBlockingQueue;
  * @author The TridentSDK Team
  */
 @ThreadSafe
-public class EventHandler {
+public final class EventHandler {
     private static final Comparator<EventReflector> COMPARATOR = new EventReflector(null, null, 0, null, null, null);
     public static final Callable<Queue<EventReflector>> CREATE_QUEUE = new Callable<Queue<EventReflector>>() {
         @Override
@@ -88,8 +89,8 @@ public class EventHandler {
     }
 
     private void doRegister(TridentPlugin plugin, Listener listener) {
-        final Class<?> c = listener.getClass();
-        HashMultimap<Class<? extends Event>, EventReflector> reflectors = reflectorsFrom(plugin, listener, c);
+        Class<?> clazz = listener.getClass();
+        HashMultimap<Class<? extends Event>, EventReflector> reflectors = reflectorsFrom(plugin, listener, clazz);
 
         for (Class<? extends Event> eventClass : reflectors.keys()) {
             Queue<EventReflector> eventCallers = callers.retrieve(eventClass, CREATE_QUEUE);
@@ -98,37 +99,29 @@ public class EventHandler {
     }
 
     private HashMultimap<Class<? extends Event>, EventReflector> reflectorsFrom(TridentPlugin plugin, Listener listener,
-            final Class<?> c) {
-        MethodAccess access = accessors.retrieve(c, new Callable<MethodAccess>() {
-            @Override
-            public MethodAccess call() throws Exception {
-                return MethodAccess.get(c);
-            }
-        });
+            Class<?> clazz) {
+        MethodAccess access = accessors.retrieve(clazz, new MethodAccessCallable(clazz));
 
-        Method[] methods = c.getDeclaredMethods();
+        Method[] methods = clazz.getDeclaredMethods();
 
         HashMultimap<Class<? extends Event>, EventReflector> map = HashMultimap.create(11, 11);
         for (int i = 0, n = methods.length; i < n; i++) {
             Method method = methods[i];
-            if (method.isAnnotationPresent(IgnoreRegistration.class)) {
-                continue;
+            if (!method.isAnnotationPresent(IgnoreRegistration.class)) {
+                Class<?>[] parameterTypes = method.getParameterTypes();
+                if (parameterTypes.length == 1) {
+                    Class<?> type = parameterTypes[0];
+                    if (Event.class.isAssignableFrom(type)) {
+                        Class<? extends Event> eventClass = type.asSubclass(Event.class);
+                        ListenerData handler = method.getAnnotation(ListenerData.class);
+                        Importance importance = (handler == null) ? Importance.MEDIUM : handler.importance();
+
+                        EventReflector registeredListener = new EventReflector(access, plugin, i, listener, eventClass, importance);
+                        map.put(eventClass, registeredListener);
+                    }
+                }
             }
-            Class<?>[] parameterTypes = method.getParameterTypes();
-            if (parameterTypes.length != 1)
-                continue;
 
-            Class<?> type = parameterTypes[0];
-
-            if (!Event.class.isAssignableFrom(type))
-                continue;
-
-            Class<? extends Event> eventClass = type.asSubclass(Event.class);
-            ListenerData handler = method.getAnnotation(ListenerData.class);
-            Importance importance = handler == null ? Importance.MEDIUM : handler.importance();
-
-            EventReflector registeredListener = new EventReflector(access, plugin, i, listener, eventClass, importance);
-            map.put(eventClass, registeredListener);
         }
 
         return map;
@@ -140,10 +133,10 @@ public class EventHandler {
      * @param event the event to call
      */
     public void fire(final Event event) {
-        Set<Map.Entry<TaskExecutor, EventHandler>> entries = handles.entries();
+        Set<Entry<TaskExecutor, EventHandler>> entries = handles.entries();
         final CountDownLatch latch = new CountDownLatch(entries.size());
 
-        for (final Map.Entry<TaskExecutor, EventHandler> entry : entries) {
+        for (final Entry<TaskExecutor, EventHandler> entry : entries) {
             entry.getKey().addTask(new Runnable() {
                 @Override
                 public void run() {
@@ -156,16 +149,16 @@ public class EventHandler {
         try {
             latch.await();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // TODO considerait traitement superior pour InterruptedExcption.
         }
     }
 
     private void doCall(Event event) {
         Queue<EventReflector> listeners = callers.retrieve(event.getClass());
-        if (listeners == null)
-            return;
-        for (EventReflector listener : listeners) {
-            listener.reflect(event);
+        if (listeners != null) {
+            for (EventReflector listener : listeners) {
+                listener.reflect(event);
+            }
         }
     }
 
@@ -175,14 +168,15 @@ public class EventHandler {
      * @param cls the listener class to unregister
      */
     public void unregister(Class<? extends Listener> cls) {
-        for (Map.Entry<Class<? extends Event>, Queue<EventReflector>> entry : this.callers.entries()) {
-            for (Iterator<EventReflector> iterator = entry.getValue().iterator(); iterator.hasNext(); ) {
+        for (Entry<Class<? extends Event>, Queue<EventReflector>> entry : this.callers.entries()) {
+            Iterator<EventReflector> iterator = entry.getValue().iterator();
+            do {
                 EventReflector it = iterator.next();
                 if (it.instance().getClass().equals(cls)) {
                     iterator.remove();
                     break;
                 }
-            }
+            } while (iterator.hasNext());
         }
     }
 
@@ -205,5 +199,33 @@ public class EventHandler {
         }
 
         return listeners;
+    }
+
+    @Override
+    public String toString() {
+        return "EventHandler{" +
+                "callers=" + callers +
+                ", accessors=" + accessors +
+                ", handles=" + handles +
+                '}';
+    }
+
+    private static class MethodAccessCallable implements Callable<MethodAccess> {
+
+        private final Class<?> clazz;
+
+        MethodAccessCallable(Class<?> clazz) {this.clazz = clazz;}
+
+        @Override
+        public MethodAccess call() throws Exception {
+            return MethodAccess.get(clazz);
+        }
+
+        @Override
+        public String toString() {
+            return "MethodAccessCallable{" +
+                    "clazz=" + clazz +
+                    '}';
+        }
     }
 }

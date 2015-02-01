@@ -32,6 +32,8 @@ public class EntitySaddleEvent extends EntityEvent {
     public EntitySaddleEvent(Entity entity, Player player) {
         super(entity);
         this.player = player;
+
+        this.cancelled = false;
     }
 
     /**

@@ -31,6 +31,7 @@ public class PlayerLaunchProjectileEvent extends PlayerEvent implements Cancella
     public PlayerLaunchProjectileEvent(Player player, Entity projectile) {
         super(player);
         this.projectile = projectile;
+        this.cancelled = false;
     }
 
     @Override

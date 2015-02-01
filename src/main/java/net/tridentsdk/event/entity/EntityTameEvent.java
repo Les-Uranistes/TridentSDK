@@ -30,6 +30,7 @@ public class EntityTameEvent extends EntityEvent {
     public EntityTameEvent(Entity entity, Player tamer) {
         super(entity);
         this.tamer = tamer;
+        this.cancelled = false;
     }
 
     public Player tamer() {

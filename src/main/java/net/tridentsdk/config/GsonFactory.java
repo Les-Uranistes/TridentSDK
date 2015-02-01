@@ -23,16 +23,16 @@ import net.tridentsdk.docs.AccessNoDoc;
 
 import javax.annotation.concurrent.ThreadSafe;
 
+@SuppressWarnings("UtilityClass")
 @AccessNoDoc
 @ThreadSafe
 final class GsonFactory {
-    private static final GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
-    private static final Gson gson = builder.create();
+    private static final GsonBuilder CONSTRUCTEUR = new GsonBuilder().setPrettyPrinting();
+    private static final Gson GSON = CONSTRUCTEUR.create();
 
-    private GsonFactory() {
-    }
+    private GsonFactory() {}
 
-    protected static Gson gson() {
-        return gson;
+    static Gson gson() {
+        return GSON;
     }
 }

@@ -33,6 +33,7 @@ public abstract class BlockGrowthEvent extends BlockEvent implements Cancellable
      */
     public BlockGrowthEvent(Block block) {
         super(block);
+        this.cancelled = false;
     }
 
     @Override

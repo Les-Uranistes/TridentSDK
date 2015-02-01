@@ -86,11 +86,10 @@ public class ConfigFactory {
 
     @AccessNoDoc
     private static final class JsonSectionImpl extends ConfigSection {
-        public JsonSectionImpl() {
-            super();
-        }
 
-        public JsonSectionImpl(ConfigSection parent, JsonObject obj) {
+        JsonSectionImpl() {}
+
+        JsonSectionImpl(ConfigSection parent, JsonObject obj) {
             super(parent, obj);
         }
     }

@@ -39,6 +39,8 @@ public class LivingDecorationAdapter extends DecorationAdapter<LivingEntity> imp
     protected LivingDecorationAdapter(LivingEntity entity) {
         super(entity);
         this.entity = entity;
+        path = null;
+        ai = null;
     }
 
     @Override
@@ -123,11 +125,7 @@ public class LivingDecorationAdapter extends DecorationAdapter<LivingEntity> imp
 
     @Override
     public AiModule aiModule() {
-        if (ai == null) {
-            return Trident.instance().aiHandler().defaultAiFor(type());
-        } else {
-            return ai;
-        }
+        return (ai == null) ? Trident.instance().aiHandler().defaultAiFor(type()) : ai;
     }
 
     public void performAiUpdate() {
@@ -144,6 +142,7 @@ public class LivingDecorationAdapter extends DecorationAdapter<LivingEntity> imp
         return path;
     }
 
+    @Override
     public void setPath(Path path) {
         this.path = path;
     }

@@ -25,6 +25,7 @@ public class ShortTag extends NBTTag {
 
     public ShortTag(String name) {
         super(name);
+        this.value = (short) 0;
     }
 
     public short value() {

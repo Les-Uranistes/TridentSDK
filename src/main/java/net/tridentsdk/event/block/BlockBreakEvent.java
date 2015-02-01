@@ -45,6 +45,7 @@ public class BlockBreakEvent extends BlockEvent implements Cancellable {
         this.player = player;
         this.blockFace = blockFace;
         this.itemInHand = itemInHand;
+        this.cancelled = false;
     }
 
     @Override

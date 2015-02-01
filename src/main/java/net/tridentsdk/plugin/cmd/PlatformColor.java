@@ -57,33 +57,47 @@ public final class PlatformColor {
      * if the platform is windows, which does not support color codes or ANSI escapes
      */
     public static String forColor(String color) {
-        if (isWindows())
-            return EMPTY;
-
-        switch (color.toLowerCase()) {
-            case "reset":
-                return "\u001B[0m";
-            case "black":
-                return "\u001B[30m";
-            case "red":
-                return "\u001B[31m";
-            case "green":
-                return "\u001B[32m";
-            case "yellow":
-                return "\u001B[33m";
-            case "blue":
-                return "\u001B[34m";
-            case "purple":
-                return "\u001B[35m";
-            case "cyan":
-                return "\u001B[36m";
-            case "white":
-                return "\u001B[37m";
-            case "cursoreol2":
-                return ESC + "[2C";
+        String retournais;
+        if (isWindows()) {
+            retournais = EMPTY;
+        } else {
+            switch (color.toLowerCase()) {
+                case "reset":
+                    retournais = "\u001B[0m";
+                    break;
+                case "black":
+                    retournais = "\u001B[30m";
+                    break;
+                case "red":
+                    retournais = "\u001B[31m";
+                    break;
+                case "green":
+                    retournais = "\u001B[32m";
+                    break;
+                case "yellow":
+                    retournais = "\u001B[33m";
+                    break;
+                case "blue":
+                    retournais = "\u001B[34m";
+                    break;
+                case "purple":
+                    retournais = "\u001B[35m";
+                    break;
+                case "cyan":
+                    retournais = "\u001B[36m";
+                    break;
+                case "white":
+                    retournais = "\u001B[37m";
+                    break;
+                case "cursoreol2":
+                    retournais = ESC + "[2C";
+                    break;
+                default:
+                    retournais = EMPTY;
+            }
         }
 
-        return EMPTY;
+        return retournais;
     }
 
     private static boolean isWindows() {

@@ -37,6 +37,7 @@ public class PlayerFishEvent extends PlayerEvent implements Cancellable {
         this.state = state;
         this.exp = exp;
         this.item = item;
+        this.cancelled = false;
     }
 
     @Override

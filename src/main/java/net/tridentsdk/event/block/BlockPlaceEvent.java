@@ -46,6 +46,7 @@ public class BlockPlaceEvent extends BlockEvent implements Cancellable {
         this.player = player;
         this.blockClicked = blockClicked;
         this.faceClicked = faceClicked;
+        this.cancelled = false;
     }
 
     /**

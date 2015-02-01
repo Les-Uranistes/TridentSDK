@@ -42,6 +42,7 @@ public class BlockRedstoneEvent extends BlockEvent implements Cancellable {
         this.strength = strength;
         this.causer = causer;
         this.cause = cause;
+        this.cancelled = false;
     }
 
     /**

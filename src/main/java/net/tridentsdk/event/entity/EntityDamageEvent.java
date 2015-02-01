@@ -39,6 +39,7 @@ public class EntityDamageEvent extends EntityEvent {
         super(entity);
         this.setDamage(damage);
         this.cause = cause;
+        this.cancelled = false;
     }
 
     public Cause cause() {

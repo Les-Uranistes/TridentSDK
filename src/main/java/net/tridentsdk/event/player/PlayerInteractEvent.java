@@ -40,6 +40,7 @@ public class PlayerInteractEvent extends PlayerEvent implements Cancellable {
     public PlayerInteractEvent(Player player, Block block) {
         super(player);
         this.setBlock(block);
+        this.cancelled = false;
     }
 
     /**

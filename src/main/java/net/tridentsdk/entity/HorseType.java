@@ -18,7 +18,7 @@
 package net.tridentsdk.entity;
 
 /**
- * Types of horses which differ in appearence
+ * Types of horses which differ in appearance
  *
  * @author The TridentSDK Team
  */
@@ -65,4 +65,10 @@ public enum HorseType {
         return id;
     }
 
+    @Override
+    public String toString() {
+        return "HorseType{" +
+                "id=" + id +
+                '}';
+    }
 }

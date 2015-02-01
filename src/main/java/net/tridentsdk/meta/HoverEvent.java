@@ -26,6 +26,15 @@ public class HoverEvent {
     private HoverAction action;
     private String value;
 
+    public HoverEvent(HoverAction acte, String valu) {
+        this.action = acte;
+        this.value = valu;
+    }
+
+    public HoverEvent() {
+        this(null, null);
+    }
+
     /**
      * Sets the action associated with the player hovers over the chat
      *
@@ -82,5 +91,13 @@ public class HoverEvent {
         public String toString() {
             return super.toString().toLowerCase();
         }
+    }
+
+    @Override
+    public String toString() {
+        return "HoverEvent{" +
+                "action=" + action +
+                ", value='" + value + '\'' +
+                '}';
     }
 }

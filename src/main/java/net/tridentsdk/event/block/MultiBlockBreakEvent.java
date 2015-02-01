@@ -34,6 +34,7 @@ public class MultiBlockBreakEvent extends BlockEvent implements Cancellable {
      */
     public MultiBlockBreakEvent(Block block) {
         super(block);
+        this.cancelled = false;
     }
 
     @Override
