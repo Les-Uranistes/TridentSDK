@@ -168,7 +168,7 @@ public final class EventHandler {
      * @param cls the listener class to unregister
      */
     public void unregister(Class<? extends Listener> cls) {
-        for (Map.Entry<Class<? extends Event>, Queue<EventReflector>> entry : this.callers.entries()) {
+        for (Entry<Class<? extends Event>, Queue<EventReflector>> entry : this.callers.entries()) {
             for (Iterator<EventReflector> iterator = entry.getValue().iterator(); iterator.hasNext(); ) {
                 EventReflector it = iterator.next();
                 if (it.instance().getClass().equals(cls)) {
