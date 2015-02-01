@@ -30,6 +30,7 @@ import javax.annotation.Nullable;
  *
  * @author The TridentSDK Team
  */
+// CQD?
 public enum ChatColor {
     BLACK {
         @Override
@@ -172,13 +173,16 @@ public enum ChatColor {
      */
     @Nullable
     public static ChatColor forColor(char color) {
+        ChatColor retournais = null;
         String find = String.valueOf(color);
         for (ChatColor chatColor : values()) {
-            if (chatColor.toString().contains(find))
-                return chatColor;
+            if (chatColor.toString().contains(find)) {
+                retournais = chatColor;
+                break;
+            }
         }
 
-        return null;
+        return retournais;
     }
 
     /**
@@ -202,27 +206,38 @@ public enum ChatColor {
      * @return the server console color code for that chatcolor
      */
     public static String consoleFormat(ChatColor color) {
+        String retournais;
         switch (color) {
             case BLACK:
-                return ServerConsole.BLACK;
+                retournais = ServerConsole.BLACK;
+                break;
             case DARK_PURPLE:
-                return ServerConsole.PURPLE;
+                retournais = ServerConsole.PURPLE;
+                break;
             case BLUE:
-                return ServerConsole.BLUE;
+                retournais = ServerConsole.BLUE;
+                break;
             case GREEN:
-                return ServerConsole.GREEN;
+                retournais = ServerConsole.GREEN;
+                break;
             case AQUA:
-                return ServerConsole.CYAN;
+                retournais = ServerConsole.CYAN;
+                break;
             case RED:
-                return ServerConsole.RED;
+                retournais = ServerConsole.RED;
+                break;
             case YELLOW:
-                return ServerConsole.YELLOW;
+                retournais = ServerConsole.YELLOW;
+                break;
             case WHITE:
-                return ServerConsole.WHITE;
+                retournais = ServerConsole.WHITE;
+                break;
             case RESET:
-                return ServerConsole.RESET;
+                retournais = ServerConsole.RESET;
+                break;
             default:
-                return PlatformColor.EMPTY;
+                retournais = PlatformColor.EMPTY;
         }
+        return retournais;
     }
 }
