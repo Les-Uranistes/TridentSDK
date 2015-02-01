@@ -158,4 +158,12 @@ public class ConfigSectionList<V> extends ConfigList<V> {
     protected ConfigSection parent() {
         return this.parent;
     }
+
+    @Override
+    public String toString() {
+        return "ConfigSectionList{" +
+                "parent=" + parent +
+                ", lock=" + lock +
+                '}';
+    }
 }
