@@ -26,6 +26,7 @@ import net.tridentsdk.util.Vector;
  * @author The TridentSDK Team
  */
 public interface Block {
+
     /**
      * Gets the substance the tile is made of
      *
@@ -65,6 +66,7 @@ public interface Block {
      * Returns a block immediately to the direction specified
      *
      * @param vector the direction to look for the block adjacent to the current
+     *
      * @return the block adjacent to the current
      */
     Block relativeBlock(Vector vector);

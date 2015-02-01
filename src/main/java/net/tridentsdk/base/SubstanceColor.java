@@ -48,9 +48,10 @@ public enum SubstanceColor {
      * Returns the color as a minecraft byte which can be used in entity
      *
      * @param index the metadata index, specified in the protocol
+     *
      * @return the byte to send as metadata
      */
     public byte[] asBytes(int index) {
-        return new byte[] { (byte) ((index & 0x1F) & 0xFF), (byte) value };
+        return new byte[]{ (byte) ((index & 0x1F) & 0xFF), (byte) value };
     }
 }

@@ -97,6 +97,7 @@ public enum BlockOrientation {
      * Gets the location relative to the given direction
      *
      * @param loc the location to get relative to
+     *
      * @return the relative location
      */
     public Position apply(Position loc) {

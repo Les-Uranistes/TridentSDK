@@ -28,6 +28,7 @@ import javax.annotation.concurrent.Immutable;
  */
 @Immutable
 public class Note {
+
     private final short id;
 
     // TODO convertit depuis 'int' a 'short' en initialiser publique est tres mal.

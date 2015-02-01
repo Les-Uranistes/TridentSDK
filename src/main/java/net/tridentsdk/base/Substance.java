@@ -415,20 +415,22 @@ public enum Substance {
     RECORD_11("2266", 1),
     RECORD_12("2267", 1);
 
+    private static final Map<Integer, Substance> IDS_BLOC;
+    static {
+        Map<Integer, Substance> builder = new HashMap<>();
+        for (Substance substance : EnumSet.allOf(Substance.class)) {
+            builder.put(substance.idInt, substance);
+        }
+        IDS_BLOC = Collections.unmodifiableMap(builder);
+    }
     private final String id;
     private final String data;
     private final int maxStack;
     private final int idInt;
     private final String replaced;
 
-    private static final Map<Integer, Substance> IDS_BLOC;
-
-    static {
-        Map<Integer, Substance> builder = new HashMap<>();
-        for (Substance substance: EnumSet.allOf(Substance.class)) {
-            builder.put(substance.idInt, substance);
-        }
-        IDS_BLOC = Collections.unmodifiableMap(builder);
+    Substance(String id, int stack) {
+        this(id, stack, "");
     }
 
     Substance(String id, int stack, String data) {
@@ -441,10 +443,6 @@ public enum Substance {
         this.idInt = Integer.parseInt(id);
     }
 
-    Substance(String id, int stack) {
-        this(id, stack, "");
-    }
-
     Substance(String id) {
         this(id, 64, "");
     }
@@ -453,6 +451,7 @@ public enum Substance {
      * Matches a Material from a String
      *
      * @param id String to be matched
+     *
      * @return Material which was matched using id
      */
     public static Substance fromStringId(String id) {
@@ -467,14 +466,15 @@ public enum Substance {
 
     /**
      * Returns the substance that associated with a given id
-     *
+     * <p/>
      * <p>Should be the favored method for getting a substance</p>
      * <p>E.g. fromId(1) will return Substance.STONE</p>
      *
      * @param id id du substance
+     *
      * @return substance correspondait a id
      */
-    public static Substance fromId (byte id) {
+    public static Substance fromId(byte id) {
         return IDS_BLOC.get(id); // TODO convertit implicite du integer-byte
     }
 
@@ -489,6 +489,7 @@ public enum Substance {
 
     /**
      * Returns the Id of this substance
+     *
      * @return the id of this substance
      */
     public int id() {
@@ -502,15 +503,6 @@ public enum Substance {
      */
     public String data() {
         return this.data;
-    }
-
-    /**
-     * Checks if the material is a block
-     *
-     * @return True if the material is a block
-     */
-    public boolean isBlock() {
-        return Integer.parseInt(this.id) < 255;
     }
 
     /**
@@ -569,6 +561,15 @@ public enum Substance {
      */
     public boolean isDisc() {
         return !this.isBlock() && (this.idInt >= 2256);
+    }
+
+    /**
+     * Checks if the material is a block
+     *
+     * @return True if the material is a block
+     */
+    public boolean isBlock() {
+        return Integer.parseInt(this.id) < 255;
     }
 
     /**
