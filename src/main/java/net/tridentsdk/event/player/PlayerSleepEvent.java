@@ -33,6 +33,7 @@ public class PlayerSleepEvent extends PlayerEvent implements Cancellable {
     public PlayerSleepEvent(Player player, Block bed) {
         super(player);
         this.bed = bed;
+        this.cancelled = false;
     }
 
     @Override

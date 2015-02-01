@@ -36,6 +36,7 @@ public class PlayerShearEntityEvent extends PlayerEvent implements Cancellable {
         super(player);
         this.sheared = sheared;
         this.drop = drop;
+        this.cancelled = false;
     }
 
     /**

@@ -39,6 +39,7 @@ public class PlayerConsumeEvent extends PlayerHungerEvent {
         super(player, feed);
         this.setReplenishAmount(feed);
         this.item = item;
+        this.cancelled = false;
     }
 
     /**

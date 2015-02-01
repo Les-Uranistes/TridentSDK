@@ -36,6 +36,7 @@ public class BlockIgniteEvent extends BlockEvent implements Cancellable {
     public BlockIgniteEvent(Block block, Cause cause) {
         super(block);
         this.cause = cause;
+        this.cancelled = false;
     }
 
     @Override

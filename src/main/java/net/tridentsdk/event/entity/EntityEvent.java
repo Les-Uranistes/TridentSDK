@@ -32,6 +32,7 @@ public class EntityEvent extends Event implements Cancellable {
 
     public EntityEvent(Entity entity) {
         this.setEntity(entity);
+        this.cancelled = false;
     }
 
     /**

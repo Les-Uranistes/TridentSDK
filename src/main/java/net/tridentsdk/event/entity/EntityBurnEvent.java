@@ -31,6 +31,8 @@ public abstract class EntityBurnEvent extends EntityEvent {
     public EntityBurnEvent(Entity entity, int fireTicks) {
         super(entity);
         this.fireTicks = fireTicks;
+
+        this.cancelled = false;
     }
 
     /**

@@ -35,6 +35,7 @@ public class PlayerMoveEvent extends PlayerEvent implements Cancellable {
         super(player);
         this.fromLoc = from;
         this.toLoc = to;
+        this.cancelled = false;
     }
 
     /**

@@ -47,6 +47,7 @@ public class NotePlayEvent extends BlockEvent implements Cancellable {
         this.players = players;
         this.note = note;
         this.instrument = instrument;
+        this.cancelled = false;
     }
 
     /**

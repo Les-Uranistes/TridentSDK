@@ -30,6 +30,7 @@ public class PlayerToggleFlyingEvent extends PlayerEvent implements Cancellable 
     public PlayerToggleFlyingEvent(Player player, boolean toggleState) {
         super(player);
         this.toggleState = toggleState;
+        this.cancelled = false;
     }
 
     /**

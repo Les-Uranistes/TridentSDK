@@ -36,6 +36,7 @@ public class BedExplodeEvent extends BlockEvent implements Cancellable {
     public BedExplodeEvent(Block block, float strength) {
         super(block);
         this.strength = strength;
+        this.cancelled = false;
     }
 
     @Override

@@ -32,6 +32,7 @@ public class PlayerHungerEvent extends PlayerEvent implements Cancellable {
     public PlayerHungerEvent(Player player, double feed) {
         super(player);
         this.feed = feed;
+        this.cancelled = false;
     }
 
     public double feed() {

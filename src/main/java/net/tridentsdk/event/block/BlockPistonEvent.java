@@ -40,6 +40,7 @@ public abstract class BlockPistonEvent extends BlockEvent implements Cancellable
         this.direction = direction;
         this.retract = retract;
         this.influenced = influenced;
+        this.cancelled = false;
     }
 
     /**

@@ -35,6 +35,7 @@ public class BlockBurnEvent extends BlockEvent implements Cancellable {
      */
     public BlockBurnEvent(Block block) {
         super(block);
+        this.cancelled = false;
     }
 
     @Override

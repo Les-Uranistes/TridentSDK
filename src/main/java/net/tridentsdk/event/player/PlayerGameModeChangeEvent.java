@@ -33,6 +33,7 @@ public class PlayerGameModeChangeEvent extends PlayerEvent implements Cancellabl
     public PlayerGameModeChangeEvent(Player player, GameMode gameMode) {
         super(player);
         this.gameMode = gameMode;
+        this.cancelled = false;
     }
 
     @Override
