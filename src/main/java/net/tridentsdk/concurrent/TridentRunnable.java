@@ -27,6 +27,7 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 @ThreadSafe
 public abstract class TridentRunnable implements Runnable {
+
     private static volatile int currentId = 0;
 
     private final int id;
@@ -45,7 +46,7 @@ public abstract class TridentRunnable implements Runnable {
 
     /**
      * Runs after this runnable has finished asynchronously
-     *
+     * <p/>
      * <p>This method does not require the code to be thread-safe</p>
      */
     public void afterAsyncRun() {
@@ -59,7 +60,7 @@ public abstract class TridentRunnable implements Runnable {
 
     /**
      * Cancels the task and removes from execution. See {@link ScheduledTask#cancel()}
-     *
+     * <p/>
      * <p>WARNING: This is a delegated function. DO NOT call this method before it is scheduled. A NullPointerException
      * will be thrown. This can be called when {@code task() != null}.</p>
      */
@@ -69,7 +70,7 @@ public abstract class TridentRunnable implements Runnable {
 
     /**
      * Gets how long between runs this is supposed to wait if it is a repeating task
-     *
+     * <p/>
      * <p>WARNING: This is a delegated function. DO NOT call this method before it is scheduled. A NullPointerException
      * will be thrown. This can be called when {@code task() != null}.</p>
      */
@@ -79,11 +80,11 @@ public abstract class TridentRunnable implements Runnable {
 
     /**
      * Sets how long this runnable should wait between executions if this is a repeating task
-     *
+     * <p/>
      * <p>If this task is  synchronous to the main thread, the change will be immediate, if it is not, the change may
      * take an iteration to take effect, however {@link TridentRunnable#interval()} will reflect the changes
      * immediately</p>
-     *
+     * <p/>
      * <p>WARNING: This is a delegated function. DO NOT call this method before it is scheduled. A NullPointerException
      * will be thrown. This can be called when {@code task() != null}.</p>
      */

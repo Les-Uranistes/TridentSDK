@@ -26,6 +26,7 @@ import net.tridentsdk.plugin.TridentPlugin;
  * @author The TridentSDk Team
  */
 public interface ScheduledTask extends Runnable {
+
     /**
      * Gets the interval set or created by the task
      *
@@ -35,10 +36,10 @@ public interface ScheduledTask extends Runnable {
 
     /**
      * Interval is the ticks left of a specific action for repeating and delayed tasks
-     *
+     * <p/>
      * <p>For delayed tasks, the interval is the amount of ticks delay, and for repeating, interval is the amount of
      * ticks between each repeat of the task.</p>
-     *
+     * <p/>
      * <p>Setting the interval will become effective the next tick</p>
      *
      * @param interval the interval to set the task to
