@@ -99,12 +99,7 @@ public final class EventHandler {
 
     private HashMultimap<Class<? extends Event>, EventReflector> reflectorsFrom(TridentPlugin plugin, Listener listener,
             final Class<?> c) {
-        MethodAccess access = accessors.retrieve(c, new Callable<MethodAccess>() {
-            @Override
-            public MethodAccess call() throws Exception {
-                return MethodAccess.get(c);
-            }
-        });
+        MethodAccess access = accessors.retrieve(c, new MethodAccessCallable(c));
 
         Method[] methods = c.getDeclaredMethods();
 
@@ -214,5 +209,24 @@ public final class EventHandler {
                 ", accessors=" + accessors +
                 ", handles=" + handles +
                 '}';
+    }
+
+    private static class MethodAccessCallable implements Callable<MethodAccess> {
+
+        private final Class<?> clazz;
+
+        MethodAccessCallable(Class<?> clazz) {this.clazz = clazz;}
+
+        @Override
+        public MethodAccess call() throws Exception {
+            return MethodAccess.get(clazz);
+        }
+
+        @Override
+        public String toString() {
+            return "MethodAccessCallable{" +
+                    "clazz=" + clazz +
+                    '}';
+        }
     }
 }
