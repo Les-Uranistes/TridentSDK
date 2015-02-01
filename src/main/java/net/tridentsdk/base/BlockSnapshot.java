@@ -29,7 +29,7 @@ import javax.annotation.concurrent.Immutable;
  * @author The TridentSDK Team
  */
 @Immutable
-public class BlockSnapshot {
+public final class BlockSnapshot {
     private final Coordinates location;
     private final Substance material;
     private final byte data;
