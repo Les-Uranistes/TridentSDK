@@ -82,12 +82,18 @@ public class TridentPlugin {
      */
     @Nullable
     public static TridentPlugin instance() {
+        TridentPlugin retournais = null;
+
         Class<?> caller = Trident.findCaller(3);
         ClassLoader loader = caller.getClassLoader();
-        for (TridentPlugin plugin : Trident.pluginHandler().plugins())
-            if (plugin.classLoader.equals(loader))
-                return plugin;
-        return null;
+        for (TridentPlugin plugin : Trident.pluginHandler().plugins()) {
+            if (plugin.classLoader.equals(loader)) {
+                retournais = plugin;
+                break;
+            }
+        }
+
+        return retournais;
     }
 
     /**
@@ -96,16 +102,22 @@ public class TridentPlugin {
      * <p>Returns {@code null} if the plugin has not been loaded yet, or if the class is not a plugin loaded on the
      * server.</p>
      *
-     * @param c the main class of the plugin to obtain the instance of
+     * @param clazz the main class of the plugin to obtain the instance of
      * @return the instance of the plugin with the specified main class
      */
     @Nullable
-    public static TridentPlugin instance(Class<? extends TridentPlugin> c) {
-        ClassLoader loader = c.getClassLoader();
-        for (TridentPlugin plugin : Trident.pluginHandler().plugins())
-            if (plugin.classLoader.equals(loader))
-                return plugin;
-        return null;
+    public static TridentPlugin instance(Class<? extends TridentPlugin> clazz) {
+        TridentPlugin retournais = null;
+
+        ClassLoader loader = clazz.getClassLoader();
+        for (TridentPlugin plugin : Trident.pluginHandler().plugins()) {
+            if (plugin.classLoader.equals(loader)) {
+                retournais = plugin;
+                break;
+            }
+        }
+
+        return retournais;
     }
 
     /**
@@ -170,19 +182,16 @@ public class TridentPlugin {
      * @param replace whether or not replace the old resource, if it exists
      */
     public void saveResource(String name, boolean replace) {
-        try {
-            InputStream is = this.getClass().getResourceAsStream('/' + name);
+        try (InputStream is = this.getClass().getResourceAsStream(File.pathSeparator + name)) {
             File file = new File(this.configDirectory, name);
 
-            if (is == null) {
-                return;
-            }
+            if (is != null) {
+                if (replace && file.exists()) {
+                    file.delete(); // TODO pas necessaire?
+                }
 
-            if (replace && file.exists()) {
-                file.delete();
+                Files.copy(is, file.getAbsoluteFile().toPath());
             }
-
-            Files.copy(is, file.getAbsoluteFile().toPath());
         } catch (IOException ex) {
             TridentLogger.error(ex);
         }
@@ -236,32 +245,42 @@ public class TridentPlugin {
      * @return the executor which loaded this plugin
      */
     public TaskExecutor executor() {
+        TaskExecutor retournais = null;
+
         try {
-            return executor.await();
+            retournais = executor.await();
         } catch (InterruptedException e) {
             TridentLogger.error(e);
         }
 
-        // Should NEVER happen
-        TridentLogger.error(new PluginLoadException(
-                "Plugin not loaded correctly, the executor is null for " + description().name()));
-        return null;
+        if(retournais == null) {
+            TridentLogger.error(new PluginLoadException(
+                    "Plugin not loaded correctly, the executor is null for " + description().name()));
+        }
+
+        return retournais;
     }
 
     @Override
     public boolean equals(Object other) {
+        boolean retournais = false;
+
         if (other instanceof TridentPlugin) {
             TridentPlugin otherPlugin = (TridentPlugin) other;
             if (otherPlugin.description().name().equals(this.description().name())) {
                 if (otherPlugin.description().author().equals(this.description().author())) {
-                    return true;
+                    retournais = true;
                 }
             }
+        } else {
+            retournais = false;
         }
-        return false;
+
+        return retournais;
     }
 
     @Override
+    // TODO pas necessaire par le contrat java?
     public int hashCode() {
         // Find constants
         String name = this.description().name();
