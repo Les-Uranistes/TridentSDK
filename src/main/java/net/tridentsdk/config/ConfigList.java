@@ -96,8 +96,9 @@ public class ConfigList<V> implements List<V> {
         int idx = 0;
         Node<V> node = head;
         while ((node = node.next) != null) {
-            if (idx == index)
+            if (idx == index) {
                 return node;
+            }
             idx++;
         }
 
