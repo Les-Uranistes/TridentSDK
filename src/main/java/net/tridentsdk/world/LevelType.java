@@ -28,7 +28,7 @@ public enum LevelType {
 
     DEFAULT("default"),
     FLAT("flat"),
-    LARGE_BIOMES("largeBiomes"), //TODO: CameCase:  I (sexcel) don't understand why you're doing this
+    LARGE_BIOMES("largeBiomes"), //TODO: CamelCase:  I (sexcel) don't understand why you're doing this
     AMPLIFIED("amplified"),
 
     DEFAULT_1_1("default_1_1"); //TODO: SnakeCase: I (sexcel) don't understand why you're doing this.  Also wtf is this supposed to mean.
