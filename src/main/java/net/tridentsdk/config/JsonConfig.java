@@ -38,6 +38,7 @@ import java.nio.file.StandardOpenOption;
  */
 @ThreadSafe
 public class JsonConfig extends ConfigSection {
+
     private final Path path;
 
     /**
@@ -48,6 +49,22 @@ public class JsonConfig extends ConfigSection {
     public JsonConfig(Path path) {
         this.path = path;
         this.reload();
+    }
+
+    /**
+     * Reloads the configuration
+     */
+    public void reload() {
+        JsonObject object = null;
+        try {
+            object = Files.isReadable(this.path) ? new JsonParser().parse(Files.newBufferedReader(this.path, Charsets.UTF_8)).getAsJsonObject() : new JsonObject();
+        } catch (JsonIOException | JsonSyntaxException | IOException e) {
+            TridentLogger.error(e);
+        }
+
+        synchronized (handleLock) {
+            jsonHandle = object;
+        }
     }
 
     /**
@@ -70,21 +87,6 @@ public class JsonConfig extends ConfigSection {
     }
 
     @Override
-    public void save() {
-        JsonObject object;
-        synchronized (handleLock) {
-            object = jsonHandle;
-        }
-
-        try {
-            Files.write(this.path, GsonFactory.gson().toJson(object).getBytes(Charsets.UTF_8),
-                    StandardOpenOption.TRUNCATE_EXISTING);
-        } catch (IOException ex) {
-            TridentLogger.error(ex);
-        }
-    }
-
-    @Override
     public JsonConfig rootSection() {
         return this;
     }
@@ -94,20 +96,17 @@ public class JsonConfig extends ConfigSection {
         return this;
     }
 
-    /**
-     * Reloads the configuration
-     */
-    public void reload() {
-        JsonObject object = null;
-        try {
-            object = Files.isReadable(this.path) ? new JsonParser().parse(
-                    Files.newBufferedReader(this.path, Charsets.UTF_8)).getAsJsonObject() : new JsonObject();
-        } catch (JsonIOException | JsonSyntaxException | IOException e) {
-            TridentLogger.error(e);
+    @Override
+    public void save() {
+        JsonObject object;
+        synchronized (handleLock) {
+            object = jsonHandle;
         }
 
-        synchronized (handleLock) {
-            jsonHandle = object;
+        try {
+            Files.write(this.path, GsonFactory.gson().toJson(object).getBytes(Charsets.UTF_8), StandardOpenOption.TRUNCATE_EXISTING);
+        } catch (IOException ex) {
+            TridentLogger.error(ex);
         }
     }
 }
