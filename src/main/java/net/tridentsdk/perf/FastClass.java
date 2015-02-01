@@ -28,7 +28,7 @@ import java.lang.reflect.Field;
  *
  * @author The TridentSDK Team
  */
-public class FastClass {
+public final class FastClass {
     private final Class<?> cls;
 
     private final FieldAccess fieldAccess;
@@ -114,5 +114,15 @@ public class FastClass {
      */
     public Class<?> asClass() {
         return this.cls;
+    }
+
+    @Override
+    public String toString() {
+        return "FastClass{" +
+                "cls=" + cls +
+                ", fieldAccess=" + fieldAccess +
+                ", methodAccess=" + methodAccess +
+                ", constructorAccess=" + constructorAccess +
+                '}';
     }
 }
