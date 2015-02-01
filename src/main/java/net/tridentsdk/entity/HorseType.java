@@ -65,4 +65,10 @@ public enum HorseType {
         return id;
     }
 
+    @Override
+    public String toString() {
+        return "HorseType{" +
+                "id=" + id +
+                '}';
+    }
 }
