@@ -43,8 +43,8 @@ public class PluginClassLoader extends URLClassLoader {
         super(new URL[] { pluginFile.toURI().toURL() }, loader);
     }
 
-    void link(Class<?> c) {
-        super.resolveClass(c);
+    void link(Class<?> clazz) {
+        super.resolveClass(clazz);
     }
 
     Class<?> defineClass(String name, byte[] source) {
@@ -79,5 +79,12 @@ public class PluginClassLoader extends URLClassLoader {
             }
         }
         locallyLoaded.clear();
+    }
+
+    @Override
+    public String toString() {
+        return "PluginClassLoader{" +
+                "locallyLoaded=" + locallyLoaded +
+                '}';
     }
 }
