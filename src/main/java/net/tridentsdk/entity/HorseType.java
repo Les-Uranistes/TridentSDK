@@ -18,7 +18,7 @@
 package net.tridentsdk.entity;
 
 /**
- * Types of horses which differ in appearence
+ * Types of horses which differ in appearance
  *
  * @author The TridentSDK Team
  */
