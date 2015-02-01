@@ -44,7 +44,7 @@ public class Note {
     /**
      * Returns a note one step sharper than this
      */
-    public Note sharpen() {
+    public final Note sharpen() {
         if (this.id + 1 > 24) {
             TridentLogger.error(new IllegalArgumentException("Cannot sharpen this note, it is already the max"));
         }
@@ -54,14 +54,14 @@ public class Note {
     /**
      * Returns a note flatter than this
      */
-    public Note flatten() {
+    public final Note flatten() {
         if (this.id - 1 < 0) {
             TridentLogger.error(new IllegalArgumentException("Cannot flatten this note, it is already the min"));
         }
         return new Note(this.id - 1);
     }
 
-    public short id() {
+    public final short id() {
         return id;
     }
 }
