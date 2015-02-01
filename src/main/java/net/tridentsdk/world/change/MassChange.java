@@ -25,6 +25,7 @@ import net.tridentsdk.base.Substance;
  * <p>Normally, block changes cause changes to immediately be sent to the client
  * which can be expensive with large amounts of changes being sent at once near a lot of players</p>
  */
+//TODO: add your fucking name to this
 public interface MassChange {
 
 
