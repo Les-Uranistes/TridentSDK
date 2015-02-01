@@ -24,8 +24,10 @@ import net.tridentsdk.util.TridentLogger;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.AbstractMap;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
@@ -153,11 +155,11 @@ public class ConcurrentCache<K, V> {
      *
      * @return the underlying map
      */
-    public Set<Map.Entry<K, V>> entries() {
-        Set<Map.Entry<K, V>> entries = Sets.newHashSet();
-        for (Map.Entry<K, HeldValueLatch<V>> entry : cache.entrySet()) {
+    public Set<Entry<K, V>> entries() {
+        Set<Entry<K, V>> entries = Sets.newHashSet();
+        for (Entry<K, HeldValueLatch<V>> entry : cache.entrySet()) {
             try {
-                entries.add(new AbstractMap.SimpleEntry<>(entry.getKey(), entry.getValue().await()));
+                entries.add(new SimpleEntry<>(entry.getKey(), entry.getValue().await()));
             } catch (InterruptedException e) {
                 TridentLogger.error(e);
             }
