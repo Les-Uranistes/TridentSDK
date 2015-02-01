@@ -29,7 +29,7 @@ public enum SubstanceColor {
     PURPLE(10), BLUE(11), BROWN(12),
     GREEN(13), RED(14), BLACK(15);
 
-    int value;
+    final int value;
 
     SubstanceColor(int i) {
         value = i;
