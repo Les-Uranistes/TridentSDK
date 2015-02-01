@@ -22,11 +22,11 @@ import java.io.Serializable;
 
 /**
  * Stores the location of a Chunk
- * https://www.securecoding.cert.org/confluence/display/java/TSM03-J.+Do+not+publish+partially+initialized+objects
  *
  * @author The TridentSDK Team, sexcel
  */
 //TODO: While this mutable object is a compliant solution to the partially initialized objects problem, it is still not deemed a thread-safe alternative as seen in the provided link below
+//https://www.securecoding.cert.org/confluence/display/java/TSM03-J.+Do+not+publish+partially+initialized+objects
 public class ChunkLocation implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 9083698035337137603L;
@@ -84,7 +84,8 @@ public class ChunkLocation implements Serializable, Cloneable {
     @Override
     public boolean equals(Object obj) {
         return (obj instanceof ChunkLocation) &&
-                (((ChunkLocation) obj).x == x) && (((ChunkLocation) obj).z == z);
+                (((ChunkLocation) obj).x == x) &&
+                (((ChunkLocation) obj).z == z);
     }
 
     /**
