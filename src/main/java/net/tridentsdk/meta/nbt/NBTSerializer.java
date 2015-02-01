@@ -118,73 +118,73 @@ public final class NBTSerializer {
         return instance;
     }
 
+    // TODO fonction is plus compliqué (16+)
     public static CompoundTag serialize(NBTSerializable serializable, String name) {
         FastClass cls = FastClass.get(serializable.getClass());
         CompoundTagBuilder<NBTBuilder> builder = NBTBuilder.newBase(name);
 
         for (FastField field : cls.fields()) {
-            Field f = field.toField();
+            Field fld = field.toField();
 
-            if (!f.isAnnotationPresent(NBTField.class)) {
-                continue;
+            if (fld.isAnnotationPresent(NBTField.class)) {
+                String tagName = fld.getAnnotation(NBTField.class).name();
+                TagType tagType = fld.getAnnotation(NBTField.class).type();
+                Object value = field.get(serializable);
+
+                switch (tagType) {
+                    case BYTE:
+                        builder.byteTag(tagName, (byte) value);
+                        break;
+
+                    case BYTE_ARRAY:
+                        builder.byteArrayTag(tagName, (byte[]) value);
+                        break;
+
+                    case COMPOUND:
+                        builder.compoundTag((CompoundTag) value);
+                        break;
+
+                    case DOUBLE:
+                        builder.doubleTag(tagName, (double) value);
+                        break;
+
+                    case FLOAT:
+                        builder.floatTag(tagName, (float) value);
+                        break;
+
+                    case INT:
+                        builder.intTag(tagName, (int) value);
+                        break;
+
+                    case INT_ARRAY:
+                        builder.intArrayTag(tagName, (int[]) value);
+                        break;
+
+                    case LONG:
+                        builder.longTag(tagName, (long) value);
+                        break;
+
+                    case SHORT:
+                        builder.shortTag(tagName, (short) value);
+                        break;
+
+                    case LIST:
+                        builder.listTag((ListTag) value);
+                        break;
+
+                    case STRING:
+                        builder.stringTag(tagName, (String) value);
+                        break;
+
+                    case NULL:
+                        builder.nullTag(tagName);
+                        break;
+
+                    default:
+                        break;
+                }
             }
 
-            String tagName = f.getAnnotation(NBTField.class).name();
-            TagType tagType = f.getAnnotation(NBTField.class).type();
-            Object value = field.get(serializable);
-
-            switch (tagType) {
-                case BYTE:
-                    builder.byteTag(tagName, (byte) value);
-                    break;
-
-                case BYTE_ARRAY:
-                    builder.byteArrayTag(tagName, (byte[]) value);
-                    break;
-
-                case COMPOUND:
-                    builder.compoundTag((CompoundTag) value);
-                    break;
-
-                case DOUBLE:
-                    builder.doubleTag(tagName, (double) value);
-                    break;
-
-                case FLOAT:
-                    builder.floatTag(tagName, (float) value);
-                    break;
-
-                case INT:
-                    builder.intTag(tagName, (int) value);
-                    break;
-
-                case INT_ARRAY:
-                    builder.intArrayTag(tagName, (int[]) value);
-                    break;
-
-                case LONG:
-                    builder.longTag(tagName, (long) value);
-                    break;
-
-                case SHORT:
-                    builder.shortTag(tagName, (short) value);
-                    break;
-
-                case LIST:
-                    builder.listTag((ListTag) value);
-                    break;
-
-                case STRING:
-                    builder.stringTag(tagName, (String) value);
-                    break;
-
-                case NULL:
-                    builder.nullTag(tagName);
-                    break;
-
-                default:
-                    break;
-            }
         }
 
         return builder.endCompoundTag().build();
