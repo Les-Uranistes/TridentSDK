@@ -28,9 +28,8 @@ public interface Chunk {
     /**
      * I'm under the assumption that this method is supposed to fill the
      * chunk with blocks
-     *
-     * TODO: rename this method to something less ambiguous OR fill JavaDoc with more pertinent information
      */
+    //TODO: rename this method to something less ambiguous OR fill JavaDoc with more pertinent information
     void generate();
 
     /**
