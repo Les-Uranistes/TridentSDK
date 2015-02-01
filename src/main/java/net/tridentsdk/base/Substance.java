@@ -415,7 +415,6 @@ public enum Substance {
     RECORD_11("2266", 1),
     RECORD_12("2267", 1);
 
-    private final Pattern PATTERN = Pattern.compile("_");
     private final String id;
     private final String data;
     private final int maxStack;
@@ -436,7 +435,8 @@ public enum Substance {
         this.id = id;
         this.maxStack = stack;
         this.data = data;
-        this.replaced = PATTERN.matcher(id).replaceAll(" ");
+        Pattern pattern = Pattern.compile("_");
+        this.replaced = pattern.matcher(id).replaceAll(" ");
 
         this.idInt = Integer.parseInt(id);
     }
