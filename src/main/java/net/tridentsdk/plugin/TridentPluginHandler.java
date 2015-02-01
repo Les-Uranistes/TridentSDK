@@ -46,8 +46,8 @@ import java.util.jar.JarFile;
  * @author The TridentSDK Team
  */
 public class TridentPluginHandler {
-    private static final ExecutorFactory<TridentPlugin> PLUGIN_EXECUTOR_FACTORY = Factories.threads()
-            .executor(2, "Plugins");
+
+    private static final ExecutorFactory<TridentPlugin> PLUGIN_EXECUTOR_FACTORY = Factories.threads().executor(2, "Plugins");
     private final List<TridentPlugin> plugins = Lists.newArrayList();
 
     /**
@@ -66,8 +66,8 @@ public class TridentPluginHandler {
             @Override
             public void run() {
                 TridentPlugin plugin = null;
-                try(JarFile jarFile = new JarFile(pluginFile);
-                    PluginClassLoader loader = new PluginClassLoader(pluginFile, getClass().getClassLoader())) {
+                try (JarFile jarFile = new JarFile(pluginFile);
+                     PluginClassLoader loader = new PluginClassLoader(pluginFile, getClass().getClassLoader())) {
 
                     Class<? extends TridentPlugin> pluginClass = null;
                     Enumeration<JarEntry> entries = jarFile.entries();
@@ -75,14 +75,14 @@ public class TridentPluginHandler {
                     while (entries.hasMoreElements()) {
                         JarEntry entry = entries.nextElement();
 
-                        if(!(entry.isDirectory() || !entry.getName().endsWith(".class"))) {
+                        if (!(entry.isDirectory() || !entry.getName().endsWith(".class"))) {
                             String name = entry.getName().replace(".class", "").replace(File.separatorChar, '.');
                             Class<?> loadedClass = loader.loadClass(name);
 
                             loader.putClass(loadedClass);
 
-                            if(TridentPlugin.class.isAssignableFrom(loadedClass)) {
-                                if(pluginClass != null) {
+                            if (TridentPlugin.class.isAssignableFrom(loadedClass)) {
+                                if (pluginClass != null) {
                                     TridentLogger.error(new PluginLoadException("Plugin has more than one main class!"));
                                 }
 
@@ -104,9 +104,7 @@ public class TridentPluginHandler {
                         } else {
                             TridentLogger.log("Loading " + description.name() + " version " + description.version());
 
-                            Constructor<? extends TridentPlugin> defaultConstructor = pluginClass.getSuperclass()
-                                    .asSubclass(TridentPlugin.class)
-                                    .getDeclaredConstructor(File.class, PluginDescription.class, PluginClassLoader.class);
+                            Constructor<? extends TridentPlugin> defaultConstructor = pluginClass.getSuperclass().asSubclass(TridentPlugin.class).getDeclaredConstructor(File.class, PluginDescription.class, PluginClassLoader.class);
                             defaultConstructor.setAccessible(true);
                             plugin = defaultConstructor.newInstance(pluginFile, description, loader);
 
