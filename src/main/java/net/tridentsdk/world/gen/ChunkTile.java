@@ -18,11 +18,9 @@
 package net.tridentsdk.world.gen;
 
 import net.tridentsdk.Position;
-import net.tridentsdk.base.Block;
 import net.tridentsdk.base.Substance;
 import net.tridentsdk.factory.Factories;
 import net.tridentsdk.world.Chunk;
-import net.tridentsdk.world.World;
 
 /**
  * Represents a tile that is awaiting pending status to be set in a generated world
@@ -30,6 +28,7 @@ import net.tridentsdk.world.World;
  * @author The TridentSDK Team
  */
 public class ChunkTile {
+
     private final int x;
     private final int y;
     private final int z;
@@ -51,6 +50,7 @@ public class ChunkTile {
      * @param y         y coordinate of the tile
      * @param z         z coordinate of the tile
      * @param substance the material to set at the location
+     *
      * @return the new pending chunk tile
      */
     public static ChunkTile create(int x, int y, int z, Substance substance) {
@@ -78,7 +78,7 @@ public class ChunkTile {
      *
      * @param chunk chunk to set block to
      */
-    
+
     public void apply(Chunk chunk) {
         Factories.gen().putBlock(this, chunk);
     }
