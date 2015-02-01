@@ -84,11 +84,12 @@ public class ConfigList<V> implements List<V> {
         write.unlock();
     }
 
-    private void checkElementIndex(int index) {
+    private void checkElementIndex(int index) throws IndexOutOfBoundsException {
         int size = this.size;
 
-        if (index < 0 && index > size)
-            TridentLogger.error(new IndexOutOfBoundsException("Index: " + index + ", Size: " + size));
+        if ((index < 0) && (index > size)) {
+            throw  new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
     }
 
     private Node<V> nodeAt(int index) {
@@ -106,12 +107,17 @@ public class ConfigList<V> implements List<V> {
     @Override
     public V get(int index) {
         read.lock();
+        V retournais = null;
         try {
             checkElementIndex(index);
-            return nodeAt(index).value;
+            retournais = nodeAt(index).value;
+        } catch(IndexOutOfBoundsException eIOB) {
+            TridentLogger.error(eIOB);
         } finally {
             read.unlock();
         }
+
+        return retournais;
     }
 
     @Override
@@ -178,23 +184,22 @@ public class ConfigList<V> implements List<V> {
      */
     @Override
     public V set(int index, V element) {
-        V oldValue;
-        Node<V> node;
-
         read.lock();
+        write.lock();
+
+        V oldValue = null;
+
         try {
             checkElementIndex(index);
-            node = nodeAt(index);
+            Node<V> node = nodeAt(index);
             oldValue = node.value;
-        } finally {
-            read.unlock();
-        }
 
-        write.lock();
-        try {
             this.jsonHandle.set(index, GsonFactory.gson().toJsonTree(element));
             node.value = element;
+        } catch (IndexOutOfBoundsException eIOB) {
+            TridentLogger.error(eIOB);
         } finally {
+            read.unlock();
             write.unlock();
         }
 
@@ -204,6 +209,7 @@ public class ConfigList<V> implements List<V> {
     @Override
     public V remove(int index) {
         write.lock();
+        V retournais = null;
         try {
             checkElementIndex(index);
 
@@ -215,10 +221,14 @@ public class ConfigList<V> implements List<V> {
 
             size -= 1;
 
-            return value;
+            retournais = value;
+        } catch(IndexOutOfBoundsException eIOB) {
+            TridentLogger.error(eIOB);
         } finally {
             write.unlock();
         }
+
+        return retournais;
     }
 
     @Override
