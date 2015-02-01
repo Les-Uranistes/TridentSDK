@@ -20,7 +20,7 @@ package net.tridentsdk.base;
 /**
  * Represents sound effects played to the player
  *
- * @author The TridentSDK Team TODO more darude sandstorm's
+ * @author The TridentSDK Team
  */
 public enum Audio {
     AMBIENT_CAVE("ambient.cave.cave"),

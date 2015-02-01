@@ -50,9 +50,7 @@ public enum SubstanceColor {
      * @param index the metadata index, specified in the protocol
      * @return the byte to send as metadata
      */
-    // TODO I suck at this
     public byte[] asBytes(int index) {
-        // Don't simplify this
         return new byte[] { (byte) ((index & 0x1F) & 0xFF), (byte) value };
     }
 }
