@@ -61,4 +61,12 @@ public class ParameterValue<T> {
     public T value() {
         return this.value;
     }
+
+    @Override
+    public String toString() {
+        return "ParameterValue{" +
+                "c=" + c +
+                ", value=" + value +
+                '}';
+    }
 }

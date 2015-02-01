@@ -52,4 +52,11 @@ public enum OcelotType {
     public int asInt() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return "OcelotType{" +
+                "id=" + id +
+                '}';
+    }
 }
