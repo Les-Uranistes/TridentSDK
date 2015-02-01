@@ -23,7 +23,7 @@ package net.tridentsdk.entity;
  * @param <T> the type for the parameter
  * @author The TridentSDK Team
  */
-public class ParameterValue<T> {
+public final class ParameterValue<T> {
     private final Class<T> clazz;
     private final T value;
 
