@@ -41,8 +41,7 @@ public enum LevelType {
     /**
      * Sets the typeName to passed typeName
      *
-     * @param typeName
-     *         name of LevelType
+     * @param typeName name of LevelType
      */
     LevelType(String typeName) {
         this.typeName = typeName;
@@ -53,12 +52,12 @@ public enum LevelType {
      * Retrieves the LevelType based on the input levelName
      * If not matched, will default to {@see DEFAULT}
      *
-     * @param levelName
-     *         name of level
+     * @param levelName name of level
+     *
      * @return LevelType value, else null
      */
     public static LevelType levelTypeOf(String levelName) {
-        LevelType retVal = LevelType.DEFAULT;
+        LevelType retVal = DEFAULT;
         for (LevelType level : values()) {
             if (level.typeName.equalsIgnoreCase(levelName)) {
                 retVal = level;

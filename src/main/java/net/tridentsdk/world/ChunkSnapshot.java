@@ -25,11 +25,11 @@ package net.tridentsdk.world;
  */
 //TODO: add your fucking name to this
 public interface ChunkSnapshot extends Chunk {
+
     /**
      * Loads the data of the snapshot into the specified chunk
      *
-     * @param chunk
-     *         the chunk to reset the data contained in this snapshot to
+     * @param chunk the chunk to reset the data contained in this snapshot to
      */
     void load(Chunk chunk);
 

@@ -34,8 +34,7 @@ public enum Dimension {
     /**
      * I (sexcel) am under the assumption that this Constructor takes a Dimension id and casts it to the byte value b
      *
-     * @param i
-     *         dimension id
+     * @param i dimension id
      */
     Dimension(int i) {
         this.b = (byte) i;
@@ -44,8 +43,8 @@ public enum Dimension {
     /**
      * Returns the relative dimension based on the passed id
      *
-     * @param i
-     *         id
+     * @param i id
+     *
      * @return relative Dimension value, else null
      */
     public static Dimension dimension(int i) {
