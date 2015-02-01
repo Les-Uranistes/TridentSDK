@@ -56,12 +56,14 @@ public enum TagType {
     }
 
     public static TagType fromId(byte fromId) {
+        TagType retournais = NULL;
         for (TagType type : TagType.values()) {
             if (type.id == fromId) {
-                return type;
+                retournais = type;
+                break;
             }
         }
-        return NULL;
+        return retournais;
     }
 
     public Class<? extends NBTTag> implementation() {
