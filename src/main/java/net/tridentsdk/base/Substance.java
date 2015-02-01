@@ -424,7 +424,7 @@ public enum Substance {
     private static final Map<Integer, Substance> IDS_BLOC;
 
     static {
-        HashMap<Integer, Substance> builder = new HashMap<>();
+        Map<Integer, Substance> builder = new HashMap<>();
         for (Substance substance: EnumSet.allOf(Substance.class)) {
             builder.put(substance.idInt, substance);
         }
