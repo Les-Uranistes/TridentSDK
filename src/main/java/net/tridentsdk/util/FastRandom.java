@@ -19,7 +19,7 @@ package net.tridentsdk.util;
 
 /**
  * A fast random class which generates medium-quality pseudo-random values
- *
+ * <p/>
  * <p>Normally such a class should have been implemented upon using the time system with currentTimeMills(), however
  * this was avoided for two reasons:
  * <ul>
@@ -29,7 +29,7 @@ package net.tridentsdk.util;
  * depends on the overhead of the method call, in which case a full millisecond has not passed yet, rather than the
  * possibility that the timer has not updated (which again, is another plausible reason for this)</li>
  * </ul></p>
- *
+ * <p/>
  * <p>Note that the methods which produce a random using the hash is not a seed. The next number is never ever
  * consistent unless nanoTime returns the same value and the hashed object is the same. The methods which do not
  * provide
@@ -38,6 +38,7 @@ package net.tridentsdk.util;
  * @author The TridentSDK Team
  */
 public class FastRandom {
+
     private FastRandom() {
     }
 
@@ -58,6 +59,7 @@ public class FastRandom {
      * Finds a random number with an upper limit
      *
      * @param upper the returned value is < upper
+     *
      * @return the random number
      */
     public static long random(int upper) {
@@ -74,6 +76,7 @@ public class FastRandom {
      * Finds a random number with a hash
      *
      * @param hash the object to randomize the hash with hashCode
+     *
      * @return the random number
      */
     public static long random(Object hash) {
@@ -89,6 +92,7 @@ public class FastRandom {
      *
      * @param upper the returned value is < upper
      * @param hash  the object to randomize the seed with hashCode
+     *
      * @return the random number
      */
     public static long random(int upper, Object hash) {

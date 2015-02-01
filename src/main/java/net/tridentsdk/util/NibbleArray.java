@@ -22,6 +22,7 @@ import com.google.common.base.Preconditions;
 import java.util.Arrays;
 
 public final class NibbleArray {
+
     private final byte[] data;
 
     public NibbleArray(int size) {
@@ -31,6 +32,16 @@ public final class NibbleArray {
     public NibbleArray(byte... data) {
         Preconditions.checkArgument(((data.length % 2) == 0), "Size must be even! Size is " + data.length);
         this.data = data;
+    }
+
+    public static byte get(byte[] source, int index) {
+        byte b = source[index / 2];
+
+        if ((index & 1) == 0) {
+            return (byte) (b & 0x0f);
+        }
+
+        return (byte) ((b & 0xf0) >> 4);
     }
 
     public byte[] array() {
@@ -75,19 +86,7 @@ public final class NibbleArray {
     }
 
     public void setRaw(byte[] source) {
-        Preconditions.checkArgument(data.length == source.length,
-                "Byte array length must be the same as current size!");
+        Preconditions.checkArgument(data.length == source.length, "Byte array length must be the same as current size!");
         System.arraycopy(source, 0, data, 0, source.length);
-    }
-
-
-    public static byte get (byte[] source, int index) {
-        byte b = source[index / 2];
-
-        if ((index & 1) == 0) {
-            return (byte) (b & 0x0f);
-        }
-
-        return (byte) ((b & 0xf0) >> 4);
     }
 }

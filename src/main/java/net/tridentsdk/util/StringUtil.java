@@ -23,6 +23,7 @@ package net.tridentsdk.util;
  * @author The TridentSDK Team
  */
 public final class StringUtil {
+
     private StringUtil() {
     }
 
@@ -30,6 +31,7 @@ public final class StringUtil {
      * A for-loop efficient method for concating strings (or in some cases objects)
      *
      * @param objects Objects you wish to concat into a String
+     *
      * @return Built string
      */
     public static String concat(Object... objects) {
@@ -46,6 +48,7 @@ public final class StringUtil {
      * Checks if a string is a number
      *
      * @param str the string to check
+     *
      * @return {@code true} is number parsable
      */
     public static boolean isNumeric(String str) {

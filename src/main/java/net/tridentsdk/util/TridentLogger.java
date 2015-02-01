@@ -42,6 +42,7 @@ import java.util.Arrays;
  */
 @Volatile(policy = "Init FIRST", reason = "Requires SLF4J to be configured", fix = "first static block in main class")
 public final class TridentLogger {
+
     private static final String[] ERRORS = { "Aw, Mazen! Really?", "I feel funny", "9 + 10 does not equal 21", "Dang", "Tony Abbot, the fax didn't go through", "This wasn't supposed to happen. It did anyways.", "Huston, we have a problem", "Oh great, a stacktrace. Can't we write good software for once?", "Trust me " + "this isn't a bug, it's a feature!" };
 
     private TridentLogger() {
@@ -65,8 +66,7 @@ public final class TridentLogger {
         Path path = Trident.fileContainer().resolve("trident.log");
         try {
             if (Files.exists(path)) {
-                if (!Files.exists(logs))
-                    Files.createDirectory(logs);
+                if (!Files.exists(logs)) Files.createDirectory(logs);
 
                 File[] list = logs.toFile().listFiles();
                 copyLog(path, logs, list.length);
@@ -96,24 +96,6 @@ public final class TridentLogger {
     }
 
     /**
-     * Obtains the logger for the class that calls this method
-     *
-     * @return the logger for that class
-     */
-    public static org.slf4j.Logger logger() {
-        return LoggerFactory.getLogger(Trident.findCaller(4));
-    }
-
-    /**
-     * Logs a message to the class logger
-     *
-     * @param item the item to log
-     */
-    public static void log(String item) {
-        logger().info(parse(item) + ServerConsole.RESET);
-    }
-
-    /**
      * Logs an error message to the class logger with a red escape
      *
      * @param message the message to log
@@ -123,21 +105,12 @@ public final class TridentLogger {
     }
 
     /**
-     * Warns the console with a yellow escape
+     * Obtains the logger for the class that calls this method
      *
-     * @param item the item to log
+     * @return the logger for that class
      */
-    public static void warn(String item) {
-        logger().warn(ServerConsole.YELLOW + parse(item) + ServerConsole.RESET);
-    }
-
-    /**
-     * Logs to the logger with a green escape
-     *
-     * @param item the item to log
-     */
-    public static void success(String item) {
-        log(ServerConsole.GREEN + item);
+    public static org.slf4j.Logger logger() {
+        return LoggerFactory.getLogger(Trident.findCaller(4));
     }
 
     private static String parse(String item) {
@@ -176,8 +149,35 @@ public final class TridentLogger {
     }
 
     /**
-     * Formats a throwable to be logged to the console
+     * Warns the console with a yellow escape
      *
+     * @param item the item to log
+     */
+    public static void warn(String item) {
+        logger().warn(ServerConsole.YELLOW + parse(item) + ServerConsole.RESET);
+    }
+
+    /**
+     * Logs to the logger with a green escape
+     *
+     * @param item the item to log
+     */
+    public static void success(String item) {
+        log(ServerConsole.GREEN + item);
+    }
+
+    /**
+     * Logs a message to the class logger
+     *
+     * @param item the item to log
+     */
+    public static void log(String item) {
+        logger().info(parse(item) + ServerConsole.RESET);
+    }
+
+    /**
+     * Formats a throwable to be logged to the console
+     * <p/>
      * <p>By default this is not needed as the threads which runs almost all operations by default have a set
      * uncaught exception handler</p>
      *
@@ -214,8 +214,8 @@ public final class TridentLogger {
         logger.error("======== Printing Stacktrace =========");
         for (StackTraceElement element : stackTrace) {
             logger.error("    at " + element.getClassName() + "." +
-                    element.getMethodName() + "(...) : " +
-                    (!element.isNativeMethod() ? element.getLineNumber() : "Native method"));
+                                 element.getMethodName() + "(...) : " +
+                                 (!element.isNativeMethod() ? element.getLineNumber() : "Native method"));
         }
         logger.error("========  Ending Stacktrace  =========");
 
@@ -223,20 +223,19 @@ public final class TridentLogger {
 
         logger.error("========     Server info    =========");
         logger.error("Trident version: " + Trident.version());
-        logger.error("Plugins:         " + Arrays.toString(
-                Lists.transform(Trident.pluginHandler().plugins(), new Function<TridentPlugin, String>() {
-                    @Nullable
-                    @Override
-                    public String apply(TridentPlugin plugin) {
-                        return plugin.description().name();
-                    }
-                }).toArray()));
+        logger.error("Plugins:         " + Arrays.toString(Lists.transform(Trident.pluginHandler().plugins(), new Function<TridentPlugin, String>() {
+                                                               @Nullable
+                                                               @Override
+                                                               public String apply(TridentPlugin plugin) {
+                                                                   return plugin.description().name();
+                                                               }
+                                                           }).toArray()));
         logger.error("Java:            version " + System.getProperty("java.version") + " distributed by " +
-                System.getProperty("java.vendor"));
+                             System.getProperty("java.vendor"));
         logger.error("OS:              running " +
-                System.getProperty("os.name") + " version " +
-                System.getProperty("os.version") + " " +
-                System.getProperty("os.arch"));
+                             System.getProperty("os.name") + " version " +
+                             System.getProperty("os.version") + " " +
+                             System.getProperty("os.arch"));
         logger.error("======== Ending Server info =========");
 
         logger.error("");

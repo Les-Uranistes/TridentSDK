@@ -26,16 +26,16 @@ import java.util.Arrays;
 
 /**
  * Tools for modifying elements of an array
- *
+ * <p/>
  * WARNING: Potentially slow blocking method calls
  *
  * @param <T> the type held by the array to be converted
  */
 @ThreadSafe
 public final class ArrayTool<T> {
+
     private final T[] array;
-    private final TypeToken<T> typeToken = new TypeToken<T>() {
-    };
+    private final TypeToken<T> typeToken = new TypeToken<T>() {};
 
     private ArrayTool(T[] array) {
         this.array = array;
@@ -46,6 +46,7 @@ public final class ArrayTool<T> {
      *
      * @param array the underlying array
      * @param <T>   the type of the array
+     *
      * @return the new array tool
      */
     public static <T> ArrayTool<T> using(T[] array) {
@@ -57,7 +58,9 @@ public final class ArrayTool<T> {
      *
      * @param clazz class type of array elements, implicitly sets generic method type parameter C
      * @param <C>   generic type of array elements
+     *
      * @return the new array converted from the underlying array
+     *
      * @throws java.lang.ClassCastException if the type of the underlying array cannot be cast to the new type
      */
     public <C> C[] convertTo(Class<C> clazz) {
