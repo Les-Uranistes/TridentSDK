@@ -57,7 +57,7 @@ public enum Instrument {
      * @return Instrument from the supplied Byte
      */
     public static Instrument fromByte(byte b) {
-        switch ((int) b) {
+        switch (b) {
             case 0x0:
                 return PIANO;
             case 0x1:
