@@ -93,4 +93,12 @@ public class ClickEvent {
             return super.toString().toLowerCase();
         }
     }
+
+    @Override
+    public String toString() {
+        return "ClickEvent{" +
+                "action=" + action +
+                ", value='" + value + '\'' +
+                '}';
+    }
 }
