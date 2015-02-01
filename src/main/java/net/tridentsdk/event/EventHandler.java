@@ -41,7 +41,7 @@ import java.util.concurrent.PriorityBlockingQueue;
  * @author The TridentSDK Team
  */
 @ThreadSafe
-public class EventHandler {
+public final class EventHandler {
     private static final Comparator<EventReflector> COMPARATOR = new EventReflector(null, null, 0, null, null, null);
     public static final Callable<Queue<EventReflector>> CREATE_QUEUE = new Callable<Queue<EventReflector>>() {
         @Override
