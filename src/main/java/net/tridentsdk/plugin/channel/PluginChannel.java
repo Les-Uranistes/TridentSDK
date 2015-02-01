@@ -31,6 +31,7 @@ import java.util.List;
  * @author The TridentSDK Team
  */
 public abstract class PluginChannel {
+
     private final List<byte[]> history = Lists.newArrayList();
 
     @InternalUseOnly
