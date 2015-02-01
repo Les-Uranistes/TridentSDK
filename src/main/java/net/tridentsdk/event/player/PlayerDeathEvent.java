@@ -27,6 +27,7 @@ import net.tridentsdk.event.entity.EntityDeathEvent;
  * @author The TridentSDK Team
  */
 public class PlayerDeathEvent extends EntityDeathEvent {
+
     /**
      * @param player the player associated with this event (that died)
      */

@@ -22,12 +22,13 @@ import net.tridentsdk.event.Event;
 
 /**
  * Called when an event relating to a player occurs
- *
+ * <p/>
  * <p>This is an umbrella event, do not listen to it</p>
  *
  * @author The TridentSDK Team
  */
 public class PlayerEvent extends Event {
+
     private final Player player;
 
     /**

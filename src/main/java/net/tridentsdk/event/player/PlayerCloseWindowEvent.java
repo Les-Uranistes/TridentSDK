@@ -27,6 +27,7 @@ import net.tridentsdk.window.Window;
  * @author The TridentSDK Team
  */
 public class PlayerCloseWindowEvent extends Event implements Cancellable {
+
     private final Window window;
     private volatile boolean cancelled;
 

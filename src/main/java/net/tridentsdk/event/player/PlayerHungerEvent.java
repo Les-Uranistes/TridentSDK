@@ -26,6 +26,7 @@ import net.tridentsdk.event.Cancellable;
  * @author The TridentSDK Team
  */
 public class PlayerHungerEvent extends PlayerEvent implements Cancellable {
+
     private volatile double feed;
     private volatile boolean cancelled;
 

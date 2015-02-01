@@ -27,6 +27,7 @@ import net.tridentsdk.event.Cancellable;
  * @author The TridentSDK Team
  */
 public class PlayerMoveEvent extends PlayerEvent implements Cancellable {
+
     private final Position fromLoc;
     private final Position toLoc;
     private volatile boolean cancelled;
