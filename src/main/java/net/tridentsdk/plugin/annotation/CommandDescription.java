@@ -28,6 +28,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface CommandDescription {
+
     /**
      * The actual command that can be typed in
      */

@@ -21,7 +21,7 @@ import java.lang.annotation.*;
 
 /**
  * Marks a class which registration should exclude so the user may register manually
- *
+ * <p/>
  * <p>Do not use the annotation in order to acquire the instance of a registered class. You may use the
  * {@link net.tridentsdk.plugin.TridentPlugin#listenerBy(Class)} to find an instance of a listener and
  * {@link net.tridentsdk.plugin.TridentPlugin#commandBy(Class)} to find an instance of a command</p>
@@ -31,5 +31,4 @@ import java.lang.annotation.*;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.METHOD, ElementType.TYPE })
-public @interface IgnoreRegistration {
-}
+public @interface IgnoreRegistration {}

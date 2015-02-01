@@ -21,7 +21,7 @@ import java.lang.annotation.*;
 
 /**
  * Describes a plugin properties and information
- *
+ * <p/>
  * <p>The information provided to each field has no semantic properties</p>
  *
  * @author The TridentSDK Team
@@ -30,6 +30,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface PluginDescription {
+
     // TODO: Provide documentation on what this priority actually is
     int priority() default 1;
 
