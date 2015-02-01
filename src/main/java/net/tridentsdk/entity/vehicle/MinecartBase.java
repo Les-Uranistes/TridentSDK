@@ -26,6 +26,7 @@ import net.tridentsdk.entity.Entity;
  * @author TridentSDK Team
  */
 public interface MinecartBase extends Entity {
+
     /**
      * Represents this Minecart's display tile, in the form of a BlockState
      *

@@ -25,6 +25,7 @@ import net.tridentsdk.entity.decorate.InventoryHolder;
  * @author TridentSDK Team
  */
 public interface FurnaceMinecart extends InventoryHolder {
+
     /**
      * The number of fuel ticks this Furnace Minecart has
      *
