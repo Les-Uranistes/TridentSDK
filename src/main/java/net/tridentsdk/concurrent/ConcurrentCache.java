@@ -73,7 +73,7 @@ public class ConcurrentCache<K, V> {
                     try {
                         value.countDown(callable.call());
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.printStackTrace(); // TODO remuer des try/catch ignoré
                     }
                 }
             }
@@ -81,7 +81,7 @@ public class ConcurrentCache<K, V> {
             try {
                 return value.await();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                e.printStackTrace(); // TODO remuer des try/catch ignoré
             }
         }
     }
