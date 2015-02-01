@@ -40,14 +40,14 @@ public enum TagVisibility {
      */
     NEVER("never");
 
-    private final String s;
+    private final String descriptor;
 
-    TagVisibility(String s) {
-        this.s = s;
+    TagVisibility(String descriptor) {
+        this.descriptor = descriptor;
     }
 
     @Override
     public String toString() {
-        return this.s;
+        return this.descriptor;
     }
 }
