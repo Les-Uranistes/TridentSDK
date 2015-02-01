@@ -24,4 +24,5 @@ import net.tridentsdk.window.Window;
  *
  * @author The TridentSDK Team
  */
+//empty interfaces are pointless, sexcel
 public interface Inventory extends Window {}
