@@ -48,29 +48,27 @@ public class CommandHandler {
      * @param message the command executed
      */
     public void handleCommand(String message, final CommandIssuer issuer) {
-        if (message.isEmpty()) {
-            return;
-        }
+        if (!message.isEmpty()) {
+            final String[] contents = message.split(" ");
+            String label = contents[0].toLowerCase();
+            final String args = message.substring(label.length());
+            Map<TaskExecutor, Set<CommandData>> cmdData = findCommand(label);
 
-        final String[] contents = message.split(" ");
-        String label = contents[0].toLowerCase();
-        final String args = message.substring(label.length());
-        Map<TaskExecutor, Set<CommandData>> cmdData = findCommand(label);
-
-        if (!cmdData.isEmpty()) {
-            for (final Map.Entry<TaskExecutor, Set<CommandData>> entry : cmdData.entrySet()) {
-                entry.getKey().addTask(new Runnable() {
-                    @Override
-                    public void run() {
-                        for (CommandData data : entry.getValue()) {
-                            handleCommand(data.command(), issuer, args, contents);
+            if (cmdData.isEmpty()) {
+                // Command not found
+                issuer.sendRaw("Command not found");
+            } else {
+                for (final Map.Entry<TaskExecutor, Set<CommandData>> entry : cmdData.entrySet()) {
+                    entry.getKey().addTask(new Runnable() {
+                        @Override
+                        public void run() {
+                            for (CommandData data : entry.getValue()) {
+                                handleCommand(data.command(), issuer, args, contents);
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
-        } else {
-            // Command not found
-            issuer.sendRaw("Command not found");
         }
     }
 
