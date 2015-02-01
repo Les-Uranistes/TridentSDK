@@ -31,6 +31,7 @@ import java.util.List;
  * @author The TridentSDK Team
  */
 public class NotePlayEvent extends BlockEvent implements Cancellable {
+
     private final List<Player> players;
     private volatile Note note;
     private volatile Instrument instrument;

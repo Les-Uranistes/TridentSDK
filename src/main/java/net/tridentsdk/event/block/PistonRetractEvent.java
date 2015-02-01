@@ -26,6 +26,7 @@ import net.tridentsdk.base.Orientation;
  * @author The TridentSDK Team
  */
 public class PistonRetractEvent extends BlockPistonEvent {
+
     public PistonRetractEvent(Block block, Orientation direction, Block influenced) {
         super(block, direction, true, influenced);
     }

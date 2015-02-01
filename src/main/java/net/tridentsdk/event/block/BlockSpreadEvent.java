@@ -25,6 +25,7 @@ import net.tridentsdk.base.Block;
  * @author The TridentSDK Team
  */
 public class BlockSpreadEvent extends BlockGrowthEvent {
+
     private final Block blockFrom;
 
     /**

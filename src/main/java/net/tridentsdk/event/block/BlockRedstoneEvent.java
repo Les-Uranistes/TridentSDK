@@ -26,6 +26,7 @@ import net.tridentsdk.event.Cancellable;
  * @author The TridentSDK Team
  */
 public class BlockRedstoneEvent extends BlockEvent implements Cancellable {
+
     private final int strength;
     private final Block causer;
     private final Cause cause;

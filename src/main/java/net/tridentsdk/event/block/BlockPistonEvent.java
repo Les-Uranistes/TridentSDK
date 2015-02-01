@@ -24,12 +24,13 @@ import net.tridentsdk.event.Cancellable;
 
 /**
  * Called whenever a piston extends or retracts
- *
+ * <p/>
  * <p>This is an umbrella event, do not listen to it</p>
  *
  * @author The TridentSDK Team
  */
 public abstract class BlockPistonEvent extends BlockEvent implements Cancellable {
+
     private final Orientation direction;
     private final boolean retract;
     private final Block influenced;
@@ -74,7 +75,7 @@ public abstract class BlockPistonEvent extends BlockEvent implements Cancellable
 
     /**
      * Gets the block that is being moved by this piston, if any
-     *
+     * <p/>
      * <p>If this is a piston extend event, this will return the first block in the series of blocks being pushed.</p>
      *
      * @return the block being moved, may be null if air, or retracting from a block without this piston being sticky
