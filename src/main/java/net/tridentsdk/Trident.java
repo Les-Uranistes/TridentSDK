@@ -43,6 +43,7 @@ import java.util.Map;
  */
 @ThreadSafe
 public final class Trident {
+
     private static final ExposedSecurity SECURITY = new ExposedSecurity();
     private static volatile Server server;
 
@@ -60,7 +61,7 @@ public final class Trident {
 
     /**
      * Do not call
-     *
+     * <p/>
      * <p>Will throw an exception if you are not calling from a trusted source</p>
      *
      * @param s the server to set
@@ -141,6 +142,7 @@ public final class Trident {
     }
 
     private static class ExposedSecurity extends SecurityManager {
+
         @Override
         protected Class[] getClassContext() {
             return super.getClassContext();
