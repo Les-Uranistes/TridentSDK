@@ -29,6 +29,7 @@ import net.tridentsdk.plugin.annotation.CommandDescription;
 import net.tridentsdk.util.TridentLogger;
 
 import javax.annotation.Nonnull;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -210,6 +211,19 @@ public class CommandHandler {
 
         public TaskExecutor executor() {
             return executor;
+        }
+
+        @Override
+        public String toString() {
+            return "CommandData{" +
+                    "permission='" + permission + '\'' +
+                    ", priority=" + priority +
+                    ", aliases=" + Arrays.toString(aliases) +
+                    ", name='" + name + '\'' +
+                    ", encapsulated=" + encapsulated +
+                    ", plugin=" + plugin +
+                    ", executor=" + executor +
+                    '}';
         }
     }
 }
