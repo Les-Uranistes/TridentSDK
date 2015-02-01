@@ -28,10 +28,12 @@ public enum LevelType {
 
     DEFAULT("default"),
     FLAT("flat"),
-    LARGE_BIOMES("largeBiomes"), //TODO: CamelCase:  I (sexcel) don't understand why you're doing this
+    LARGE_BIOMES("largeBiomes"),
+    //TODO: CamelCase:  I (sexcel) don't understand why you're doing this
     AMPLIFIED("amplified"),
 
-    DEFAULT_1_1("default_1_1"); //TODO: SnakeCase: I (sexcel) don't understand why you're doing this.  Also wtf is this supposed to mean.
+    DEFAULT_1_1("default_1_1"); //TODO: SnakeCase: I (sexcel) don't understand why you're doing this.  Also wtf is
+    // this supposed to mean.
 
     private final String typeName;
 
@@ -39,7 +41,8 @@ public enum LevelType {
     /**
      * Sets the typeName to passed typeName
      *
-     * @param typeName name of LevelType
+     * @param typeName
+     *         name of LevelType
      */
     LevelType(String typeName) {
         this.typeName = typeName;
@@ -49,17 +52,21 @@ public enum LevelType {
     /**
      * Retrieves the LevelType based on the input levelName
      * If not matched, will default to {@see DEFAULT}
-     * @param levelName name of level
-     * @return LevelType value
+     *
+     * @param levelName
+     *         name of level
+     * @return LevelType value, else null
      */
     public static LevelType levelTypeOf(String levelName) {
+        LevelType retVal = LevelType.DEFAULT;
         for (LevelType level : values()) {
             if (level.typeName.equalsIgnoreCase(levelName)) {
-                return level;
+                retVal = level;
+                break;
             }
         }
 
-        return LevelType.DEFAULT;
+        return retVal;
     }
 
 
@@ -69,7 +76,8 @@ public enum LevelType {
      *
      * @return String representation of this enum value
      */
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return this.typeName;
     }
 }
