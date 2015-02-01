@@ -94,18 +94,15 @@ public class ConcurrentCache<K, V> {
      * @return the value associated with the key, or {@code null} if none
      */
     public V retrieve(K k) {
+        V retournais = null;
         try {
             HeldValueLatch<V> latch = cache.get(k);
-            if (latch == null) {
-                return null;
-            }
-            return latch.await();
+            retournais = (latch == null) ? null : latch.await();
         } catch (InterruptedException e) {
             TridentLogger.error(e);
         }
 
-        // Should never ever reach here
-        return null;
+        return retournais;
     }
 
     /**
