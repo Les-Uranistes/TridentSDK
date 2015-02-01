@@ -44,7 +44,7 @@ public interface TaskFactory {
      * @param runnable the runnable to perform the task
      * @return the task which was wrapped by the scheduler
      */
-    public ScheduledTask asyncRun(TridentPlugin plugin, TridentRunnable runnable);
+    ScheduledTask asyncRun(TridentPlugin plugin, TridentRunnable runnable);
 
     /**
      * Synchronously run a task after the next tick
@@ -53,7 +53,7 @@ public interface TaskFactory {
      * @param runnable the runnable to perform the task
      * @return the task which was wrapped by the scheduler
      */
-    public ScheduledTask syncRun(TridentPlugin plugin, TridentRunnable runnable);
+    ScheduledTask syncRun(TridentPlugin plugin, TridentRunnable runnable);
 
     /**
      * Asynchronously run a task after a specified time has passed
@@ -63,7 +63,7 @@ public interface TaskFactory {
      * @param delay    the amount of ticks to wait until the task is executed
      * @return the task which was wrapped by the scheduler
      */
-    public ScheduledTask asyncLater(TridentPlugin plugin, TridentRunnable runnable, long delay);
+    ScheduledTask asyncLater(TridentPlugin plugin, TridentRunnable runnable, long delay);
 
     /**
      * Asynchronously run a task after a specified time has passed
@@ -73,7 +73,7 @@ public interface TaskFactory {
      * @param delay    the amount of ticks to wait until the task is executed
      * @return the task which was wrapped by the scheduler
      */
-    public ScheduledTask syncLater(TridentPlugin plugin, TridentRunnable runnable, long delay);
+    ScheduledTask syncLater(TridentPlugin plugin, TridentRunnable runnable, long delay);
 
     /**
      * Asynchronously run a task repeatedly
@@ -84,7 +84,7 @@ public interface TaskFactory {
      * @param initialInterval the amount of time between each execution which occurs repeatedly until cancelled
      * @return the task which was wrapped by the scheduler
      */
-    public ScheduledTask asyncRepeat(TridentPlugin plugin, TridentRunnable runnable, long delay, long initialInterval);
+    ScheduledTask asyncRepeat(TridentPlugin plugin, TridentRunnable runnable, long delay, long initialInterval);
 
     /**
      * Synchronously run a task repeatedly
@@ -95,5 +95,5 @@ public interface TaskFactory {
      * @param initialInterval the amount of time between each execution which occurs repeatedly until cancelled
      * @return the task which was wrapped by the scheduler
      */
-    public ScheduledTask syncRepeat(TridentPlugin plugin, TridentRunnable runnable, long delay, long initialInterval);
+    ScheduledTask syncRepeat(TridentPlugin plugin, TridentRunnable runnable, long delay, long initialInterval);
 }
