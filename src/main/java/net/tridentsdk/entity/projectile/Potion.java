@@ -24,5 +24,4 @@ import net.tridentsdk.entity.Projectile;
  *
  * @author TridentSDK Team
  */
-public interface Potion extends Projectile {
-}
+public interface Potion extends Projectile {}
