@@ -31,6 +31,7 @@ public class Note {
     private final short id;
 
     // TODO convertit depuis 'int' a 'short' en initialiser publique est tres mal.
+    // TODO considérer l'augmentation d'exception IllegalArgumentException
     public Note(int id) {
         if (id > 24) {
             TridentLogger.error(new IllegalArgumentException("Note is too high!"));
