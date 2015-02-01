@@ -26,7 +26,7 @@ import java.util.Collection;
 
 /**
  * Creates threads and managers for those threads
- *
+ * <p/>
  * <p>These methods are primarily only supposed to be used by the server only. Because they are not volatile, they are
  * not marked with {@link net.tridentsdk.docs.InternalUseOnly}. However, you must be careful - data will not be wiped
  * unless you remove it yourself, which holds true until the server exits and shutsdown. Even calling the method
@@ -38,6 +38,7 @@ import java.util.Collection;
  */
 @ThreadSafe
 public interface ThreadFactory {
+
     /**
      * Get all of the thread entity wrappers
      *
@@ -65,6 +66,7 @@ public interface ThreadFactory {
      * @param threads the threads available in the pool
      * @param name    the names appended to the end of the thread name
      * @param <T>     the assignment type for each thread
+     *
      * @return the execution factory
      */
     <T> ExecutorFactory<T> executor(int threads, String name);

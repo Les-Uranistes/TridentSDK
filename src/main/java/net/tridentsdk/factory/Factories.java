@@ -24,9 +24,9 @@ import javax.annotation.concurrent.ThreadSafe;
 
 /**
  * Available creational factories for basic objects
- *
+ * <p/>
  * <p>If the factories are accessed before initialization, the caller thread will block</p>
- *
+ * <p/>
  * <p>This is managed by using a {@link net.tridentsdk.concurrent.HeldValueLatch}, instead of a single latch. If a
  * class
  * needs to be initialized that uses another factory, it will never occur because the thread is setting a value after
@@ -36,6 +36,7 @@ import javax.annotation.concurrent.ThreadSafe;
  */
 @ThreadSafe
 public final class Factories {
+
     private static final HeldValueLatch<TaskFactory> taskFactory = HeldValueLatch.create();
     private static final HeldValueLatch<ThreadFactory> threadFactory = HeldValueLatch.create();
     private static final HeldValueLatch<CollectFactory> collectFactory = HeldValueLatch.create();
