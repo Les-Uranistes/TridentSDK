@@ -28,6 +28,7 @@ import java.util.List;
  * @author The TridentSDK Team
  */
 public class NBTEncoder {
+
     final DataOutput output;
 
     public NBTEncoder(DataOutput output) {

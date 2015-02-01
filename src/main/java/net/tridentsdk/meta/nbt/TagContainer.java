@@ -21,5 +21,6 @@ package net.tridentsdk.meta.nbt;
  * @author The TridentSDK Team
  */
 public interface TagContainer {
+
     void addTag(NBTTag tag);
 }

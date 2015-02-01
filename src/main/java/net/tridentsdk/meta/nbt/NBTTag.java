@@ -21,12 +21,13 @@ package net.tridentsdk.meta.nbt;
  * @author The TridentSDK Team
  */
 public abstract class NBTTag {
+
     String name;
     boolean hasName;
 
     public NBTTag(String name) {
         if (name != null) {
-            if(name.equals("")) {
+            if (name.equals("")) {
                 // a blank name is a null name
                 return;
             }

@@ -120,6 +120,10 @@ public final class NBTSerializer {
         return instance;
     }
 
+    public static CompoundTag serialize(NBTSerializable serializable) {
+        return serialize(serializable, serializable.getClass().getSimpleName());
+    }
+
     // TODO fonction is plus compliqué (16+)
     public static CompoundTag serialize(NBTSerializable serializable, String name) {
         FastClass cls = FastClass.get(serializable.getClass());
@@ -190,9 +194,5 @@ public final class NBTSerializer {
         }
 
         return builder.endCompoundTag().build();
-    }
-
-    public static CompoundTag serialize(NBTSerializable serializable) {
-        return serialize(serializable, serializable.getClass().getSimpleName());
     }
 }

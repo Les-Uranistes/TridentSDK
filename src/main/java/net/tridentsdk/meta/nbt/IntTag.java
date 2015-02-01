@@ -21,6 +21,7 @@ package net.tridentsdk.meta.nbt;
  * @author The TridentSDK Team
  */
 public class IntTag extends NBTTag {
+
     int value;
 
     public IntTag(String name) {

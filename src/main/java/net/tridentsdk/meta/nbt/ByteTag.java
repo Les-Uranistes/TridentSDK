@@ -21,6 +21,7 @@ package net.tridentsdk.meta.nbt;
  * @author The TridentSDK Team
  */
 public class ByteTag extends NBTTag {
+
     byte value;
 
     public ByteTag(String name) {
@@ -35,6 +36,7 @@ public class ByteTag extends NBTTag {
         this.value = value;
         return this;
     }
+
     public ByteTag setValue(boolean value) {
         this.value = value ? (byte) 0x01 : (byte) 0x00;
         return this;

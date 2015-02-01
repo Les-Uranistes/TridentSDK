@@ -27,6 +27,7 @@ import java.io.IOException;
  * @author The TridentSDK Team
  */
 public class NBTDecoder {
+
     final DataInput input;
 
     public NBTDecoder(DataInput input) {

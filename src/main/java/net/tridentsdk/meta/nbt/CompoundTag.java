@@ -27,6 +27,7 @@ import java.util.Map;
  * @author The TridentSDK Team
  */
 public class CompoundTag extends NBTTag implements TagContainer {
+
     final Map<String, NBTTag> tags = Maps.newHashMap(); //Hashmap for quick lookup with names
 
     public CompoundTag(String name) {
@@ -41,12 +42,12 @@ public class CompoundTag extends NBTTag implements TagContainer {
         return this.tags.containsKey(name);
     }
 
-    public NBTTag getTag(String name) {
-        return this.tags.containsKey(name) ? this.tags.get(name) : new NullTag(name);
-    }
-
     public <T extends NBTTag> T getTagAs(String name) {
         return (T) getTag(name);
+    }
+
+    public NBTTag getTag(String name) {
+        return this.tags.containsKey(name) ? this.tags.get(name) : new NullTag(name);
     }
 
     @Override
