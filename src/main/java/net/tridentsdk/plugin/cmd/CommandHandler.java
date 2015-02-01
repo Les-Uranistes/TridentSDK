@@ -177,8 +177,8 @@ public class CommandHandler {
         private final TridentPlugin plugin;
         private final TaskExecutor executor;
 
-        public CommandData(String name, int priority, String[] aliases, String permission, Command command,
-                TridentPlugin plugin, TaskExecutor executor) {
+        CommandData(String name, int priority, String[] aliases, String permission, Command command,
+                    TridentPlugin plugin, TaskExecutor executor) {
             this.priority = priority;
             this.name = name;
             this.aliases = aliases;
