@@ -31,6 +31,7 @@ import net.tridentsdk.util.TridentLogger;
 import javax.annotation.concurrent.ThreadSafe;
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.PriorityBlockingQueue;
@@ -132,10 +133,10 @@ public final class EventHandler {
      * @param event the event to call
      */
     public void fire(final Event event) {
-        Set<Map.Entry<TaskExecutor, EventHandler>> entries = handles.entries();
+        Set<Entry<TaskExecutor, EventHandler>> entries = handles.entries();
         final CountDownLatch latch = new CountDownLatch(entries.size());
 
-        for (final Map.Entry<TaskExecutor, EventHandler> entry : entries) {
+        for (final Entry<TaskExecutor, EventHandler> entry : entries) {
             entry.getKey().addTask(new Runnable() {
                 @Override
                 public void run() {
@@ -148,16 +149,16 @@ public final class EventHandler {
         try {
             latch.await();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // TODO considerait traitement superior pour InterruptedExcption.
         }
     }
 
     private void doCall(Event event) {
         Queue<EventReflector> listeners = callers.retrieve(event.getClass());
-        if (listeners == null)
-            return;
-        for (EventReflector listener : listeners) {
-            listener.reflect(event);
+        if (listeners != null) {
+            for (EventReflector listener : listeners) {
+                listener.reflect(event);
+            }
         }
     }
 
