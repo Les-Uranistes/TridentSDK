@@ -25,6 +25,7 @@ import net.tridentsdk.world.World;
  * @author The TridentSDK Team
  */
 public class RainEvent extends WeatherEvent {
+
     public RainEvent(World world) {
         super(world);
     }
